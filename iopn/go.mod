@@ -1,4 +1,4 @@
-module cosmossdk.io/x/distribution
+module github.com/devalvamseezeeve/iopn-distrubution/iopn
 
 go 1.23.2
 
