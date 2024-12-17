@@ -40,11 +40,11 @@ import (
 	srvflags "github.com/evmos/ethermint/server/flags"
 	ethermint "github.com/evmos/ethermint/types"
 
-	memiavlcfg "code.zeeve.net/client-projects/iopn/store/config"
-	"code.zeeve.net/client-projects/iopn/v2/app"
-	"code.zeeve.net/client-projects/iopn/v2/cmd/iopnd/opendb"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos"
-	e2eecli "code.zeeve.net/client-projects/iopn/v2/x/e2ee/client/cli"
+	memiavlcfg "github.com/crypto-org-chain/cronos/store/config"
+	"github.com/crypto-org-chain/cronos/v2/app"
+	"github.com/crypto-org-chain/cronos/v2/cmd/cronosd/opendb"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos"
+	e2eecli "github.com/crypto-org-chain/cronos/v2/x/e2ee/client/cli"
 	// this line is used by starport scaffolding # stargate/root/import
 )
 

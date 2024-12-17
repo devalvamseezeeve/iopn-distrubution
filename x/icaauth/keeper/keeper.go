@@ -17,7 +17,7 @@ import (
 	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
 	porttypes "github.com/cosmos/ibc-go/v7/modules/core/05-port/types"
 	host "github.com/cosmos/ibc-go/v7/modules/core/24-host"
-	"code.zeeve.net/client-projects/iopn/v2/x/icaauth/types"
+	"github.com/crypto-org-chain/cronos/v2/x/icaauth/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

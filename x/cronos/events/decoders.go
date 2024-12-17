@@ -14,8 +14,8 @@ import (
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	"github.com/ethereum/go-ethereum/common"
 
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/events/bindings/cosmos/lib"
-	generated "code.zeeve.net/client-projects/iopn/v2/x/cronos/events/bindings/cosmos/precompile/relayer"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/events/bindings/cosmos/lib"
+	generated "github.com/crypto-org-chain/cronos/v2/x/cronos/events/bindings/cosmos/precompile/relayer"
 )
 
 type (

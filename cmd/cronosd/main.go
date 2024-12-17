@@ -4,8 +4,8 @@ import (
 	"os"
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
-	"code.zeeve.net/client-projects/iopn/v2/app"
-	"code.zeeve.net/client-projects/iopn/v2/cmd/iopnd/cmd"
+	"github.com/crypto-org-chain/cronos/v2/app"
+	"github.com/crypto-org-chain/cronos/v2/cmd/cronosd/cmd"
 )
 
 func main() {

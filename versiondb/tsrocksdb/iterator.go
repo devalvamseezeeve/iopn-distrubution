@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 
-	"code.zeeve.net/client-projects/iopn/versiondb"
+	"github.com/crypto-org-chain/cronos/versiondb"
 	"github.com/linxGnu/grocksdb"
 )
 
@@ -14,7 +14,7 @@ type rocksDBIterator struct {
 	isReverse          bool
 	isInvalid          bool
 
-	// see: https://code.zeeve.net/client-projects/iopn/issues/1683
+	// see: https://github.com/crypto-org-chain/cronos/issues/1683
 	skipVersionZero bool
 }
 

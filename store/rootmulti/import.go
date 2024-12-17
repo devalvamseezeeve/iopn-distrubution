@@ -10,7 +10,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	protoio "github.com/cosmos/gogoproto/io"
 
-	"code.zeeve.net/client-projects/iopn/memiavl"
+	"github.com/crypto-org-chain/cronos/memiavl"
 )
 
 // Implements interface Snapshotter

@@ -1,6 +1,6 @@
 package config
 
-import "code.zeeve.net/client-projects/iopn/memiavl"
+import "github.com/crypto-org-chain/cronos/memiavl"
 
 const DefaultCacheSize = 1000
 

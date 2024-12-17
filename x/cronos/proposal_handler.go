@@ -6,8 +6,8 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/keeper"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/types"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
 )
 
 // NewTokenMappingChangeProposalHandler creates a new governance Handler for a TokenMappingChangeProposal

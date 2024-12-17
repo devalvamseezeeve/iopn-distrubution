@@ -36,7 +36,7 @@ import (
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	cronostypes "code.zeeve.net/client-projects/iopn/v2/x/cronos/types"
+	cronostypes "github.com/crypto-org-chain/cronos/v2/x/cronos/types"
 )
 
 const (

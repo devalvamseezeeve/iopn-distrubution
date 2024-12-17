@@ -15,7 +15,7 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/events/bindings/cosmos/precompile/bank"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/events/bindings/cosmos/precompile/bank"
 	"github.com/evmos/ethermint/x/evm/types"
 )
 

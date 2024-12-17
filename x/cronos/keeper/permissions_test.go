@@ -2,7 +2,7 @@ package keeper_test
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	. "code.zeeve.net/client-projects/iopn/v2/x/cronos/keeper"
+	. "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/evmos/ethermint/crypto/ethsecp256k1"
 )

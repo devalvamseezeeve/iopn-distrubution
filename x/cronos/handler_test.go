@@ -10,9 +10,9 @@ import (
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"code.zeeve.net/client-projects/iopn/v2/app"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/types"
+	"github.com/crypto-org-chain/cronos/v2/app"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
 	"github.com/evmos/ethermint/crypto/ethsecp256k1"
 	"github.com/stretchr/testify/suite"
 )

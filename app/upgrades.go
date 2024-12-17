@@ -12,7 +12,7 @@ import (
 	clientkeeper "github.com/cosmos/ibc-go/v7/modules/core/02-client/keeper"
 	"github.com/ethereum/go-ethereum/common"
 
-	e2eetypes "code.zeeve.net/client-projects/iopn/v2/x/e2ee/types"
+	e2eetypes "github.com/crypto-org-chain/cronos/v2/x/e2ee/types"
 )
 
 type contractMigration struct {

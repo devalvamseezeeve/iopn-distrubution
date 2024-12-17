@@ -1,8 +1,8 @@
 package cronos_test
 
 import (
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/types"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
 )
 
 func (suite *CronosTestSuite) TestInitGenesis() {

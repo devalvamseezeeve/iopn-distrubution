@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	cronosmodulekeeper "code.zeeve.net/client-projects/iopn/v2/x/cronos/keeper"
-	keepertest "code.zeeve.net/client-projects/iopn/v2/x/cronos/keeper/mock"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/types"
+	cronosmodulekeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
+	keepertest "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/mock"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
 
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 
@@ -27,7 +27,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
-	"code.zeeve.net/client-projects/iopn/v2/app"
+	"github.com/crypto-org-chain/cronos/v2/app"
 )
 
 const (

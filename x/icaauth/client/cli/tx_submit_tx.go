@@ -11,7 +11,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/version"
 	authclient "github.com/cosmos/cosmos-sdk/x/auth/client"
-	"code.zeeve.net/client-projects/iopn/v2/x/icaauth/types"
+	"github.com/crypto-org-chain/cronos/v2/x/icaauth/types"
 	"github.com/spf13/cobra"
 )
 

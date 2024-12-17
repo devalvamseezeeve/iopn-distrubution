@@ -16,9 +16,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"code.zeeve.net/client-projects/iopn/v2/x/e2ee/client/cli"
-	"code.zeeve.net/client-projects/iopn/v2/x/e2ee/keeper"
-	"code.zeeve.net/client-projects/iopn/v2/x/e2ee/types"
+	"github.com/crypto-org-chain/cronos/v2/x/e2ee/client/cli"
+	"github.com/crypto-org-chain/cronos/v2/x/e2ee/keeper"
+	"github.com/crypto-org-chain/cronos/v2/x/e2ee/types"
 )
 
 var (

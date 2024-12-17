@@ -6,9 +6,9 @@ package cmd
 import (
 	"sort"
 
-	"code.zeeve.net/client-projects/iopn/v2/app"
-	"code.zeeve.net/client-projects/iopn/v2/cmd/iopnd/opendb"
-	versiondbclient "code.zeeve.net/client-projects/iopn/versiondb/client"
+	"github.com/crypto-org-chain/cronos/v2/app"
+	"github.com/crypto-org-chain/cronos/v2/cmd/cronosd/opendb"
+	versiondbclient "github.com/crypto-org-chain/cronos/versiondb/client"
 	"github.com/linxGnu/grocksdb"
 	"github.com/spf13/cobra"
 )

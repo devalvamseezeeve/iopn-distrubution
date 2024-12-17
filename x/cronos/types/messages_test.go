@@ -8,8 +8,8 @@ import (
 
 	"filippo.io/age"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	cmdcfg "code.zeeve.net/client-projects/iopn/v2/cmd/iopnd/config"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/types"
+	cmdcfg "github.com/crypto-org-chain/cronos/v2/cmd/cronosd/config"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
 	"github.com/stretchr/testify/require"
 )
 

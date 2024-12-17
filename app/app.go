@@ -121,9 +121,9 @@ import (
 	icacontrollerkeeper "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/keeper"
 	icacontrollertypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/types"
 	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
-	icaauth "code.zeeve.net/client-projects/iopn/v2/x/icaauth"
-	icaauthkeeper "code.zeeve.net/client-projects/iopn/v2/x/icaauth/keeper"
-	icaauthtypes "code.zeeve.net/client-projects/iopn/v2/x/icaauth/types"
+	icaauth "github.com/crypto-org-chain/cronos/v2/x/icaauth"
+	icaauthkeeper "github.com/crypto-org-chain/cronos/v2/x/icaauth/keeper"
+	icaauthtypes "github.com/crypto-org-chain/cronos/v2/x/icaauth/types"
 
 	clientflags "github.com/cosmos/cosmos-sdk/client/flags"
 	evmante "github.com/evmos/ethermint/app/ante"
@@ -145,16 +145,16 @@ import (
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
-	memiavlstore "code.zeeve.net/client-projects/iopn/store"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos"
-	cronosclient "code.zeeve.net/client-projects/iopn/v2/x/cronos/client"
-	cronoskeeper "code.zeeve.net/client-projects/iopn/v2/x/cronos/keeper"
-	evmhandlers "code.zeeve.net/client-projects/iopn/v2/x/cronos/keeper/evmhandlers"
-	cronosprecompiles "code.zeeve.net/client-projects/iopn/v2/x/cronos/keeper/precompiles"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/middleware"
-	cronostypes "code.zeeve.net/client-projects/iopn/v2/x/cronos/types"
+	memiavlstore "github.com/crypto-org-chain/cronos/store"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos"
+	cronosclient "github.com/crypto-org-chain/cronos/v2/x/cronos/client"
+	cronoskeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
+	evmhandlers "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/evmhandlers"
+	cronosprecompiles "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/precompiles"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/middleware"
+	cronostypes "github.com/crypto-org-chain/cronos/v2/x/cronos/types"
 
-	"code.zeeve.net/client-projects/iopn/v2/client/docs"
+	"github.com/crypto-org-chain/cronos/v2/client/docs"
 
 	// Force-load the tracer engines to trigger registration
 	"github.com/ethereum/go-ethereum/common"
@@ -163,13 +163,13 @@ import (
 	_ "github.com/ethereum/go-ethereum/eth/tracers/native"
 	ethparams "github.com/ethereum/go-ethereum/params"
 
-	e2ee "code.zeeve.net/client-projects/iopn/v2/x/e2ee"
-	e2eekeeper "code.zeeve.net/client-projects/iopn/v2/x/e2ee/keeper"
-	e2eekeyring "code.zeeve.net/client-projects/iopn/v2/x/e2ee/keyring"
-	e2eetypes "code.zeeve.net/client-projects/iopn/v2/x/e2ee/types"
+	e2ee "github.com/crypto-org-chain/cronos/v2/x/e2ee"
+	e2eekeeper "github.com/crypto-org-chain/cronos/v2/x/e2ee/keeper"
+	e2eekeyring "github.com/crypto-org-chain/cronos/v2/x/e2ee/keyring"
+	e2eetypes "github.com/crypto-org-chain/cronos/v2/x/e2ee/types"
 
 	// force register the extension json-rpc.
-	_ "code.zeeve.net/client-projects/iopn/v2/x/cronos/rpc"
+	_ "github.com/crypto-org-chain/cronos/v2/x/cronos/rpc"
 )
 
 const (

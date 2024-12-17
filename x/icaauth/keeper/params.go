@@ -4,7 +4,7 @@ import (
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"code.zeeve.net/client-projects/iopn/v2/x/icaauth/types"
+	"github.com/crypto-org-chain/cronos/v2/x/icaauth/types"
 )
 
 // GetParams get all parameters as types.Params

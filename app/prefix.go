@@ -2,7 +2,7 @@ package app
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	cmdcfg "code.zeeve.net/client-projects/iopn/v2/cmd/iopnd/config"
+	cmdcfg "github.com/crypto-org-chain/cronos/v2/cmd/cronosd/config"
 	ethcfg "github.com/evmos/ethermint/cmd/config"
 )
 

@@ -9,7 +9,7 @@ import (
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	porttypes "github.com/cosmos/ibc-go/v7/modules/core/05-port/types"
 	ibcexported "github.com/cosmos/ibc-go/v7/modules/core/exported"
-	"code.zeeve.net/client-projects/iopn/v2/x/icaauth/keeper"
+	"github.com/crypto-org-chain/cronos/v2/x/icaauth/keeper"
 )
 
 var _ porttypes.IBCModule = IBCModule{}

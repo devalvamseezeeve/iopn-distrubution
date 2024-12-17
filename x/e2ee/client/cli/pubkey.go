@@ -6,8 +6,8 @@ import (
 
 	"filippo.io/age"
 	"github.com/cosmos/cosmos-sdk/client"
-	"code.zeeve.net/client-projects/iopn/v2/x/e2ee/keyring"
-	"code.zeeve.net/client-projects/iopn/v2/x/e2ee/types"
+	"github.com/crypto-org-chain/cronos/v2/x/e2ee/keyring"
+	"github.com/crypto-org-chain/cronos/v2/x/e2ee/types"
 	"github.com/spf13/cobra"
 )
 

@@ -20,10 +20,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/client/cli"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/keeper"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/simulation"
-	"code.zeeve.net/client-projects/iopn/v2/x/cronos/types"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/client/cli"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/simulation"
+	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
 	// this line is used by starport scaffolding # ibc/module/import
 )
 

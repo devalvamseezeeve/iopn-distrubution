@@ -93,10 +93,10 @@ endif
 
 all: build
 build: check-network print-ledger go.sum
-	@go build -mod=readonly $(BUILD_FLAGS) -o $(BUILDDIR)/iopnd ./cmd/iopnd
+	@go build -mod=readonly $(BUILD_FLAGS) -o $(BUILDDIR)/iopnd ./cmd/cronosd
 
 install: check-network print-ledger go.sum
-	@go install -mod=readonly $(BUILD_FLAGS) ./cmd/iopnd
+	@go install -mod=readonly $(BUILD_FLAGS) ./cmd/cronosd
 
 test: test-memiavl test-store
 	@go test -v -mod=readonly $(PACKAGES) -coverprofile=$(COVERAGE) -covermode=atomic;
