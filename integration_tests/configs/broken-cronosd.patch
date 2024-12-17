@@ -1,0 +1,15 @@
+diff --git a/app/app.go b/app/app.go
+index 75523891..dbe74030 100644
+--- a/app/app.go
++++ b/app/app.go
+@@ -1019,6 +1019,10 @@ func (app *App) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.R
+ 
+ // EndBlocker application updates every end block
+ func (app *App) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci.ResponseEndBlock {
++	if ctx.BlockHeight()%10 == 0 {
++		store := ctx.KVStore(app.keys["cronos"])
++		store.Set([]byte("hello"), []byte("world"))
++	}
+ 	rsp := app.mm.EndBlock(ctx, req)
+ 
+ 	if err := app.RefreshBlockList(ctx); err != nil {
