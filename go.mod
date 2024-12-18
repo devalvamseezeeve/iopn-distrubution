@@ -1,4 +1,10 @@
-module github.com/crypto-org-chain/cronos/v2
+module github.com/devalvamseezeeve/iopn-distrubution/v2
+
+require (
+	github.com/devalvamseezeeve/iopn-distrubution/memiavl v1.0.0 // indirect
+	github.com/devalvamseezeeve/iopn-distrubution/store v1.0.0
+	github.com/devalvamseezeeve/iopn-distrubution/versiondb v1.0.0
+)
 
 go 1.22
 
@@ -20,8 +26,6 @@ require (
 	github.com/cosmos/gogoproto v1.4.10
 	github.com/cosmos/ibc-go/modules/apps/callbacks v0.1.1-0.20230831194909-17cf1260a9cd
 	github.com/cosmos/ibc-go/v7 v7.3.2
-	github.com/crypto-org-chain/cronos/store v0.0.4
-	github.com/crypto-org-chain/cronos/versiondb v0.0.0-00010101000000-000000000000
 	github.com/ethereum/go-ethereum v1.10.26
 	github.com/evmos/ethermint v0.0.0-00010101000000-000000000000
 	github.com/golang/protobuf v1.5.4
@@ -84,7 +88,6 @@ require (
 	github.com/cosmos/ledger-cosmos-go v0.12.4 // indirect
 	github.com/cosmos/rosetta-sdk-go v0.10.0 // indirect
 	github.com/creachadair/taskgroup v0.4.2 // indirect
-	github.com/crypto-org-chain/cronos/memiavl v0.0.4 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/deckarep/golang-set/v2 v2.1.0 // indirect
@@ -242,9 +245,9 @@ replace (
 	github.com/cometbft/cometbft-db => github.com/crypto-org-chain/cometbft-db v0.0.0-20231011055109-57922ac52a63
 	// release/v0.47.x
 	github.com/cosmos/cosmos-sdk => github.com/crypto-org-chain/cosmos-sdk v0.46.0-beta2.0.20241008100047-e671aed24d19
-	github.com/crypto-org-chain/cronos/memiavl => ./memiavl
-	github.com/crypto-org-chain/cronos/store => ./store
-	github.com/crypto-org-chain/cronos/versiondb => ./versiondb
+	github.com/devalvamseezeeve/iopn-distrubution/memiavl => ./memiavl
+	github.com/devalvamseezeeve/iopn-distrubution/store => ./store
+	github.com/devalvamseezeeve/iopn-distrubution/versiondb => ./versiondb
 	// dgrijalva/jwt-go is deprecated and doesn't receive security updates.
 	// TODO: remove it: https://github.com/cosmos/cosmos-sdk/issues/13134
 	github.com/dgrijalva/jwt-go => github.com/golang-jwt/jwt/v4 v4.4.2
