@@ -29,9 +29,9 @@ from .topology import connect_all
 from .types import PeerPacket
 from .utils import block_height, block_txs, wait_for_block, wait_for_port
 
-# use cronosd on host machine
-LOCAL_CRONOSD_PATH = "cronosd"
-DEFAULT_CHAIN_ID = "cronos_777-1"
+# use iopnd on host machine
+LOCAL_CRONOSD_PATH = "iopnd"
+DEFAULT_CHAIN_ID = "iopn_777-1"
 # the container must be deployed with the prefixed name
 HOSTNAME_TEMPLATE = "testplan-{index}"
 ECHO_SERVER_PORT = 26659
@@ -154,7 +154,7 @@ def _gen(
 @click.argument("src")
 @click.option("--dst", default="/data")
 @click.option(
-    "--fromimage", default="ghcr.io/crypto-org-chain/cronos-testground:latest"
+    "--fromimage", default="ghcr.io/crypto-org-chain/iopn-testground:latest"
 )
 def patchimage(toimage, src, dst, fromimage):
     """
@@ -174,9 +174,9 @@ ADD ./out {dst}
 @cli.command()
 @click.option("--outdir", default="/outputs")
 @click.option("--datadir", default="/data")
-@click.option("--cronosd", default=CONTAINER_CRONOSD_PATH)
+@click.option("--iopnd", default=CONTAINER_CRONOSD_PATH)
 @click.option("--global-seq", default=None)
-def run(outdir: str, datadir: str, cronosd, global_seq):
+def run(outdir: str, datadir: str, iopnd, global_seq):
     datadir = Path(datadir)
     cfg = json.loads((datadir / "config.json").read_text())
 
@@ -190,7 +190,7 @@ def run(outdir: str, datadir: str, cronosd, global_seq):
     home = datadir / group / str(group_seq)
 
     try:
-        return do_run(datadir, home, cronosd, group, global_seq, cfg)
+        return do_run(datadir, home, iopnd, group, global_seq, cfg)
     finally:
         # collect outputs
         output = Path("/data.tar.bz2")
@@ -245,7 +245,7 @@ def _gen_txs(
 
 
 def do_run(
-    datadir: Path, home: Path, cronosd: str, group: str, global_seq: int, cfg: dict
+    datadir: Path, home: Path, iopnd: str, group: str, global_seq: int, cfg: dict
 ):
     if group == FULLNODE_GROUP or cfg.get("validator-generate-load", True):
         txs = transaction.load(datadir, global_seq)
@@ -266,11 +266,11 @@ def do_run(
     print("start node")
     logfile = open(home / "node.log", "ab", buffering=0)
     proc = subprocess.Popen(
-        [cronosd, "start", "--home", str(home)],
+        [iopnd, "start", "--home", str(home)],
         stdout=logfile,
     )
 
-    cli = ChainCommand(cronosd)
+    cli = ChainCommand(iopnd)
     wait_for_port(26657)
     wait_for_port(8545)
     wait_for_block(cli, 3)

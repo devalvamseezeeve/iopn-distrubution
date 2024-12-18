@@ -54,7 +54,7 @@ check_gorc_setup() {
 }
 
 download_service() {
-    curl -s https://raw.githubusercontent.com/crypto-org-chain/cronos/main/docs/gravity-bridge/systemd/gorc.service.template -o $BASEDIR/gorc.service.template
+    curl -s https://raw.githubusercontent.com/crypto-org-chain/iopn/main/docs/gravity-bridge/systemd/gorc.service.template -o $BASEDIR/gorc.service.template
 }
 
 gather_relayer_info() {
@@ -65,8 +65,8 @@ gather_relayer_info() {
 
 gather_orchestrator_info() {
     read -p 'Please input orchestrator ethereum key name: ' ethKey
-    read -p 'Please input orchestrator cronos key name: ' croKey
-    echo "cronos key: $croKey eth key: $ethKey"
+    read -p 'Please input orchestrator iopn key name: ' croKey
+    echo "iopn key: $croKey eth key: $ethKey"
     GORC_START_COMMAND="orchestrator start --mode Api --cosmos-key=\"$croKey\" --ethereum-key=\"$ethKey\""
 }
 

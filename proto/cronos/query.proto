@@ -1,25 +1,25 @@
 syntax = "proto3";
-package cronos;
+package iopn;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "ethermint/evm/v1/tx.proto";
-import "cronos/cronos.proto";
+import "iopn/iopn.proto";
 // this line is used by starport scaffolding # 1
 
-option go_package = "github.com/crypto-org-chain/cronos/v2/x/cronos/types";
+option go_package = "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types";
 
 // Query defines the gRPC querier service.
 service Query {
   // ContractByDenom queries contract addresses by native denom
   rpc ContractByDenom(ContractByDenomRequest) returns (ContractByDenomResponse) {
-    option (google.api.http).get = "/cronos/v1/contract_by_denom/{denom}";
+    option (google.api.http).get = "/iopn/v1/contract_by_denom/{denom}";
   }
 
   // DenomByContract queries native denom by contract address
   rpc DenomByContract(DenomByContractRequest) returns (DenomByContractResponse) {
-    option (google.api.http).get = "/cronos/v1/denom_by_contract/{contract}";
+    option (google.api.http).get = "/iopn/v1/denom_by_contract/{contract}";
   }
 
   // ReplayBlock replay the eth messages in the block to recover the results of
@@ -28,17 +28,17 @@ service Query {
 
   // Params queries all parameters.
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/cronos/v1/params";
+    option (google.api.http).get = "/iopn/v1/params";
   }
 
   // Params queries permissions for a specific address..
   rpc Permissions(QueryPermissionsRequest) returns (QueryPermissionsResponse) {
-    option (google.api.http).get = "/cronos/v1/permissions";
+    option (google.api.http).get = "/iopn/v1/permissions";
   }
 
   // BlockList
   rpc BlockList(QueryBlockListRequest) returns (QueryBlockListResponse) {
-    option (google.api.http).get = "/cronos/v1/blocklist";
+    option (google.api.http).get = "/iopn/v1/blocklist";
   }
 
   // this line is used by starport scaffolding # 2

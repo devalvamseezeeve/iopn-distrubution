@@ -20,7 +20,7 @@ const (
 	// this line is used by starport scaffolding # ibc/keys/name
 )
 
-// prefix bytes for the cronos persistent store
+// prefix bytes for the iopn persistent store
 const (
 	prefixDenomToExternalContract = iota + 1
 	prefixDenomToAutoContract

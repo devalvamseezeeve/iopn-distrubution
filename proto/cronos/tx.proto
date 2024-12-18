@@ -1,23 +1,23 @@
 syntax = "proto3";
-package cronos;
+package iopn;
 
 // this line is used by starport scaffolding # proto/tx/import
 
 import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto";
-import "cronos/cronos.proto";
+import "iopn/iopn.proto";
 
-option go_package = "github.com/crypto-org-chain/cronos/v2/x/cronos/types";
+option go_package = "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types";
 
 // Msg defines the Cronos Msg service
 service Msg {
   // this line is used by starport scaffolding # proto/tx/rpc
 
-  // ConvertVouchers defines a method for converting ibc voucher to cronos evm
+  // ConvertVouchers defines a method for converting ibc voucher to iopn evm
   // coins.
   rpc ConvertVouchers(MsgConvertVouchers) returns (MsgConvertVouchersResponse);
 
-  // TransferTokens defines a method to transfer cronos evm coins to another
+  // TransferTokens defines a method to transfer iopn evm coins to another
   // chain through IBC
   rpc TransferTokens(MsgTransferTokens) returns (MsgTransferTokensResponse);
 
@@ -27,10 +27,10 @@ service Msg {
   // TurnBridge defines a method to disable or enable the gravity bridge
   rpc TurnBridge(MsgTurnBridge) returns (MsgTurnBridgeResponse);
 
-  // UpdateParams defines a method to update cronos module params
+  // UpdateParams defines a method to update iopn module params
   rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
 
-  // UpdatePermissions defines a method to update cronos admins permissions
+  // UpdatePermissions defines a method to update iopn admins permissions
   rpc UpdatePermissions(MsgUpdatePermissions) returns (MsgUpdatePermissionsResponse);
 
   // StoreBlockList
@@ -38,14 +38,14 @@ service Msg {
 }
 
 // MsgConvertVouchers represents a message to convert ibc voucher coins to
-// cronos evm coins.
+// iopn evm coins.
 message MsgConvertVouchers {
   string   address                        = 1;
   repeated cosmos.base.v1beta1.Coin coins = 2
       [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"];
 }
 
-// MsgTransferTokens represents a message to transfer cronos evm coins through
+// MsgTransferTokens represents a message to transfer iopn evm coins through
 // ibc.
 message MsgTransferTokens {
   string   from                           = 1;
@@ -65,7 +65,7 @@ message MsgUpdateTokenMapping {
   string sender   = 1;
   string denom    = 2;
   string contract = 3;
-  // only when updating cronos (source) tokens
+  // only when updating iopn (source) tokens
   string symbol  = 4;
   uint32 decimal = 5;
 }
@@ -82,7 +82,7 @@ message MsgTurnBridge {
 // MsgTurnBridgegResponse defines the response type
 message MsgTurnBridgeResponse {}
 
-// MsgUpdateParams defines the request type for updating cronos params.
+// MsgUpdateParams defines the request type for updating iopn params.
 message MsgUpdateParams {
   // authority is the address of the governance account.
   string authority = 1;
@@ -94,7 +94,7 @@ message MsgUpdateParams {
 // MsgUpdateParamsResponse defines the response type.
 message MsgUpdateParamsResponse {}
 
-// MsgUpdatePermissions defines the request type for updating cronos
+// MsgUpdatePermissions defines the request type for updating iopn
 // permissions.
 message MsgUpdatePermissions {
   string from        = 1;

@@ -48,9 +48,9 @@ func Test_IsValidCronosDenom(t *testing.T) {
 		denom   string
 		success bool
 	}{
-		{"wrong length", "cronos0x/6B5A664BF0AF4F71B2F0BAA33141E2F1321242FBD", false},
+		{"wrong length", "iopn0x/6B5A664BF0AF4F71B2F0BAA33141E2F1321242FBD", false},
 		{"invalid denom", "aaa0xb7a4F3E9097C08dA09517b5aB877F7a917224ede", false},
-		{"correct cronos denom", "cronos0xb7a4F3E9097C08dA09517b5aB877F7a917224ede", true},
+		{"correct iopn denom", "iopn0xb7a4F3E9097C08dA09517b5aB877F7a917224ede", true},
 	}
 	for _, tt := range tests {
 		tt := tt
@@ -72,7 +72,7 @@ func Test_IsValidCoinDenom(t *testing.T) {
 		{"wrong length", "gravity0x/6B5A664BF0AF4F71B2F0BAA33141E2F1321242FBD", false},
 		{"invalid denom", "aaa0xb7a4F3E9097C08dA09517b5aB877F7a917224ede", false},
 		{"correct gravity denom", "gravity0xb7a4F3E9097C08dA09517b5aB877F7a917224ede", true},
-		{"correct cronos denom", "cronos0xb7a4F3E9097C08dA09517b5aB877F7a917224ede", true},
+		{"correct iopn denom", "iopn0xb7a4F3E9097C08dA09517b5aB877F7a917224ede", true},
 	}
 	for _, tt := range tests {
 		tt := tt

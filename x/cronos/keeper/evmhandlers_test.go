@@ -8,11 +8,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	"github.com/crypto-org-chain/cronos/v2/app"
-	cronosmodulekeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	evmhandlers "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/evmhandlers"
-	keepertest "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/mock"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/app"
+	iopnmodulekeeper "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	evmhandlers "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper/evmhandlers"
+	keepertest "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper/mock"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 	"github.com/ethereum/go-ethereum/common"
 	gravitykeeper "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/keeper"
 	gravitytypes "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/types"
@@ -147,7 +147,7 @@ func (suite *KeeperTestSuite) TestSendToEvmChainHandler() {
 				data = input
 			},
 			func() {},
-			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither a gravity voucher or a cronos token"),
+			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither a gravity voucher or a iopn token"),
 		},
 		{
 			"non supported network id",
@@ -321,7 +321,7 @@ func (suite *KeeperTestSuite) TestSendToIbcHandler() {
 				data = input
 			},
 			func() {},
-			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither an ibc voucher or a cronos token"),
+			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither an ibc voucher or a iopn token"),
 		},
 		{
 			"success send to ibc",
@@ -353,7 +353,7 @@ func (suite *KeeperTestSuite) TestSendToIbcHandler() {
 		suite.Run(fmt.Sprintf("Case %s", tc.msg), func() {
 			suite.SetupTest()
 			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			iopnKeeper := *iopnmodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -364,7 +364,7 @@ func (suite *KeeperTestSuite) TestSendToIbcHandler() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			handler := evmhandlers.NewSendToIbcHandler(suite.app.BankKeeper, cronosKeeper)
+			handler := evmhandlers.NewSendToIbcHandler(suite.app.BankKeeper, iopnKeeper)
 			tc.malleate()
 			err := handler.Handle(suite.ctx, contract, topics, data, func(contractAddress common.Address, logSig common.Hash, logData []byte) {})
 			if tc.error != nil {
@@ -441,7 +441,7 @@ func (suite *KeeperTestSuite) TestSendToIbcV2Handler() {
 				data = input
 			},
 			func() {},
-			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither an ibc voucher or a cronos token"),
+			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither an ibc voucher or a iopn token"),
 		},
 		{
 			"success send to ibc",
@@ -475,7 +475,7 @@ func (suite *KeeperTestSuite) TestSendToIbcV2Handler() {
 		suite.Run(fmt.Sprintf("Case %s", tc.msg), func() {
 			suite.SetupTest()
 			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			iopnKeeper := *iopnmodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -486,7 +486,7 @@ func (suite *KeeperTestSuite) TestSendToIbcV2Handler() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			handler := evmhandlers.NewSendToIbcV2Handler(suite.app.BankKeeper, cronosKeeper)
+			handler := evmhandlers.NewSendToIbcV2Handler(suite.app.BankKeeper, iopnKeeper)
 			tc.malleate()
 			err := handler.Handle(suite.ctx, contract, topics, data, func(contractAddress common.Address, logSig common.Hash, logData []byte) {})
 			if tc.error != nil {
@@ -572,7 +572,7 @@ func (suite *KeeperTestSuite) TestSendCroToIbcHandler() {
 		suite.Run(fmt.Sprintf("Case %s", tc.msg), func() {
 			suite.SetupTest()
 			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			iopnKeeper := *iopnmodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -583,7 +583,7 @@ func (suite *KeeperTestSuite) TestSendCroToIbcHandler() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			handler := evmhandlers.NewSendCroToIbcHandler(suite.app.BankKeeper, cronosKeeper)
+			handler := evmhandlers.NewSendCroToIbcHandler(suite.app.BankKeeper, iopnKeeper)
 			tc.malleate()
 			err := handler.Handle(suite.ctx, contract, topics, data, func(contractAddress common.Address, logSig common.Hash, logData []byte) {})
 			if tc.error != nil {

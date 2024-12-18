@@ -1,8 +1,8 @@
-package cronos_test
+package iopn_test
 
 import (
-	"github.com/crypto-org-chain/cronos/v2/x/cronos"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 func (suite *CronosTestSuite) TestInitGenesis() {
@@ -118,13 +118,13 @@ func (suite *CronosTestSuite) TestInitGenesis() {
 			if tc.expPanic {
 				suite.Require().Panics(
 					func() {
-						cronos.InitGenesis(suite.ctx, suite.app.CronosKeeper, *tc.genState)
+						iopn.InitGenesis(suite.ctx, suite.app.CronosKeeper, *tc.genState)
 					},
 				)
 			} else {
 				suite.Require().NotPanics(
 					func() {
-						cronos.InitGenesis(suite.ctx, suite.app.CronosKeeper, *tc.genState)
+						iopn.InitGenesis(suite.ctx, suite.app.CronosKeeper, *tc.genState)
 					},
 				)
 			}
@@ -133,6 +133,6 @@ func (suite *CronosTestSuite) TestInitGenesis() {
 }
 
 func (suite *CronosTestSuite) TestExportGenesis() {
-	genesisState := cronos.ExportGenesis(suite.ctx, suite.app.CronosKeeper)
+	genesisState := iopn.ExportGenesis(suite.ctx, suite.app.CronosKeeper)
 	suite.Require().Equal(genesisState.Params.IbcCroDenom, types.DefaultParams().IbcCroDenom)
 }

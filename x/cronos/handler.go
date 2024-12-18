@@ -1,4 +1,4 @@
-package cronos
+package iopn
 
 import (
 	"fmt"
@@ -6,8 +6,8 @@ import (
 	"cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 // NewHandler for Cronos

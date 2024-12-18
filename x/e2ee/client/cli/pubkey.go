@@ -6,8 +6,8 @@ import (
 
 	"filippo.io/age"
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/crypto-org-chain/cronos/v2/x/e2ee/keyring"
-	"github.com/crypto-org-chain/cronos/v2/x/e2ee/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/e2ee/keyring"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/e2ee/types"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +27,7 @@ func PubKeyCommand() *cobra.Command {
 				return err
 			}
 
-			kr, err := keyring.New("cronosd", clientCtx.Keyring.Backend(), clientCtx.HomeDir, os.Stdin)
+			kr, err := keyring.New("iopnd", clientCtx.Keyring.Backend(), clientCtx.HomeDir, os.Stdin)
 			if err != nil {
 				return err
 			}

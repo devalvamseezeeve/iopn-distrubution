@@ -40,7 +40,7 @@ CRC20 token is Cronos's equivalence of ERC20 token on Ethereum with some extensi
 
 A contract whose byte code is embedded in Cronos module and deployed by it, and some operations in it are only authorized to Cronos module. These contracts can be trusted by Cronos module directly. Currently, Cronos module support auto-deploy a minimal CRC20 contract to support automatic wrapping native token in EVM.
 
-+++ https://github.com/crypto-org-chain/cronos/blob/v0.6.0-testnet/contracts/src/ModuleCRC20.sol#L5-L52
++++ https://github.com/devalvamseezeeve/iopn-distrubution/blob/v0.6.0-testnet/contracts/src/ModuleCRC20.sol#L5-L52
 
 ## Token Mapping
 

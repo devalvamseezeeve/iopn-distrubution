@@ -27,7 +27,7 @@ ACC_INITIAL_AMOUNT = Balance(amount="10000000000000000000000000", denom=DEFAULT_
 MEMPOOL_SIZE = 10000
 VALIDATOR_GROUP = "validators"
 FULLNODE_GROUP = "fullnodes"
-CONTAINER_CRONOSD_PATH = "/bin/cronosd"
+CONTAINER_CRONOSD_PATH = "/bin/iopnd"
 
 
 def init_node(

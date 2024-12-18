@@ -9,15 +9,15 @@ The implementation is inspired by [testground](https://github.com/testground/tes
 
 >  Prerequisites: nix, for macOS also need [linux remote builder](https://nix.dev/manual/nix/2.22/advanced-topics/distributed-builds.html)
 
-You can test with the prebuilt images in [github registry](https://github.com/crypto-org-chain/cronos/pkgs/container/cronos-testground), or build the image locally:
+You can test with the prebuilt images in [github registry](https://github.com/devalvamseezeeve/iopn-distrubution/pkgs/container/iopn-testground), or build the image locally:
 
 ```bash
 $ nix build .#testground-image
 # for apple silicon mac: nix build .#legacyPackages.aarch64-linux.testground-image
 # for x86 mac: nix build .#legacyPackages.x86_64-linux.testground-image
 $ docker load < ./result
-Loaded image: cronos-testground:<imageID>
-$ docker tag cronos-testground:<imageID> ghcr.io/crypto-org-chain/cronos-testground:latest
+Loaded image: iopn-testground:<imageID>
+$ docker tag iopn-testground:<imageID> ghcr.io/crypto-org-chain/iopn-testground:latest
 ```
 
 Or one liner like this:
@@ -26,12 +26,12 @@ Or one liner like this:
 docker load < $(nix build .#legacyPackages.aarch64-linux.testground-image --no-link --print-out-paths) \
   | grep "^Loaded image:" \
   | cut -d ' ' -f 3 \
-  | xargs -I{} docker tag {} ghcr.io/crypto-org-chain/cronos-testground:latest
+  | xargs -I{} docker tag {} ghcr.io/crypto-org-chain/iopn-testground:latest
 ```
 
 ## Generate data files locally
 
-You need to have the `cronosd` in `PATH`.
+You need to have the `iopnd` in `PATH`.
 
 ```bash
 nix run .#stateless-testcase -- gen /tmp/data/out \
@@ -58,7 +58,7 @@ nix run .#stateless-testcase -- gen /tmp/data/out \
 Embed the data directory into the image, it produce a new image:
 
 ```bash
-$ nix run github:crypto-org-chain/cronos#stateless-testcase patchimage cronos-testground:latest /tmp/data/out
+$ nix run github:crypto-org-chain/iopn#stateless-testcase patchimage iopn-testground:latest /tmp/data/out
 ```
 
 ## Run With Docker Compose
@@ -75,4 +75,4 @@ It'll collect the node data files to the `/tmp/outputs` directory.
 
 ## Run In Cluster
 
-Please use [cronos-testground](https://github.com/crypto-org-chain/cronos-testground) to run the benchmark in k8s cluster.
+Please use [iopn-testground](https://github.com/devalvamseezeeve/iopn-distrubution-testground) to run the benchmark in k8s cluster.

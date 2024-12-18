@@ -1,6 +1,6 @@
 dotenv: .env
-cronos_777-1:
-  cmd: cronosd
+iopn_777-1:
+  cmd: iopnd
   start-flags: "--trace"
   app-config:
     minimum-gas-prices: 0basetcro
@@ -9,7 +9,7 @@ cronos_777-1:
     json-rpc:
       address: "127.0.0.1:{EVMRPC_PORT}"
       ws-address: "127.0.0.1:{EVMRPC_PORT_WS}"
-      api: "eth,net,web3,debug,cronos"
+      api: "eth,net,web3,debug,iopn"
   validators:
     - coins: 1000000000000000000stake,10000000000000000000000basetcro
       staked: 1000000000000000000stake
@@ -37,9 +37,9 @@ cronos_777-1:
       evm:
         params:
           evm_denom: basetcro
-      cronos:
+      iopn:
         params:
-          cronos_admin: ${CRONOS_ADMIN}
+          iopn_admin: ${CRONOS_ADMIN}
           enable_auto_deployment: true
           ibc_cro_denom: ${IBC_CRO_DENOM}
       gov:

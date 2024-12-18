@@ -7,7 +7,7 @@
   },
   "apis": [
     {
-      "url": "./tmp-swagger-gen/cronos/query.swagger.json",
+      "url": "./tmp-swagger-gen/iopn/query.swagger.json",
       "operationIds": {
         "rename": {
           "Params": "EvmParams"

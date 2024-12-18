@@ -6,9 +6,9 @@ import (
 	ibcfeetypes "github.com/cosmos/ibc-go/v7/modules/apps/29-fee/types"
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
-	ica "github.com/crypto-org-chain/cronos/v2/x/cronos/events/bindings/cosmos/precompile/ica"
-	relayer "github.com/crypto-org-chain/cronos/v2/x/cronos/events/bindings/cosmos/precompile/relayer"
-	cronoseventstypes "github.com/crypto-org-chain/cronos/v2/x/cronos/events/types"
+	ica "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/events/bindings/cosmos/precompile/ica"
+	relayer "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/events/bindings/cosmos/precompile/relayer"
+	iopneventstypes "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/events/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 )
@@ -35,7 +35,7 @@ var (
 		transfertypes.AttributeKeyDenom:       ReturnStringAsIs,
 	}
 	IcaValueDecoders = ValueDecoders{
-		cronoseventstypes.AttributeKeySeq:   ConvertUint64,
+		iopneventstypes.AttributeKeySeq:   ConvertUint64,
 		channeltypes.AttributeKeySrcChannel: ReturnStringAsIs,
 	}
 )

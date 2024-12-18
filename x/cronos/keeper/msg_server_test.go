@@ -1,8 +1,8 @@
 package keeper_test
 
 import (
-	cronosmodulekeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	iopnmodulekeeper "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -53,7 +53,7 @@ func (suite *KeeperTestSuite) TestUpdateParams() {
 			expErrMsg: "invalid ibc denom",
 		},
 		{
-			name: "set invalid cronos admin address",
+			name: "set invalid iopn admin address",
 			req: &types.MsgUpdateParams{
 				Authority: suite.app.CronosKeeper.GetAuthority(),
 				Params: types.Params{
@@ -71,7 +71,7 @@ func (suite *KeeperTestSuite) TestUpdateParams() {
 	for _, tc := range testCases {
 		tc := tc
 		suite.Run(tc.name, func() {
-			msgServer := cronosmodulekeeper.NewMsgServerImpl(suite.app.CronosKeeper)
+			msgServer := iopnmodulekeeper.NewMsgServerImpl(suite.app.CronosKeeper)
 			_, err := msgServer.UpdateParams(suite.ctx, tc.req)
 			if tc.expectErr {
 				suite.Require().Error(err)

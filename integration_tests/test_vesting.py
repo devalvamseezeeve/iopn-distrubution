@@ -1,11 +1,11 @@
 import time
 
 
-def test_create_account(cronos):
+def test_create_account(iopn):
     """
     test create vesting account is disabled:
     """
-    cli = cronos.cosmos_cli()
+    cli = iopn.cosmos_cli()
     src = "vesting"
     addr = cli.create_account(src)["address"]
     denom = "basetcro"

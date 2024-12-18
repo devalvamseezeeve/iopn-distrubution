@@ -1,12 +1,12 @@
 {
   dockerTools,
   runCommandLocal,
-  cronos-matrix,
+  iopn-matrix,
   benchmark-testcase,
 }:
 let
-  patched-cronosd = cronos-matrix.cronosd.overrideAttrs (oldAttrs: {
-    patches = oldAttrs.patches or [ ] ++ [ ./testground-cronosd.patch ];
+  patched-iopnd = iopn-matrix.iopnd.overrideAttrs (oldAttrs: {
+    patches = oldAttrs.patches or [ ] ++ [ ./testground-iopnd.patch ];
   });
 in
 let
@@ -15,11 +15,11 @@ let
   '';
 in
 dockerTools.buildLayeredImage {
-  name = "cronos-testground";
+  name = "iopn-testground";
   created = "now";
   contents = [
     benchmark-testcase
-    patched-cronosd
+    patched-iopnd
     tmpDir
   ];
   config = {

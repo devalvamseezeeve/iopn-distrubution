@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	cronosmodulekeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	keepertest "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/mock"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	iopnmodulekeeper "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	keepertest "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper/mock"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 
@@ -27,7 +27,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/crypto-org-chain/cronos/v2/app"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/app"
 )
 
 const (
@@ -128,7 +128,7 @@ func (suite *KeeperTestSuite) MintCoins(address sdk.AccAddress, coins sdk.Coins)
 func (suite *KeeperTestSuite) RegisterSourceToken(
 	contractAddress, symbol string, decimal uint32,
 ) error {
-	denom := "cronos" + contractAddress
+	denom := "iopn" + contractAddress
 	msg := types.MsgUpdateTokenMapping{
 		Denom:    denom,
 		Contract: contractAddress,
@@ -270,7 +270,7 @@ func (suite *KeeperTestSuite) TestOnRecvVouchers() {
 		suite.Run(tc.name, func() {
 			suite.SetupTest() // reset
 			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			iopnKeeper := *iopnmodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -281,7 +281,7 @@ func (suite *KeeperTestSuite) TestOnRecvVouchers() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			suite.app.CronosKeeper = cronosKeeper
+			suite.app.CronosKeeper = iopnKeeper
 
 			tc.malleate()
 			suite.app.CronosKeeper.OnRecvVouchers(suite.ctx, tc.coins, address.String())
@@ -329,7 +329,7 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 			"Non source token, no hex contract address, error",
 			types.MsgUpdateTokenMapping{
 				Sender:   "",
-				Denom:    "cronos0xtest",
+				Denom:    "iopn0xtest",
 				Contract: "test",
 				Symbol:   "",
 				Decimal:  0,
@@ -360,7 +360,7 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 			"Source token, invalid denom, error",
 			types.MsgUpdateTokenMapping{
 				Sender:   "",
-				Denom:    "cronos0xf6d4fecb1a6fb7c2ca350169a050d483bd87b88@",
+				Denom:    "iopn0xf6d4fecb1a6fb7c2ca350169a050d483bd87b88@",
 				Contract: contractAddress,
 				Symbol:   "",
 				Decimal:  0,
@@ -373,7 +373,7 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 			"Source token, denom correct, no error",
 			types.MsgUpdateTokenMapping{
 				Sender:   "",
-				Denom:    "cronos0xF6D4FeCB1a6fb7C2CA350169A050D483bd87b883",
+				Denom:    "iopn0xF6D4FeCB1a6fb7C2CA350169A050D483bd87b883",
 				Contract: contractAddress,
 				Symbol:   "",
 				Decimal:  0,
@@ -386,7 +386,7 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 			"Source token, denom correct with decimal, no error",
 			types.MsgUpdateTokenMapping{
 				Sender:   "",
-				Denom:    "cronos0xF6D4FeCB1a6fb7C2CA350169A050D483bd87b883",
+				Denom:    "iopn0xF6D4FeCB1a6fb7C2CA350169A050D483bd87b883",
 				Contract: contractAddress,
 				Symbol:   "Test",
 				Decimal:  6,
@@ -402,7 +402,7 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 		suite.Run(tc.name, func() {
 			suite.SetupTest() // reset
 			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			iopnKeeper := *iopnmodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -413,7 +413,7 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			suite.app.CronosKeeper = cronosKeeper
+			suite.app.CronosKeeper = iopnKeeper
 
 			tc.malleate()
 			err := suite.app.CronosKeeper.RegisterOrUpdateTokenMapping(suite.ctx, &tc.msg)

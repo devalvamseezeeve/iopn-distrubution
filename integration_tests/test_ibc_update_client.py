@@ -21,7 +21,7 @@ def test_ibc_update_client(ibc, tmp_path):
     """
     test client via chain header
     """
-    cli = ibc.cronos.cosmos_cli()
+    cli = ibc.iopn.cosmos_cli()
     cli1 = ibc.chainmain.cosmos_cli()
     client_id = "07-tendermint-0"
     state = cli.ibc_query_client_consensus_states(client_id)["consensus_states"]
@@ -44,14 +44,14 @@ def test_ibc_update_client_via_proposal(ibc):
     """
     test update expire subject client with new active client via proposal
     """
-    cli = ibc.cronos.cosmos_cli()
+    cli = ibc.iopn.cosmos_cli()
     cmd0 = ["hermes", "--config", ibc.hermes.configpath]
-    # create new client with small trust in cronos
+    # create new client with small trust in iopn
     cmd = cmd0 + [
         "create",
         "client",
         "--host-chain",
-        "cronos_777-1",
+        "iopn_777-1",
         "--reference-chain",
         "chainmain-1",
     ]
@@ -62,7 +62,7 @@ def test_ibc_update_client_via_proposal(ibc):
         "create",
         "connection",
         "--a-chain",
-        "cronos_777-1",
+        "iopn_777-1",
         "--a-client",
         "07-tendermint-1",
         "--b-client",
@@ -75,7 +75,7 @@ def test_ibc_update_client_via_proposal(ibc):
         "create",
         "channel",
         "--a-chain",
-        "cronos_777-1",
+        "iopn_777-1",
         "--a-connection",
         "connection-1",
         "--a-port",
@@ -91,12 +91,12 @@ def test_ibc_update_client_via_proposal(ibc):
         assert res == period, res
 
     assert_trust_period(trust_period)
-    # create new client with default trust in cronos
+    # create new client with default trust in iopn
     cmd = cmd0 + [
         "create",
         "client",
         "--host-chain",
-        "cronos_777-1",
+        "iopn_777-1",
         "--reference-chain",
         "chainmain-1",
     ]
@@ -106,7 +106,7 @@ def test_ibc_update_client_via_proposal(ibc):
         "client",
         "status",
         "--chain",
-        "cronos_777-1",
+        "iopn_777-1",
         "--client",
         "07-tendermint-1",
     ]
@@ -128,6 +128,6 @@ def test_ibc_update_client_via_proposal(ibc):
         },
     )
     assert rsp["code"] == 0, rsp["raw_log"]
-    approve_proposal(ibc.cronos, rsp)
+    approve_proposal(ibc.iopn, rsp)
     default_trust_period = "1209600s"
     assert_trust_period(default_trust_period)

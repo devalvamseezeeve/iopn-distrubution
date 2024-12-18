@@ -1,4 +1,4 @@
-package cronos
+package iopn
 
 import (
 	"context"
@@ -20,10 +20,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/client/cli"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/simulation"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/client/cli"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/simulation"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 	// this line is used by starport scaffolding # ibc/module/import
 )
 
@@ -179,17 +179,17 @@ func (am AppModule) EndBlock(_ sdk.Context, _ abci.RequestEndBlock) []abci.Valid
 	return []abci.ValidatorUpdate{}
 }
 
-// RegisterStoreDecoder registers a decoder for cronos module's types
+// RegisterStoreDecoder registers a decoder for iopn module's types
 func (am AppModule) RegisterStoreDecoder(sdr sdk.StoreDecoderRegistry) {
 	sdr[types.StoreKey] = simulation.NewDecodeStore()
 }
 
-// GenerateGenesisState creates a randomized GenState of the cronos module.
+// GenerateGenesisState creates a randomized GenState of the iopn module.
 func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 	simulation.RandomizedGenState(simState)
 }
 
-// WeightedOperations returns the all the cronos module operations with their respective weights.
+// WeightedOperations returns the all the iopn module operations with their respective weights.
 func (am AppModule) WeightedOperations(simState module.SimulationState) []simtypes.WeightedOperation {
 	return simulation.WeightedOperations(
 		simState.AppParams, simState.Cdc, am.accountKeeper, am.bankKeeper, &am.keeper,

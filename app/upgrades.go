@@ -12,7 +12,7 @@ import (
 	clientkeeper "github.com/cosmos/ibc-go/v7/modules/core/02-client/keeper"
 	"github.com/ethereum/go-ethereum/common"
 
-	e2eetypes "github.com/crypto-org-chain/cronos/v2/x/e2ee/types"
+	e2eetypes "github.com/devalvamseezeeve/iopn-distrubution/v2/x/e2ee/types"
 )
 
 type contractMigration struct {
@@ -23,14 +23,14 @@ type contractMigration struct {
 
 // ContractMigrations records the list of contract migrations, chain-id -> migrations
 var ContractMigrations = map[string][]contractMigration{
-	"cronostestnet_338-3": {
+	"iopntestnet_338-3": {
 		{
 			Contract: common.HexToAddress("0x6265bf2371ccf45767184c8bd77b5c52e752c2bb"),
 			Slot:     common.BigToHash(big.NewInt(0)),
 			Value:    common.HexToHash("0x000000000000000000000000730CbB94480d50788481373B43d83133e171367e"),
 		},
 	},
-	"cronosmainnet_25-1": {
+	"iopnmainnet_25-1": {
 		{
 			Contract: common.HexToAddress("0x4a91fe94870Ce48fC0bCb7c51d94677E61783401"),
 			Slot:     common.BigToHash(big.NewInt(0)),

@@ -1,9 +1,9 @@
 from .utils import ADDRS, eth_to_bech32, wait_for_new_blocks
 
 
-def test_permissions_updates(cronos):
+def test_permissions_updates(iopn):
     acc = eth_to_bech32(ADDRS["signer1"])
-    cli = cronos.cosmos_cli()
+    cli = iopn.cosmos_cli()
     rsp = cli.query_permissions(acc)
     print("permissions", rsp)
     assert rsp["can_change_token_mapping"] is False

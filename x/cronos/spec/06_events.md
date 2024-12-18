@@ -15,7 +15,7 @@ interface).
 | ---------------- | ------------- | ------------------ |
 | convert_vouchers | `"sender"`    | `{bech32_address}` |
 | convert_vouchers | `"amount"`    | `{amount}`         |
-| message          | module        | cronos             |
+| message          | module        | iopn             |
 | message          | action        | ConvertVouchers    |
 
 ## MsgTransferTokens
@@ -25,7 +25,7 @@ interface).
 | transfer_tokens | `"sender"`    | `{bech32_address}` |
 | transfer_tokens | `"recipient"` | `{bech32_address}` |
 | transfer_tokens | `"amount"`    | `{amount}`         |
-| message         | module        | cronos             |
+| message         | module        | iopn             |
 | message         | action        | TransferTokens     |
 
 ## MsgUpdateTokenMapping

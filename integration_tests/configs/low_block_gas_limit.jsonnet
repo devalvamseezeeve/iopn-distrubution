@@ -1,7 +1,7 @@
 local config = import 'default.jsonnet';
 
 config {
-  'cronos_777-1'+: {
+  'iopn_777-1'+: {
     'app-config'+: {
       evm+: {
         'max-tx-gas-wanted': 1,

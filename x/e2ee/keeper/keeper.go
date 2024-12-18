@@ -7,7 +7,7 @@ import (
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/crypto-org-chain/cronos/v2/x/e2ee/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/e2ee/types"
 )
 
 type Keeper struct {

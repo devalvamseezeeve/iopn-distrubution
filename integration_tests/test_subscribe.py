@@ -80,12 +80,12 @@ class Client:
 TEST_EVENT_TOPIC = Web3.keccak(text="TestEvent(uint256)")
 
 
-def test_subscribe_basic(cronos: Cronos):
+def test_subscribe_basic(iopn: Cronos):
     """
     test basic subscribe and unsubscribe
     """
-    wait_for_port(ports.evmrpc_ws_port(cronos.base_port(0)))
-    cli = cronos.cosmos_cli()
+    wait_for_port(ports.evmrpc_ws_port(iopn.base_port(0)))
+    cli = iopn.cosmos_cli()
     loop = asyncio.get_event_loop()
 
     async def assert_unsubscribe(c: Client, sub_id):
@@ -146,18 +146,18 @@ def test_subscribe_basic(cronos: Cronos):
         await assert_unsubscribe(c, sub_id)
 
     async def async_test():
-        async with websockets.connect(cronos.w3_ws_endpoint()) as ws:
+        async with websockets.connect(iopn.w3_ws_endpoint()) as ws:
             c = Client(ws)
             t = asyncio.create_task(c.receive_loop())
             # run three subscribers concurrently
             await asyncio.gather(*[subscriber_test(c) for i in range(3)])
-            contract = deploy_contract(cronos.w3, CONTRACTS["TestERC20A"])
+            contract = deploy_contract(iopn.w3, CONTRACTS["TestERC20A"])
             address = contract.address
-            await transfer_test(c, cronos.w3, contract, address)
-            contract = deploy_contract(cronos.w3, CONTRACTS["TestMessageCall"])
+            await transfer_test(c, iopn.w3, contract, address)
+            contract = deploy_contract(iopn.w3, CONTRACTS["TestMessageCall"])
             inner = contract.caller.inner()
             begin = time.time()
-            await logs_test(c, cronos.w3, contract, inner)
+            await logs_test(c, iopn.w3, contract, inner)
             print("msg call time", time.time() - begin)
             t.cancel()
             try:

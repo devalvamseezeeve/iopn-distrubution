@@ -10,8 +10,8 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	cronoskeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	iopnkeeper "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 var _ types.EvmLogHandler = SendToEvmChainHandler{}
@@ -82,14 +82,14 @@ func init() {
 type SendToEvmChainHandler struct {
 	gravitySrv   gravitytypes.MsgServer
 	bankKeeper   types.BankKeeper
-	cronosKeeper cronoskeeper.Keeper
+	iopnKeeper iopnkeeper.Keeper
 }
 
-func NewSendToEvmChainHandler(gravitySrv gravitytypes.MsgServer, bankKeeper types.BankKeeper, cronosKeeper cronoskeeper.Keeper) *SendToEvmChainHandler {
+func NewSendToEvmChainHandler(gravitySrv gravitytypes.MsgServer, bankKeeper types.BankKeeper, iopnKeeper iopnkeeper.Keeper) *SendToEvmChainHandler {
 	return &SendToEvmChainHandler{
 		gravitySrv:   gravitySrv,
 		bankKeeper:   bankKeeper,
-		cronosKeeper: cronosKeeper,
+		iopnKeeper: iopnKeeper,
 	}
 }
 
@@ -111,9 +111,9 @@ func (h SendToEvmChainHandler) Handle(
 
 	if len(topics) != 4 {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Info("log signature matches but wrong number of indexed events")
+		h.iopnKeeper.Logger(ctx).Info("log signature matches but wrong number of indexed events")
 		for i, topic := range topics {
-			h.cronosKeeper.Logger(ctx).Debug(fmt.Sprintf("topic index: %d value: %s", i, topic.TerminalString()))
+			h.iopnKeeper.Logger(ctx).Debug(fmt.Sprintf("topic index: %d value: %s", i, topic.TerminalString()))
 		}
 		return nil
 	}
@@ -121,17 +121,17 @@ func (h SendToEvmChainHandler) Handle(
 	unpacked, err := SendToEvmChainEvent.Inputs.Unpack(data)
 	if err != nil {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
+		h.iopnKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
 		return nil
 	}
 
-	denom, found := h.cronosKeeper.GetDenomByContract(ctx, contract)
+	denom, found := h.iopnKeeper.GetDenomByContract(ctx, contract)
 	if !found {
 		return fmt.Errorf("contract %s is not connected to native token", contract)
 	}
 
 	if !types.IsValidGravityDenom(denom) && !types.IsValidCronosDenom(denom) {
-		return fmt.Errorf("the native token associated with the contract %s is neither a gravity voucher or a cronos token", contract)
+		return fmt.Errorf("the native token associated with the contract %s is neither a gravity voucher or a iopn token", contract)
 	}
 
 	contractCosmosAddr := sdk.AccAddress(contract.Bytes())

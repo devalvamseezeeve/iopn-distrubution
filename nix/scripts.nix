@@ -1,13 +1,13 @@
 {
   pkgs,
   config,
-  cronos ? (import ../. { inherit pkgs; }),
+  iopn ? (import ../. { inherit pkgs; }),
 }:
 rec {
-  start-cronos = pkgs.writeShellScriptBin "start-cronos" ''
-    # rely on environment to provide cronosd
+  start-iopn = pkgs.writeShellScriptBin "start-iopn" ''
+    # rely on environment to provide iopnd
     export PATH=${pkgs.test-env}/bin:$PATH
-    ${../scripts/start-cronos} ${config.cronos-config} ${config.dotenv} $@
+    ${../scripts/start-iopn} ${config.iopn-config} ${config.dotenv} $@
   '';
   start-geth = pkgs.writeShellScriptBin "start-geth" ''
     export PATH=${pkgs.test-env}/bin:${pkgs.go-ethereum}/bin:$PATH
@@ -17,7 +17,7 @@ rec {
   start-scripts = pkgs.symlinkJoin {
     name = "start-scripts";
     paths = [
-      start-cronos
+      start-iopn
       start-geth
     ];
   };

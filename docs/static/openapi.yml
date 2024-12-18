@@ -23215,7 +23215,7 @@ definitions:
     description: >-
       MsgCreateVestingAccountResponse defines the Msg/CreateVestingAccount
       response type.
-  cryptoorgchain.cronos.cronos.MsgConvertResponse:
+  cryptoorgchain.iopn.iopn.MsgConvertResponse:
     type: object
     description: MsgConvertResponse defines the MsgConvert response type.
   ethermint.evm.v1.ChainConfig:

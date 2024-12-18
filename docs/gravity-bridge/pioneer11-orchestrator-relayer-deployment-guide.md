@@ -19,15 +19,15 @@ You can use a nodes as a service provider as discussed [here](https://ethereum.o
 
 ### Binaries
 
--  `cronosd` version: `0.8.0` , the cronos node binary found at https://github.com/crypto-org-chain/cronos/releases/tag/v0.8.0-gravity-alpha0. You will need to use one of the testnet binaries according to your OS/ Arch.
+-  `iopnd` version: `0.8.0` , the iopn node binary found at https://github.com/devalvamseezeeve/iopn-distrubution/releases/tag/v0.8.0-gravity-alpha0. You will need to use one of the testnet binaries according to your OS/ Arch.
 
-- `gorc`, the gravity bridge orchestrator cli, build instructions can be found [here](gorc-build.md). Alternatively, you can download Linux x86_64 binary from [here](https://github.com/crypto-org-chain/gravity-bridge/releases/tag/v2.0.0-cronos-alpha0)
+- `gorc`, the gravity bridge orchestrator cli, build instructions can be found [here](gorc-build.md). Alternatively, you can download Linux x86_64 binary from [here](https://github.com/crypto-org-chain/gravity-bridge/releases/tag/v2.0.0-iopn-alpha0)
 
 - Above binaries setup in `PATH`.
 
 ## Generate Orchestrator Keys and Config
 
-You need to prepare two accounts for the orchestrator, one for ethereum and one for cronos. You should transfer some funds to these accounts, so the orchestrator can cover the gas fees of message relaying later on.
+You need to prepare two accounts for the orchestrator, one for ethereum and one for iopn. You should transfer some funds to these accounts, so the orchestrator can cover the gas fees of message relaying later on.
 
 Please follow the [gorc-keystores](gorc-keystores.md) guide for this step.
 
@@ -48,7 +48,7 @@ You should transfer funds to the Ethereum and Cronos accounts generated earlier.
 	If you have your validator key set up locally, you can run:
 
 	```bash
-	cronosd keys show $val_key_name --bech val --output json | jq .address
+	iopnd keys show $val_key_name --bech val --output json | jq .address
 	```
 
 	Sample out:
@@ -59,7 +59,7 @@ You should transfer funds to the Ethereum and Cronos accounts generated earlier.
 	If you have your validator key set up locally, you can run:
 
 	```bash
-	cronosd keys show $val_key_name --output json | jq .address
+	iopnd keys show $val_key_name --output json | jq .address
 	```
 
 	Sample out:
@@ -68,7 +68,7 @@ You should transfer funds to the Ethereum and Cronos accounts generated earlier.
 3. Get validator current `nonce`:
 
 	```bash
-	cronosd query auth account $val_account_add_from_2 --output json | jq .base_account.sequence
+	iopnd query auth account $val_account_add_from_2 --output json | jq .base_account.sequence
 	```
 
   Sample out:
@@ -98,12 +98,12 @@ Note that:
 ## Register Orchestrator With Cronos Validator
 
 
-At last, send the orchestrator's Ethereum address, Cronos address, and the signature we just signed above to a Cronos validator, the validator should send a `set-delegate-keys` transaction to cronos network to register the binding:
+At last, send the orchestrator's Ethereum address, Cronos address, and the signature we just signed above to a Cronos validator, the validator should send a `set-delegate-keys` transaction to iopn network to register the binding:
 
 
 ```bash
 
-cronosd tx gravity set-delegate-keys $val_address  $orchestrator_cronos_address  $orchestrator_eth_address  $signature --from $val_account_address --gas auto --chain-id pioneereleventestnet_340-1 -b block
+iopnd tx gravity set-delegate-keys $val_address  $orchestrator_iopn_address  $orchestrator_eth_address  $signature --from $val_account_address --gas auto --chain-id pioneereleventestnet_340-1 -b block
 
 ```
 
@@ -115,7 +115,7 @@ You might also need to pass `--fees` flag.
 In order to run the orchestrator, you will need to set RELAYER_API_URL environment variable to point to Cronos public relayer API:
 
 ```bash
-export RELAYER_API_URL=https://cronos.org/pioneer11/relayer/relayer
+export RELAYER_API_URL=https://iopn.org/pioneer11/relayer/relayer
 ```
 
 To read more about the relayer modes, you can check out [gravity-bridge-relayer-modes.md](gravity-bridge-relayer-modes.md).
@@ -138,7 +138,7 @@ The orchestrator is running now.
 To set up the Orchestrator (and relayer) as a service, you can run:
 
 ```bash
-bash <(curl -s -L https://raw.githubusercontent.com/crypto-org-chain/cronos/main/docs/gravity-bridge/systemd/setup-gorc-service.sh) -t orchestrator
+bash <(curl -s -L https://raw.githubusercontent.com/crypto-org-chain/iopn/main/docs/gravity-bridge/systemd/setup-gorc-service.sh) -t orchestrator
 ```
 
 You will be prompted for your key names set up earlier. After the service is created, you can run:
@@ -176,11 +176,11 @@ Here are the deployed token mappings:
 ### Code
 
 1. CronosGravity :
-   - https://github.com/crypto-org-chain/gravity-bridge/blob/v2.0.0-cronos-alpha0/solidity/contracts/CronosGravity.sol
+   - https://github.com/crypto-org-chain/gravity-bridge/blob/v2.0.0-iopn-alpha0/solidity/contracts/CronosGravity.sol
 
 2. Eth Gravity Wrapper :
-   -  https://github.com/crypto-org-chain/gravity-bridge/blob/v2.0.0-cronos-alpha0/solidity/contracts/EthGravityWrapper.sol
+   -  https://github.com/crypto-org-chain/gravity-bridge/blob/v2.0.0-iopn-alpha0/solidity/contracts/EthGravityWrapper.sol
 
 3. CroBridge :
-   - https://github.com/crypto-org-chain/cronos/blob/v0.8.0-gravity-alpha0/integration_tests/contracts/contracts/CroBridge.sol
+   - https://github.com/devalvamseezeeve/iopn-distrubution/blob/v0.8.0-gravity-alpha0/integration_tests/contracts/contracts/CroBridge.sol
 

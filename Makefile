@@ -1,4 +1,4 @@
-BUILDDIR ?= $(CURDIR)/build
+BUILDDIR ?= $(CURDIR)/custom_build_dir
 PACKAGES=$(shell go list ./... | grep -v '/simulation')
 COVERAGE ?= coverage.txt
 
@@ -79,8 +79,8 @@ comma := ,
 build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
 # process linker flags
-ldflags += -X github.com/cosmos/cosmos-sdk/version.Name=cronos \
-	-X github.com/cosmos/cosmos-sdk/version.AppName=cronosd \
+ldflags += -X github.com/cosmos/cosmos-sdk/version.Name=iopn \
+	-X github.com/cosmos/cosmos-sdk/version.AppName=iopnd \
 	-X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 	-X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 	-X github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)
@@ -93,10 +93,10 @@ endif
 
 all: build
 build: check-network print-ledger go.sum
-	@go build -mod=readonly $(BUILD_FLAGS) -o $(BUILDDIR)/iopnd ./cmd/cronosd
+	@go build -mod=readonly $(BUILD_FLAGS) -o $(BUILDDIR)/iopnd ./cmd/iopnd
 
 install: check-network print-ledger go.sum
-	@go install -mod=readonly $(BUILD_FLAGS) ./cmd/cronosd
+	@go install -mod=readonly $(BUILD_FLAGS) ./cmd/iopnd
 
 test: test-memiavl test-store
 	@go test -v -mod=readonly $(PACKAGES) -coverprofile=$(COVERAGE) -covermode=atomic;
@@ -148,7 +148,7 @@ release-dry-run:
 ###                                Sim Test                                 ###
 ###############################################################################
 
-SIMAPP = github.com/crypto-org-chain/cronos/v2/app
+SIMAPP = github.com/devalvamseezeeve/iopn-distrubution/v2/app
 
 # Install the runsim binary with a temporary workaround of entering an outside
 # directory as the "go get" command ignores the -mod option and will polute the
@@ -180,8 +180,8 @@ test-sim-after-import: runsim
 
 test-sim-custom-genesis-multi-seed: runsim
 	@echo "Running multi-seed custom genesis simulation..."
-	@echo "By default, ${HOME}/.cronosd/config/genesis.json will be used."
-	@$(BINDIR)/runsim -Genesis=${HOME}/.cronosd/config/genesis.json -SimAppPkg=$(SIMAPP) -ExitOnFail 400 5 TestFullAppSimulation
+	@echo "By default, ${HOME}/.iopnd/config/genesis.json will be used."
+	@$(BINDIR)/runsim -Genesis=${HOME}/.iopnd/config/genesis.json -SimAppPkg=$(SIMAPP) -ExitOnFail 400 5 TestFullAppSimulation
 
 test-sim-multi-seed-long: runsim
 	@echo "Running long multi-seed application simulation. This may take awhile!"
@@ -243,18 +243,18 @@ run-integration-tests:
 ###                                Utility                                  ###
 ###############################################################################
 
-test-cronos-contracts:
+test-iopn-contracts:
 	@git submodule update --init --recursive
-	@nix-shell ./contracts/shell.nix --pure --run ./scripts/test-cronos-contracts
+	@nix-shell ./contracts/shell.nix --pure --run ./scripts/test-iopn-contracts
 
-gen-cronos-contracts:
+gen-iopn-contracts:
 	@git submodule update --init --recursive
-	@nix-shell ./contracts/shell.nix --pure --run ./scripts/gen-cronos-contracts
+	@nix-shell ./contracts/shell.nix --pure --run ./scripts/gen-iopn-contracts
 
 gen-bindings-contracts:
 	@nix-shell ./nix/gen-binding-shell.nix --pure --run ./scripts/gen-bindings-contracts
 
-.PHONY: gen-cronos-contracts gen-bindings-contracts test-cronos-contracts
+.PHONY: gen-iopn-contracts gen-bindings-contracts test-iopn-contracts
 
 check-network:
 ifeq ($(NETWORK),mainnet)
@@ -273,7 +273,7 @@ endif
 ###                                Protobuf                                 ###
 ###############################################################################
 
-HTTPS_GIT := https://github.com/crypto-org-chain/cronos.git
+HTTPS_GIT := https://github.com/devalvamseezeeve/iopn-distrubution.git
 protoVer=0.11.6
 protoImageName=ghcr.io/cosmos/proto-builder:$(protoVer)
 protoImageCi=$(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace --user root $(protoImageName)

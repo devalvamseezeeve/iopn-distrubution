@@ -8,17 +8,17 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	"github.com/crypto-org-chain/cronos/v2/app"
-	cronosmodulekeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	keepertest "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/mock"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/app"
+	iopnmodulekeeper "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	keepertest "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper/mock"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/evmos/ethermint/crypto/ethsecp256k1"
 )
 
 const (
 	CorrectIbcDenom    = "ibc/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-	CorrectCronosDenom = "cronos0xc1b37f2abdb778f540fa5db8e1fd2eadfc9a05ed"
+	CorrectCronosDenom = "iopn0xc1b37f2abdb778f540fa5db8e1fd2eadfc9a05ed"
 )
 
 func (suite *KeeperTestSuite) TestConvertVouchersToEvmCoins() {
@@ -190,7 +190,7 @@ func (suite *KeeperTestSuite) TestIbcTransferCoins() {
 			sdk.NewCoins(sdk.NewCoin("fake", sdk.NewInt(1))),
 			"channel-0",
 			func() {},
-			errors.New("the coin fake is neither an ibc voucher or a cronos token"),
+			errors.New("the coin fake is neither an ibc voucher or a iopn token"),
 			func() {},
 		},
 		{
@@ -250,7 +250,7 @@ func (suite *KeeperTestSuite) TestIbcTransferCoins() {
 				// Add support for the IBC token
 				suite.app.CronosKeeper.SetAutoContractForDenom(suite.ctx, "incorrect", common.HexToAddress("0x11"))
 			},
-			errors.New("the coin incorrect is neither an ibc voucher or a cronos token"),
+			errors.New("the coin incorrect is neither an ibc voucher or a iopn token"),
 			func() {
 			},
 		},
@@ -292,7 +292,7 @@ func (suite *KeeperTestSuite) TestIbcTransferCoins() {
 		suite.Run(tc.name, func() {
 			suite.SetupTest() // reset
 			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			iopnKeeper := *iopnmodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -303,7 +303,7 @@ func (suite *KeeperTestSuite) TestIbcTransferCoins() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			suite.app.CronosKeeper = cronosKeeper
+			suite.app.CronosKeeper = iopnKeeper
 
 			tc.malleate()
 			err := suite.app.CronosKeeper.IbcTransferCoins(suite.ctx, tc.from, tc.to, tc.coin, tc.channelId)

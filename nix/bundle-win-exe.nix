@@ -8,11 +8,11 @@
   snappy,
   zstd,
   zlib,
-  cronosd,
+  iopnd,
 }:
-runCommand "tarball-${cronosd.name}"
+runCommand "tarball-${iopnd.name}"
   {
-    # manually enumerate the runtime dependencies of cronosd on mingwW64
+    # manually enumerate the runtime dependencies of iopnd on mingwW64
     deps = [
       "${rocksdb}/bin/librocksdb-shared.dll"
       "${snappy}/bin/libsnappy.dll"
@@ -33,5 +33,5 @@ runCommand "tarball-${cronosd.name}"
       cp $so $out/
     done
 
-    cp ${cronosd}/bin/${cronosd.meta.mainProgram} $out/
+    cp ${iopnd}/bin/${iopnd.meta.mainProgram} $out/
   ''

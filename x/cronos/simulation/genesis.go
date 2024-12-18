@@ -9,13 +9,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 const (
 	ibcCroDenomKey          = "ibc_cro_denom"
 	ibcTimeoutKey           = "ibc_timeout"
-	cronosAdminKey          = "cronos_admin"
+	iopnAdminKey          = "iopn_admin"
 	enableAutoDeploymentKey = "enable_auto_deployment"
 	maxCallbackGasKey       = "max_callback_gas"
 )
@@ -45,13 +45,13 @@ func GenMaxCallbackGas(r *rand.Rand) uint64 {
 	return maxCallbackGas
 }
 
-// RandomizedGenState generates a random GenesisState for the cronos module
+// RandomizedGenState generates a random GenesisState for the iopn module
 func RandomizedGenState(simState *module.SimulationState) {
-	// cronos params
+	// iopn params
 	var (
 		ibcCroDenom          string
 		ibcTimeout           uint64
-		cronosAdmin          string
+		iopnAdmin          string
 		enableAutoDeployment bool
 		maxCallbackGas       uint64
 	)
@@ -67,8 +67,8 @@ func RandomizedGenState(simState *module.SimulationState) {
 	)
 
 	simState.AppParams.GetOrGenerate(
-		simState.Cdc, cronosAdminKey, &cronosAdmin, simState.Rand,
-		func(r *rand.Rand) { cronosAdmin = GenCronosAdmin(r, simState) },
+		simState.Cdc, iopnAdminKey, &iopnAdmin, simState.Rand,
+		func(r *rand.Rand) { iopnAdmin = GenCronosAdmin(r, simState) },
 	)
 
 	simState.AppParams.GetOrGenerate(
@@ -81,18 +81,18 @@ func RandomizedGenState(simState *module.SimulationState) {
 		func(r *rand.Rand) { maxCallbackGas = GenIbcTimeout(r) },
 	)
 
-	params := types.NewParams(ibcCroDenom, ibcTimeout, cronosAdmin, enableAutoDeployment, maxCallbackGas)
-	cronosGenesis := &types.GenesisState{
+	params := types.NewParams(ibcCroDenom, ibcTimeout, iopnAdmin, enableAutoDeployment, maxCallbackGas)
+	iopnGenesis := &types.GenesisState{
 		Params:            params,
 		ExternalContracts: nil,
 		AutoContracts:     nil,
 	}
 
-	bz, err := json.MarshalIndent(cronosGenesis, "", " ")
+	bz, err := json.MarshalIndent(iopnGenesis, "", " ")
 	if err != nil {
 		panic(err)
 	}
 	fmt.Printf("Selected randomly generated %s parameters:\n%s\n", types.ModuleName, bz)
 
-	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(cronosGenesis)
+	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(iopnGenesis)
 }

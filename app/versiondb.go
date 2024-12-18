@@ -9,8 +9,8 @@ import (
 
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/crypto-org-chain/cronos/versiondb"
-	"github.com/crypto-org-chain/cronos/versiondb/tsrocksdb"
+	"github.com/devalvamseezeeve/iopn-distrubution/versiondb"
+	"github.com/devalvamseezeeve/iopn-distrubution/versiondb/tsrocksdb"
 )
 
 func (app *App) setupVersionDB(
@@ -35,7 +35,7 @@ func (app *App) setupVersionDB(
 		exposeStoreKeys = append(exposeStoreKeys, storeKey)
 	}
 
-	// see: https://github.com/crypto-org-chain/cronos/issues/1683
+	// see: https://github.com/devalvamseezeeve/iopn-distrubution/issues/1683
 	versionDB.SetSkipVersionZero(true)
 
 	service := versiondb.NewStreamingService(versionDB, exposeStoreKeys)

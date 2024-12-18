@@ -8,7 +8,7 @@
 
 Convert native tokens to the mapped CRC20 tokens, if the mapping does not exist and auto-deployment is enabled, an embed CRC20 contract is deployed for it automatically, otherwise, the message fails.
 
-+++ https://github.com/crypto-org-chain/cronos/blob/v0.6.0-testnet/proto/cronos/tx.proto#L26-L30
++++ https://github.com/devalvamseezeeve/iopn-distrubution/blob/v0.6.0-testnet/proto/iopn/tx.proto#L26-L30
 
 This message is expected to fail if:
 
@@ -28,7 +28,7 @@ Transfer IBC tokens (including CRO) away from Cronos chain, decimals conversion 
 
 It calls the ibc transfer module internally, the `timeoutHeight` parameter is hardcoded to zero, the `timeoutTimestamp` parameter is set according the `IbcTimeout` module parameter.
 
-+++ https://github.com/crypto-org-chain/cronos/blob/v0.6.0-testnet/proto/cronos/tx.proto#L33-L38
++++ https://github.com/devalvamseezeeve/iopn-distrubution/blob/v0.6.0-testnet/proto/iopn/tx.proto#L33-L38
 
 This message is expected to fail if:
 
@@ -45,7 +45,7 @@ Fields:
 
 Update external token mapping, insert if not exists, can only be called by Cronos admin account, which is configured in module parameters.
 
-+++ https://github.com/crypto-org-chain/cronos/blob/v0.6.0-testnet/proto/cronos/tx.proto#L47-L51
++++ https://github.com/devalvamseezeeve/iopn-distrubution/blob/v0.6.0-testnet/proto/iopn/tx.proto#L47-L51
 
 This message is expected to fail if:
 

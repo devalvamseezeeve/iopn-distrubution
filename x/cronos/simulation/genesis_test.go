@@ -12,8 +12,8 @@ import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/simulation"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/simulation"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 // TestRandomizedGenState tests the normal scenario of applying RandomizedGenState.
@@ -38,14 +38,14 @@ func TestRandomizedGenState(t *testing.T) {
 
 	simulation.RandomizedGenState(&simState)
 
-	var cronosGenesis types.GenesisState
-	simState.Cdc.MustUnmarshalJSON(simState.GenState[types.ModuleName], &cronosGenesis)
+	var iopnGenesis types.GenesisState
+	simState.Cdc.MustUnmarshalJSON(simState.GenState[types.ModuleName], &iopnGenesis)
 
-	require.Equal(t, "ibc/7939cb6694d2c422acd208a0072939487f6999eb9d18a44784045d87f3c67cf2", cronosGenesis.Params.GetIbcCroDenom())
-	require.Equal(t, uint64(0x68255aaf95e94627), cronosGenesis.Params.GetIbcTimeout())
-	require.Equal(t, "cosmos1tnh2q55v8wyygtt9srz5safamzdengsnqeycj3", cronosGenesis.Params.GetCronosAdmin())
-	require.Equal(t, true, cronosGenesis.Params.GetEnableAutoDeployment())
+	require.Equal(t, "ibc/7939cb6694d2c422acd208a0072939487f6999eb9d18a44784045d87f3c67cf2", iopnGenesis.Params.GetIbcCroDenom())
+	require.Equal(t, uint64(0x68255aaf95e94627), iopnGenesis.Params.GetIbcTimeout())
+	require.Equal(t, "cosmos1tnh2q55v8wyygtt9srz5safamzdengsnqeycj3", iopnGenesis.Params.GetCronosAdmin())
+	require.Equal(t, true, iopnGenesis.Params.GetEnableAutoDeployment())
 
-	require.Equal(t, len(cronosGenesis.ExternalContracts), 0)
-	require.Equal(t, len(cronosGenesis.AutoContracts), 0)
+	require.Equal(t, len(iopnGenesis.ExternalContracts), 0)
+	require.Equal(t, len(iopnGenesis.AutoContracts), 0)
 }

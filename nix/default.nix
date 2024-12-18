@@ -27,7 +27,7 @@ import sources.nixpkgs {
       import ./scripts.nix {
         inherit pkgs;
         config = {
-          cronos-config = ../scripts/cronos-devnet.yaml;
+          iopn-config = ../scripts/iopn-devnet.yaml;
           geth-genesis = ../scripts/geth-genesis.json;
           dotenv = builtins.path {
             name = "dotenv";

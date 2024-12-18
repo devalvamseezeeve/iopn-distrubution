@@ -10,7 +10,7 @@ import (
 	tmtypes "github.com/cometbft/cometbft/types"
 	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
 
-	"github.com/crypto-org-chain/cronos/v2/app"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/app"
 )
 
 // New creates application instance with in-memory database and disabled logging.

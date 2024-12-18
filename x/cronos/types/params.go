@@ -33,18 +33,18 @@ func ParamKeyTable() paramtypes.KeyTable {
 	return paramtypes.NewKeyTable().RegisterParamSet(&Params{})
 }
 
-// NewParams creates a new parameter configuration for the cronos module
-func NewParams(ibcCroDenom string, ibcTimeout uint64, cronosAdmin string, enableAutoDeployment bool, maxCallbackGas uint64) Params {
+// NewParams creates a new parameter configuration for the iopn module
+func NewParams(ibcCroDenom string, ibcTimeout uint64, iopnAdmin string, enableAutoDeployment bool, maxCallbackGas uint64) Params {
 	return Params{
 		IbcCroDenom:          ibcCroDenom,
 		IbcTimeout:           ibcTimeout,
-		CronosAdmin:          cronosAdmin,
+		CronosAdmin:          iopnAdmin,
 		EnableAutoDeployment: enableAutoDeployment,
 		MaxCallbackGas:       maxCallbackGas,
 	}
 }
 
-// DefaultParams is the default parameter configuration for the cronos module
+// DefaultParams is the default parameter configuration for the iopn module
 func DefaultParams() Params {
 	return Params{
 		IbcCroDenom:          IbcCroDenomDefaultValue,
@@ -55,7 +55,7 @@ func DefaultParams() Params {
 	}
 }
 
-// Validate all cronos module parameters
+// Validate all iopn module parameters
 func (p Params) Validate() error {
 	if err := validateIsUint64(p.IbcTimeout); err != nil {
 		return err

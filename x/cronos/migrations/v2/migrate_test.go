@@ -6,9 +6,9 @@ import (
 	simappparams "cosmossdk.io/simapp/params"
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/exported"
-	v2 "github.com/crypto-org-chain/cronos/v2/x/cronos/migrations/v2"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/exported"
+	v2 "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/migrations/v2"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 	"github.com/stretchr/testify/require"
 )
 

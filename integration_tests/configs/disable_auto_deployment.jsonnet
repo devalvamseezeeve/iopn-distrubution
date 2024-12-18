@@ -1,7 +1,7 @@
 local config = import 'default.jsonnet';
 
 config {
-  'cronos_777-1'+: {
+  'iopn_777-1'+: {
     'start-flags': '--trace --inv-check-period 5',
     'app-config'+: {
       'minimum-gas-prices':: super['minimum-gas-prices'],
@@ -16,9 +16,9 @@ config {
     }],
     genesis+: {
       app_state+: {
-        cronos: {
+        iopn: {
           params: {
-            cronos_admin: 'crc12luku6uxehhak02py4rcz65zu0swh7wjsrw0pp',
+            iopn_admin: 'crc12luku6uxehhak02py4rcz65zu0swh7wjsrw0pp',
             enable_auto_deployment: false,
           },
         },

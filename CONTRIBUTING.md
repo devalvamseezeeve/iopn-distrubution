@@ -14,11 +14,11 @@ All contributors are expected to follow our [Code of Conduct](CODE_OF_CONDUCT.md
 
 ## Requests involving no code changes (e.g. conventions, processes or network parameters)
 
-Requests involving no code changes (e.g. conventions, processes or network parameters) should be posted as [GitHub Discussions](https://github.com/crypto-org-chain/cronos/discussions) threads to allow for early feedback before e.g. being submitted for formal network governance decisions.
+Requests involving no code changes (e.g. conventions, processes or network parameters) should be posted as [GitHub Discussions](https://github.com/devalvamseezeeve/iopn-distrubution/discussions) threads to allow for early feedback before e.g. being submitted for formal network governance decisions.
 
 ## Feature requests and bug reports
 
-Feature requests and bug reports should be posted as [GitHub issues](https://github.com/crypto-org-chain/cronos/issues/new/choose).
+Feature requests and bug reports should be posted as [GitHub issues](https://github.com/devalvamseezeeve/iopn-distrubution/issues/new/choose).
 In an issue, please describe what you did, what you expected, and what happened instead.
 
 If you think that you have identified an issue with Chain that might compromise
@@ -28,7 +28,7 @@ we ask you to refer to [security policy](SECURITY.md).
 ## Consensus-breaking and large structural code changes
 
 When the issue is well understood but the solution leads to a consensus-breaking change (i.e. a need for the network-wide upgrade coordination) or large structural changes to the code base, these changes should be proposed in the form of an Architectural Decision Record
-([ADR](https://github.com/crypto-org-chain/cronos/blob/master/docs/architecture/README.md)). The ADR will help build consensus on an overall strategy to ensure the code base maintains coherence in the larger context. If you are not comfortable with writing an ADR, you can open a less-formal issue and the maintainers will help you turn it into an ADR.
+([ADR](https://github.com/devalvamseezeeve/iopn-distrubution/blob/master/docs/architecture/README.md)). The ADR will help build consensus on an overall strategy to ensure the code base maintains coherence in the larger context. If you are not comfortable with writing an ADR, you can open a less-formal issue and the maintainers will help you turn it into an ADR.
 
 ## Working on issues
 There are several ways to identify an area where you can contribute to Cronos:

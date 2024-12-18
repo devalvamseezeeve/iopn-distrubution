@@ -10,7 +10,7 @@ pkgs.mkShell {
     pkgs.jq
     pkgs.go
     pkgs.gomod2nix
-    (pkgs.callPackage ../. { coverage = true; }) # cronosd
+    (pkgs.callPackage ../. { coverage = true; }) # iopnd
     pkgs.start-scripts
     pkgs.go-ethereum
     pkgs.cosmovisor

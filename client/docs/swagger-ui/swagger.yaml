@@ -4,7 +4,7 @@ info:
   description: A REST interface for state queries
   version: 1.0.0
 paths:
-  /cronos/v1/contract_by_denom/{denom}:
+  /iopn/v1/contract_by_denom/{denom}:
     get:
       summary: ContractByDenom queries contract addresses by native denom
       operationId: ContractByDenom
@@ -217,7 +217,7 @@ paths:
           type: string
       tags:
         - Query
-  /cronos/v1/denom_by_contract/{contract}:
+  /iopn/v1/denom_by_contract/{contract}:
     get:
       summary: DenomByContract queries native denom by contract address
       operationId: DenomByContract
@@ -428,7 +428,7 @@ paths:
           type: string
       tags:
         - Query
-  /cronos/v1/params:
+  /iopn/v1/params:
     get:
       summary: Params queries all parameters.
       operationId: EvmParams
@@ -447,7 +447,7 @@ paths:
                   ibc_timeout:
                     type: string
                     format: uint64
-                  cronos_admin:
+                  iopn_admin:
                     type: string
                     title: the admin address who can update token mapping
                   enable_auto_deployment:
@@ -649,7 +649,7 @@ paths:
                         }
       tags:
         - Query
-  /cronos/v1/permissions:
+  /iopn/v1/permissions:
     get:
       summary: Params queries permissions for a specific address..
       operationId: Permissions
@@ -42374,7 +42374,7 @@ paths:
                       format: byte
       tags:
         - Query
-  /cronos/icaauth/v1/interchain_account_address/{connection_id}/{owner}:
+  /iopn/icaauth/v1/interchain_account_address/{connection_id}/{owner}:
     get:
       summary: >-
         InterchainAccountAddress queries the interchain account address for
@@ -42426,7 +42426,7 @@ paths:
           type: string
       tags:
         - Query
-  /cronos/icaauth/v1/params:
+  /iopn/icaauth/v1/params:
     get:
       summary: Parameters queries the parameters of the module.
       operationId: IcaauthParams
@@ -42476,7 +42476,7 @@ paths:
       tags:
         - Query
 definitions:
-  cronos.ContractByDenomResponse:
+  iopn.ContractByDenomResponse:
     type: object
     properties:
       contract:
@@ -42484,13 +42484,13 @@ definitions:
       auto_contract:
         type: string
     title: ContractByDenomRequest is the response type of ContractByDenom call
-  cronos.DenomByContractResponse:
+  iopn.DenomByContractResponse:
     type: object
     properties:
       denom:
         type: string
     title: DenomByContractResponse is the response type of DenomByContract call
-  cronos.Params:
+  iopn.Params:
     type: object
     properties:
       ibc_cro_denom:
@@ -42498,7 +42498,7 @@ definitions:
       ibc_timeout:
         type: string
         format: uint64
-      cronos_admin:
+      iopn_admin:
         type: string
         title: the admin address who can update token mapping
       enable_auto_deployment:
@@ -42506,8 +42506,8 @@ definitions:
       max_callback_gas:
         type: string
         format: uint64
-    description: Params defines the parameters for the cronos module.
-  cronos.QueryParamsResponse:
+    description: Params defines the parameters for the iopn module.
+  iopn.QueryParamsResponse:
     type: object
     properties:
       params:
@@ -42519,7 +42519,7 @@ definitions:
           ibc_timeout:
             type: string
             format: uint64
-          cronos_admin:
+          iopn_admin:
             type: string
             title: the admin address who can update token mapping
           enable_auto_deployment:
@@ -42528,7 +42528,7 @@ definitions:
             type: string
             format: uint64
     description: QueryParamsResponse is the response type for the Query/Params RPC method.
-  cronos.QueryPermissionsResponse:
+  iopn.QueryPermissionsResponse:
     type: object
     properties:
       can_change_token_mapping:
@@ -42540,7 +42540,7 @@ definitions:
       RPC
 
       method.
-  cronos.ReplayBlockResponse:
+  iopn.ReplayBlockResponse:
     type: object
     properties:
       responses:

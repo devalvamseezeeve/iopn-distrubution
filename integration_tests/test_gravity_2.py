@@ -3,7 +3,7 @@ from eth_account.account import Account
 from hexbytes import HexBytes
 
 from .gravity_utils import prepare_gravity, setup_cosmos_erc20_contract
-from .network import setup_cronos, setup_geth
+from .network import setup_iopn, setup_geth
 from .utils import (
     ADDRS,
     CONTRACTS,
@@ -32,17 +32,17 @@ def custom_geth(tmp_path_factory):
 
 
 @pytest.fixture(scope="module", params=[True, False])
-def custom_cronos(request, tmp_path_factory):
-    yield from setup_cronos(tmp_path_factory.mktemp("cronos"), 26600, request.param)
+def custom_iopn(request, tmp_path_factory):
+    yield from setup_iopn(tmp_path_factory.mktemp("iopn"), 26600, request.param)
 
 
 @pytest.fixture(scope="module")
-def gravity(custom_cronos, custom_geth):
-    yield from prepare_gravity(custom_cronos, custom_geth)
+def gravity(custom_iopn, custom_geth):
+    yield from prepare_gravity(custom_iopn, custom_geth)
 
 
 def test_gravity_proxy_contract(gravity):
-    if not gravity.cronos.enable_auto_deployment:
+    if not gravity.iopn.enable_auto_deployment:
         geth = gravity.geth
 
         # deploy test erc20 contract
@@ -56,30 +56,30 @@ def test_gravity_proxy_contract(gravity):
         denom = f"gravity{erc20.address}"
 
         # deploy crc20 contract
-        w3 = gravity.cronos.w3
+        w3 = gravity.iopn.w3
         crc20 = deploy_contract(w3, CONTRACTS["TestCRC20"])
 
         print("crc20 contract deployed at address: ", crc20.address)
 
         # setup the contract mapping
-        cronos_cli = gravity.cronos.cosmos_cli()
+        iopn_cli = gravity.iopn.cosmos_cli()
 
         print("check the contract mapping not exists yet")
         with pytest.raises(AssertionError):
-            cronos_cli.query_contract_by_denom(denom)
+            iopn_cli.query_contract_by_denom(denom)
 
-        rsp = cronos_cli.update_token_mapping(
+        rsp = iopn_cli.update_token_mapping(
             denom, crc20.address, "TEST", 18, from_="validator"
         )
         assert rsp["code"] == 0, rsp["raw_log"]
-        wait_for_new_blocks(cronos_cli, 1)
+        wait_for_new_blocks(iopn_cli, 1)
 
         print("check the contract mapping exists now")
-        rsp = cronos_cli.query_denom_by_contract(crc20.address)
+        rsp = iopn_cli.query_denom_by_contract(crc20.address)
         assert rsp["denom"] == denom
 
         # Send some tokens
-        print("send to cronos crc20")
+        print("send to iopn crc20")
         amount = 1000
         recipient = HexBytes(ADDRS["community"])
         txreceipt = send_to_cosmos(
@@ -106,14 +106,14 @@ def test_gravity_proxy_contract(gravity):
         assert proxycrc20.caller.crc20() == crc20.address
 
         # change token mapping
-        rsp = cronos_cli.update_token_mapping(
+        rsp = iopn_cli.update_token_mapping(
             denom, proxycrc20.address, "DOG", 18, from_="validator"
         )
         assert rsp["code"] == 0, rsp["raw_log"]
-        wait_for_new_blocks(cronos_cli, 1)
+        wait_for_new_blocks(iopn_cli, 1)
 
         print("check the contract mapping exists now")
-        rsp = cronos_cli.query_denom_by_contract(proxycrc20.address)
+        rsp = iopn_cli.query_denom_by_contract(proxycrc20.address)
         assert rsp["denom"] == denom
 
         # Fund the proxy contract cosmos account with original supply
@@ -188,18 +188,18 @@ def test_gravity_proxy_contract(gravity):
 
 
 def test_gravity_proxy_contract_source_token(gravity):
-    if not gravity.cronos.enable_auto_deployment:
+    if not gravity.iopn.enable_auto_deployment:
         # deploy contracts
-        w3 = gravity.cronos.w3
+        w3 = gravity.iopn.w3
         symbol = "TEST"
-        contract, denom = setup_token_mapping(gravity.cronos, "TestCRC20", symbol)
+        contract, denom = setup_token_mapping(gravity.iopn, "TestCRC20", symbol)
         cosmos_erc20_contract = setup_cosmos_erc20_contract(
             gravity,
             denom,
             symbol,
         )
         # setup the contract mapping
-        cronos_cli = gravity.cronos.cosmos_cli()
+        iopn_cli = gravity.iopn.cosmos_cli()
 
         # deploy crc20 proxy contract
         proxycrc20 = deploy_contract(
@@ -213,14 +213,14 @@ def test_gravity_proxy_contract_source_token(gravity):
         assert proxycrc20.caller.crc20() == contract.address
 
         # change token mapping
-        rsp = cronos_cli.update_token_mapping(
+        rsp = iopn_cli.update_token_mapping(
             denom, proxycrc20.address, symbol, 6, from_="validator"
         )
         assert rsp["code"] == 0, rsp["raw_log"]
-        wait_for_new_blocks(cronos_cli, 1)
+        wait_for_new_blocks(iopn_cli, 1)
 
         print("check the contract mapping exists now")
-        rsp = cronos_cli.query_denom_by_contract(proxycrc20.address)
+        rsp = iopn_cli.query_denom_by_contract(proxycrc20.address)
         assert rsp["denom"] == denom
 
         # Try to send token to ethereum
@@ -272,15 +272,15 @@ def test_gravity_proxy_contract_source_token(gravity):
             balance_after_send_to_ethereum == balance_before_send_to_ethereum + amount
         )
 
-        # Send back token to cronos
-        cronos_receiver = ADDRS["community"]
-        balance_before_send_to_cosmos = contract.caller.balanceOf(cronos_receiver)
+        # Send back token to iopn
+        iopn_receiver = ADDRS["community"]
+        balance_before_send_to_cosmos = contract.caller.balanceOf(iopn_receiver)
         amount = 15
         txreceipt = send_to_cosmos(
             gravity.contract,
             cosmos_erc20_contract,
             gravity.geth,
-            HexBytes(cronos_receiver),
+            HexBytes(iopn_receiver),
             amount,
             KEYS["validator"],
         )
@@ -288,19 +288,19 @@ def test_gravity_proxy_contract_source_token(gravity):
 
         balance_after_send_to_cosmos = balance_before_send_to_cosmos
 
-        def check_cronos_balance_change():
+        def check_iopn_balance_change():
             nonlocal balance_after_send_to_cosmos
-            balance_after_send_to_cosmos = contract.caller.balanceOf(cronos_receiver)
+            balance_after_send_to_cosmos = contract.caller.balanceOf(iopn_receiver)
             return balance_before_send_to_cosmos != balance_after_send_to_cosmos
 
-        wait_for_fn("check cronos balance change", check_cronos_balance_change)
+        wait_for_fn("check iopn balance change", check_iopn_balance_change)
         assert balance_after_send_to_cosmos == balance_before_send_to_cosmos + amount
 
 
 def test_gravity_detect_malicious_supply(gravity):
-    if not gravity.cronos.enable_auto_deployment:
+    if not gravity.iopn.enable_auto_deployment:
         geth = gravity.geth
-        cli = gravity.cronos.cosmos_cli()
+        cli = gravity.iopn.cosmos_cli()
 
         # deploy fake contract to trigger the malicious supply
         # any transfer made with this contract will send an amount of token
@@ -362,16 +362,16 @@ def test_gravity_detect_malicious_supply(gravity):
 
 
 def test_gravity_non_cosmos_denom(gravity):
-    if gravity.cronos.enable_auto_deployment:
+    if gravity.iopn.enable_auto_deployment:
         return
 
-    cronos_cli = gravity.cronos.cosmos_cli()
+    iopn_cli = gravity.iopn.cosmos_cli()
     # deploy test erc20 contract
     erc20 = deploy_contract(
         gravity.geth,
         CONTRACTS["TestERC20A"],
     )
-    print("send to cronos crc20")
+    print("send to iopn crc20")
     recipient = HexBytes(ADDRS["community"])
     balance = erc20.caller.balanceOf(ADDRS["validator"])
     assert balance == 100000000000000000000000000
@@ -386,7 +386,7 @@ def test_gravity_non_cosmos_denom(gravity):
 
     def check_gravity_native_tokens():
         "check the balance of gravity native token"
-        return cronos_cli.balance(eth_to_bech32(recipient), denom=denom) == amount
+        return iopn_cli.balance(eth_to_bech32(recipient), denom=denom) == amount
 
     wait_for_fn("send-to-gravity-native", check_gravity_native_tokens)
 
@@ -401,10 +401,10 @@ def test_gravity_non_cosmos_denom(gravity):
     assert tx_receipt.status == 1, "should success"
 
     # Wait enough for orchestrator to relay the event
-    wait_for_new_blocks(cronos_cli, 30)
+    wait_for_new_blocks(iopn_cli, 30)
 
-    # Send again token to cronos and verify that the network is not stopped
-    print("send to cronos crc20")
+    # Send again token to iopn and verify that the network is not stopped
+    print("send to iopn crc20")
     recipient = HexBytes(ADDRS["community"])
     balance = erc20.caller.balanceOf(ADDRS["validator"])
     txreceipt = send_to_cosmos(
@@ -417,6 +417,6 @@ def test_gravity_non_cosmos_denom(gravity):
 
     def check_gravity_native_tokens():
         "check the balance of gravity native token"
-        return cronos_cli.balance(eth_to_bech32(recipient), denom=denom) == 2 * amount
+        return iopn_cli.balance(eth_to_bech32(recipient), denom=denom) == 2 * amount
 
     wait_for_fn("send-to-gravity-native", check_gravity_native_tokens)

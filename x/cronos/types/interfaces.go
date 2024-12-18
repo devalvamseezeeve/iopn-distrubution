@@ -12,7 +12,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
 	"github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
-	icaauthtypes "github.com/crypto-org-chain/cronos/v2/x/icaauth/types"
+	icaauthtypes "github.com/devalvamseezeeve/iopn-distrubution/v2/x/icaauth/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/core/vm"
@@ -89,7 +89,7 @@ type Icaauthkeeper interface {
 	SubmitTxWithArgs(goCtx context.Context, owner, connectionId string, timeoutDuration time.Duration, packetData icatypes.InterchainAccountPacketData) (string, *icaauthtypes.MsgSubmitTxResponse, error)
 }
 
-// CronosKeeper defines the interface for cronos keeper
+// CronosKeeper defines the interface for iopn keeper
 type CronosKeeper interface {
 	GetParams(ctx sdk.Context) (params Params)
 }

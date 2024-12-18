@@ -16,7 +16,7 @@ You can use a nodes as a service provider as discussed [here](https://ethereum.o
 
 ### Binaries
 
-- `gorc`, the gravity bridge orchestrator cli, build instructions can be found [here](gorc-build.md). Alternatively, you can download Linux x86_64 binary from [here](https://github.com/crypto-org-chain/gravity-bridge/releases/tag/v2.0.0-cronos-alpha0)
+- `gorc`, the gravity bridge orchestrator cli, build instructions can be found [here](gorc-build.md). Alternatively, you can download Linux x86_64 binary from [here](https://github.com/crypto-org-chain/gravity-bridge/releases/tag/v2.0.0-iopn-alpha0)
 
 - Above binaries setup in `PATH`.
 
@@ -36,7 +36,7 @@ You should transfer funds to the Ethereum account generated earlier. Gravity Bri
 In order to run the relayer, you will need to set RELAYER_API_URL environment variable to point to Cronos public relayer API:
 
 ```bash
-export RELAYER_API_URL=https://cronos.org/pioneer11/relayer/relayer
+export RELAYER_API_URL=https://iopn.org/pioneer11/relayer/relayer
 ```
 
 To read more about the relayer modes, you can check out [gravity-bridge-relayer-modes.md](gravity-bridge-relayer-modes.md).
@@ -56,7 +56,7 @@ The relayer is running now.
 To set up the Relayer as a service, you can run:
 
 ```bash
-bash <(curl -s -L https://raw.githubusercontent.com/crypto-org-chain/cronos/main/docs/gravity-bridge/systemd/setup-gorc-service.sh) -t relayer
+bash <(curl -s -L https://raw.githubusercontent.com/crypto-org-chain/iopn/main/docs/gravity-bridge/systemd/setup-gorc-service.sh) -t relayer
 ```
 
 You will be prompted for your ethereum key name set up earlier. After the service is created, you can run:
@@ -94,11 +94,11 @@ Here are the deployed token mappings:
 ### Code
 
 1. CronosGravity :
-   - https://github.com/crypto-org-chain/gravity-bridge/blob/v2.0.0-cronos-alpha0/solidity/contracts/CronosGravity.sol
+   - https://github.com/crypto-org-chain/gravity-bridge/blob/v2.0.0-iopn-alpha0/solidity/contracts/CronosGravity.sol
 
 2. Eth Gravity Wrapper :
-   -  https://github.com/crypto-org-chain/gravity-bridge/blob/v2.0.0-cronos-alpha0/solidity/contracts/EthGravityWrapper.sol
+   -  https://github.com/crypto-org-chain/gravity-bridge/blob/v2.0.0-iopn-alpha0/solidity/contracts/EthGravityWrapper.sol
 
 3. CroBridge :
-   - https://github.com/crypto-org-chain/cronos/blob/v0.8.0-gravity-alpha0/integration_tests/contracts/contracts/CroBridge.sol
+   - https://github.com/devalvamseezeeve/iopn-distrubution/blob/v0.8.0-gravity-alpha0/integration_tests/contracts/contracts/CroBridge.sol
 

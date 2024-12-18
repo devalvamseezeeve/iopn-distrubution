@@ -1,8 +1,8 @@
 # Integration Test
 
-## Clone the cronos repository
+## Clone the iopn repository
 ```shell
-git clone https://github.com/crypto-org-chain/cronos.git
+git clone https://github.com/devalvamseezeeve/iopn-distrubution.git
 ```
 
 ## Install [nix](https://nixos.org/download.html)
@@ -34,7 +34,7 @@ nix-env -iA cachix -f https://cachix.org/api/v1/install
 Binary caches will save a lot of build times.
 
 ```shell
-cachix use cronos
+cachix use iopn
 cachix use dapp  # it's necessary to use dapp's binary cache on new macos system.
 ```
 
@@ -83,12 +83,12 @@ $ cd integration_tests
 $ pytest -k test_basic
 ```
 
-Some test cases will run on both `geth` and `cronos`, you can also select the platform to run using `-k`:
+Some test cases will run on both `geth` and `iopn`, you can also select the platform to run using `-k`:
 
 ```shell
 $ cd integration_tests
-$ # run against cronos only
-$ pytest -k cronos
+$ # run against iopn only
+$ pytest -k iopn
 $ # run against geth only
 $ pytest -k geth
 ```

@@ -5,7 +5,7 @@ import web3
 from web3._utils.method_formatters import receipt_formatter
 from web3.datastructures import AttributeDict
 
-from .network import setup_custom_cronos
+from .network import setup_custom_iopn
 from .utils import (
     ADDRS,
     CONTRACTS,
@@ -20,15 +20,15 @@ pytestmark = pytest.mark.slow
 
 
 @pytest.fixture(scope="module")
-def custom_cronos(tmp_path_factory):
-    path = tmp_path_factory.mktemp("cronos")
-    yield from setup_custom_cronos(
+def custom_iopn(tmp_path_factory):
+    path = tmp_path_factory.mktemp("iopn")
+    yield from setup_custom_iopn(
         path, 26000, Path(__file__).parent / "configs/low_block_gas_limit.jsonnet"
     )
 
 
-def test_block_overflow(custom_cronos):
-    w3: web3.Web3 = custom_cronos.w3
+def test_block_overflow(custom_iopn):
+    w3: web3.Web3 = custom_iopn.w3
     contract = deploy_contract(
         w3,
         CONTRACTS["TestMessageCall"],
@@ -65,7 +65,7 @@ def test_block_overflow(custom_cronos):
             raw_transactions.append(signed.rawTransaction)
 
         # wait block update
-        block_num_0 = wait_for_new_blocks(custom_cronos.cosmos_cli(), 1, sleep=0.1)
+        block_num_0 = wait_for_new_blocks(custom_iopn.cosmos_cli(), 1, sleep=0.1)
         print(f"block number start: {block_num_0}")
         sended_hash_set = send_raw_transactions(w3, raw_transactions)
         for h in sended_hash_set:
@@ -112,7 +112,7 @@ def test_block_overflow(custom_cronos):
     assert res.hash == fail.transactionHash
 
     rsp = w3.provider.make_request(
-        "cronos_replayBlock", [hex(success.blockNumber), False]
+        "iopn_replayBlock", [hex(success.blockNumber), False]
     )
     assert "error" not in rsp, rsp["error"]
     assert 2 == len(rsp["result"])
@@ -131,7 +131,7 @@ def test_block_overflow(custom_cronos):
 
     # check the postUpgrade mode
     rsp = w3.provider.make_request(
-        "cronos_replayBlock", [hex(success.blockNumber), True]
+        "iopn_replayBlock", [hex(success.blockNumber), True]
     )
     assert "error" not in rsp, rsp["error"]
     assert 2 == len(rsp["result"])

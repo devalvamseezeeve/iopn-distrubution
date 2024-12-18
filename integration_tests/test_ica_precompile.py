@@ -83,8 +83,8 @@ def submit_msgs(
     with_channel_id=True,
 ):
     cli_host = ibc.chainmain.cosmos_cli()
-    cli_controller = ibc.cronos.cosmos_cli()
-    w3 = ibc.cronos.w3
+    cli_controller = ibc.iopn.cosmos_cli()
+    w3 = ibc.iopn.w3
     to = cli_host.address(validator)
     # generate msgs send to host chain
     m = gen_send_msg(ica_address, to, denom, amount)
@@ -136,8 +136,8 @@ def submit_msgs(
 
 def test_call(ibc):
     cli_host = ibc.chainmain.cosmos_cli()
-    cli_controller = ibc.cronos.cosmos_cli()
-    w3 = ibc.cronos.w3
+    cli_controller = ibc.iopn.cosmos_cli()
+    w3 = ibc.iopn.w3
     name = "signer2"
     addr = ADDRS[name]
     contract_info = json.loads(CONTRACT_ABIS["IICAModule"].read_text())
@@ -203,8 +203,8 @@ def wait_for_packet_log(start, event, channel_id, seq, status):
 
 def test_sc_call(ibc):
     cli_host = ibc.chainmain.cosmos_cli()
-    cli_controller = ibc.cronos.cosmos_cli()
-    w3 = ibc.cronos.w3
+    cli_controller = ibc.iopn.cosmos_cli()
+    w3 = ibc.iopn.w3
     contract_info = json.loads(CONTRACT_ABIS["IICAModule"].read_text())
     contract = w3.eth.contract(address=CONTRACT, abi=contract_info)
     jsonfile = CONTRACTS["TestICA"]

@@ -10,12 +10,12 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module
 func GetQueryCmd(queryRoute string) *cobra.Command {
-	// Group cronos queries under a subcommand
+	// Group iopn queries under a subcommand
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      fmt.Sprintf("Querying commands for the %s module", types.ModuleName),
@@ -40,11 +40,11 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 func QueryParamsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "params",
-		Short: "Query the current cronos parameters",
+		Short: "Query the current iopn parameters",
 		Args:  cobra.NoArgs,
-		Long: strings.TrimSpace(`Query the current cronos parameters:
+		Long: strings.TrimSpace(`Query the current iopn parameters:
 
-$ <appd> query cronos params
+$ <appd> query iopn params
 `),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)

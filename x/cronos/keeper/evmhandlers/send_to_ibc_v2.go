@@ -8,8 +8,8 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	cronoskeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	iopnkeeper "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 var _ types.EvmLogHandler = SendToIbcV2Handler{}
@@ -57,9 +57,9 @@ type SendToIbcV2Handler struct {
 	*SendToIbcHandler
 }
 
-func NewSendToIbcV2Handler(bankKeeper types.BankKeeper, cronosKeeper cronoskeeper.Keeper) *SendToIbcV2Handler {
+func NewSendToIbcV2Handler(bankKeeper types.BankKeeper, iopnKeeper iopnkeeper.Keeper) *SendToIbcV2Handler {
 	return &SendToIbcV2Handler{
-		SendToIbcHandler: NewSendToIbcHandler(bankKeeper, cronosKeeper),
+		SendToIbcHandler: NewSendToIbcHandler(bankKeeper, iopnKeeper),
 	}
 }
 
@@ -76,9 +76,9 @@ func (h SendToIbcV2Handler) Handle(
 ) error {
 	if len(topics) != 3 {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Info("log signature matches but wrong number of indexed events")
+		h.iopnKeeper.Logger(ctx).Info("log signature matches but wrong number of indexed events")
 		for i, topic := range topics {
-			h.cronosKeeper.Logger(ctx).Debug(fmt.Sprintf("topic index: %d value: %s", i, topic.TerminalString()))
+			h.iopnKeeper.Logger(ctx).Debug(fmt.Sprintf("topic index: %d value: %s", i, topic.TerminalString()))
 		}
 		return nil
 	}
@@ -86,7 +86,7 @@ func (h SendToIbcV2Handler) Handle(
 	unpacked, err := SendToIbcEventV2.Inputs.Unpack(data)
 	if err != nil {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
+		h.iopnKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
 		return nil
 	}
 

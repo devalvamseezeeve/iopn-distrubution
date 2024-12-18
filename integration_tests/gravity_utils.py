@@ -55,24 +55,24 @@ def update_gravity_contract(tomlfile, contract):
     tomlfile.write_text(dump_toml(obj))
 
 
-def prepare_gravity(custom_cronos, custom_geth):
+def prepare_gravity(custom_iopn, custom_geth):
     """
     - set-delegator-keys
     - deploy gravity contract
     - start orchestrator
     """
-    chain_id = "cronos_777-1"
+    chain_id = "iopn_777-1"
     w3 = custom_geth.w3
     # set-delegate-keys
-    for i, val in enumerate(custom_cronos.config["validators"]):
+    for i, val in enumerate(custom_iopn.config["validators"]):
         # generate gorc config file
-        gorc_config_path = custom_cronos.base_dir / f"node{i}/gorc.toml"
+        gorc_config_path = custom_iopn.base_dir / f"node{i}/gorc.toml"
         grpc_port = ports.grpc_port(val["base_port"])
         metrics_port = 3000 + i
         gorc_config_path.write_text(
             dump_toml(
                 gorc_config(
-                    custom_cronos.base_dir / f"node{i}/orchestrator_keystore",
+                    custom_iopn.base_dir / f"node{i}/orchestrator_keystore",
                     "",  # to be filled later after the gravity contract deployed
                     w3.provider.endpoint_uri,
                     f"http://localhost:{grpc_port}",
@@ -85,20 +85,20 @@ def prepare_gravity(custom_cronos, custom_geth):
 
         # generate new accounts on both chain
         gorc.add_eth_key("eth")
-        gorc.add_eth_key("cronos")  # cronos and eth key derivation are the same
+        gorc.add_eth_key("iopn")  # iopn and eth key derivation are the same
 
         # fund the orchestrator accounts
         eth_addr = to_checksum_address(gorc.show_eth_addr("eth"))
         print("fund 0.1 eth to address", eth_addr)
         send_transaction(w3, {"to": eth_addr, "value": 10**17}, KEYS["validator"])
-        acc_addr = gorc.show_cosmos_addr("cronos")
+        acc_addr = gorc.show_cosmos_addr("iopn")
         print("fund 100cro to address", acc_addr)
-        rsp = custom_cronos.cosmos_cli().transfer(
+        rsp = custom_iopn.cosmos_cli().transfer(
             "community", acc_addr, "%dbasetcro" % (100 * (10**18))
         )
         assert rsp["code"] == 0, rsp["raw_log"]
 
-        cli = custom_cronos.cosmos_cli(i)
+        cli = custom_iopn.cosmos_cli(i)
         val_addr = cli.address("validator", bech="val")
         val_acct_addr = cli.address("validator")
         nonce = int(cli.account(val_acct_addr)["base_account"]["sequence"])
@@ -143,15 +143,15 @@ def prepare_gravity(custom_cronos, custom_geth):
     # a) add process into the supervisord config file
     # b) reload supervisord
     programs = {}
-    for i, val in enumerate(custom_cronos.config["validators"]):
+    for i, val in enumerate(custom_iopn.config["validators"]):
         # update gravity contract in gorc config
-        gorc_config_path = custom_cronos.base_dir / f"node{i}/gorc.toml"
+        gorc_config_path = custom_iopn.base_dir / f"node{i}/gorc.toml"
         update_gravity_contract(gorc_config_path, contract.address)
 
         programs[f"program:{chain_id}-orchestrator{i}"] = {
             "command": (
                 f'gorc -c "{gorc_config_path}" orchestrator start '
-                "--cosmos-key cronos --ethereum-key eth --mode AlwaysRelay"
+                "--cosmos-key iopn --ethereum-key eth --mode AlwaysRelay"
             ),
             "environment": "RUST_BACKTRACE=full",
             "autostart": "true",
@@ -161,10 +161,10 @@ def prepare_gravity(custom_cronos, custom_geth):
             "stdout_logfile": f"%(here)s/orchestrator{i}.log",
         }
 
-    add_ini_sections(custom_cronos.base_dir / "tasks.ini", programs)
-    custom_cronos.supervisorctl("update")
+    add_ini_sections(custom_iopn.base_dir / "tasks.ini", programs)
+    custom_iopn.supervisorctl("update")
 
-    yield GravityBridge(custom_cronos, w3, contract)
+    yield GravityBridge(custom_iopn, w3, contract)
 
 
 def setup_cosmos_erc20_contract(cluster, denom, symbol):
@@ -175,10 +175,10 @@ def setup_cosmos_erc20_contract(cluster, denom, symbol):
     )
     assert tx_receipt.status == 1, "should success"
     # Wait enough for orchestrator to relay the event
-    cronos_cli = cluster.cronos.cosmos_cli()
-    wait_for_new_blocks(cronos_cli, 30)
+    iopn_cli = cluster.iopn.cosmos_cli()
+    wait_for_new_blocks(iopn_cli, 30)
     # Check mapping is done on cluster side
-    cosmos_erc20 = cronos_cli.query_gravity_contract_by_denom(denom)
+    cosmos_erc20 = iopn_cli.query_gravity_contract_by_denom(denom)
     print("cosmos_erc20:", cosmos_erc20)
     assert cosmos_erc20 != ""
     cosmos_erc20_contract = get_contract(

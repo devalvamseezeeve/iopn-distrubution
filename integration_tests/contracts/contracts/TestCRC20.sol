@@ -13,7 +13,7 @@ contract TestCRC20 is ERC20 {
         owner = msg.sender;
 	}
 
-    function mint_by_cronos_module(address addr, uint amount) public {
+    function mint_by_iopn_module(address addr, uint amount) public {
         require(msg.sender == module_address);
         _mint(addr, amount);
     }

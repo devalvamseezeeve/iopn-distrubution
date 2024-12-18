@@ -5,13 +5,13 @@ parent:
 
 
 <div align="center">
-  <h1> <img src="./assets/cronos.svg" alt="Cronos Logo" width="300px" /> </h1>
+  <h1> <img src="./assets/iopn.svg" alt="Cronos Logo" width="300px" /> </h1>
 </div>
 <br />
 
 <p align="center">
-  <a href="https://github.com/crypto-org-chain/cronos/actions/workflows/build.yml"><img label="Build Status" src="https://github.com/crypto-org-chain/cronos/actions/workflows/build.yml/badge.svg" /></a>
-  <a href="https://codecov.io/gh/crypto-org-chain/cronos"><img label="Code Coverage" src="https://codecov.io/gh/crypto-org-chain/cronos/branch/main/graph/badge.svg" /></a>
+  <a href="https://github.com/devalvamseezeeve/iopn-distrubution/actions/workflows/build.yml"><img label="Build Status" srgithub.com/devalvamseezeeve/iopn-distrubutioneeve/iopn-distrubution/actions/workflows/build.yml/badge.svg" /></a>
+  <a href="https://codecov.io/gh/crypto-org-chain/iopn"><img label="Code Coverage" src="https://codecov.io/gh/crypto-org-chain/iopn/branch/main/graph/badge.svg" /></a>
   <a href="https://discord.gg/pahqHz26q4"><img label="Discord" src="https://img.shields.io/discord/783264383978569728.svg?color=7289da&label=Cronos&logo=discord&style=flat-square" /></a>
 </p>
 
@@ -58,7 +58,7 @@ and the [contributing guidelines](CONTRIBUTING.md) when submitting code.
 
 ## 4. Documentation
 
-[Technical documentation](http://cronos.org/docs).
+[Technical documentation](http://iopn.org/docs).
 
 <a id="build" />
 
@@ -73,13 +73,13 @@ make build
 
 ## 6. Start a local Development Network and Node
 
-Please follow this [documentation](https://cronos.org/docs/getting-started/local-devnet.html#devnet-running-latest-development-node) to run a local devnet.
+Please follow this [documentation](https://iopn.org/docs/getting-started/local-devnet.html#devnet-running-latest-development-node) to run a local devnet.
 
 <a id="send-first-transaction" />
 
 ## 7. Send Your First Transaction
 
-After setting the local devnet, you may interact with the your local blockchain by following this [documentation](https://cronos.org/docs/getting-started/local-devnet.html#interact-with-the-chain).
+After setting the local devnet, you may interact with the your local blockchain by following this [documentation](https://iopn.org/docs/getting-started/local-devnet.html#interact-with-the-chain).
 
 <a id="testing" />
 
@@ -142,7 +142,7 @@ python3 -m pip install pystarport
 run two nodes devnet
 
 ```
-pystarport serve --config ./scripts/cronos-devnet.yaml
+pystarport serve --config ./scripts/iopn-devnet.yaml
 ```
 
 ### get status
@@ -163,8 +163,8 @@ pystarport supervisorctl stop all
 
 ## 10. Useful links
 
-- [Project Website](http://cronos.org/)
-- [Technical Documentation](http://cronos.org/docs)
+- [Project Website](http://iopn.org/)
+- [Technical Documentation](http://iopn.org/docs)
 - Community chatrooms (non-technical): [Discord](https://discord.gg/nsp9JTC) [Telegram](https://t.me/CryptoComOfficial)
 - Developer community channel (technical): [![Support Server](https://img.shields.io/discord/783264383978569728.svg?color=7289da&label=Cronos&logo=discord&style=flat-square)](https://discord.gg/pahqHz26q4)
 - [Ethermint](https://github.com/evmos/ethermint) by Tharsis

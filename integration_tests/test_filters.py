@@ -18,19 +18,19 @@ def test_pending_transaction_filter(cluster):
     assert receipt["transactionHash"] in flt.get_new_entries()
 
 
-def test_block_filter(cronos):
-    w3: Web3 = cronos.w3
+def test_block_filter(iopn):
+    w3: Web3 = iopn.w3
     flt = w3.eth.filter("latest")
     # new blocks
-    wait_for_new_blocks(cronos.cosmos_cli(), 1, sleep=0.1)
+    wait_for_new_blocks(iopn.cosmos_cli(), 1, sleep=0.1)
     receipt = send_transaction(w3, {"to": ADDRS["community"], "value": 1000})
     assert receipt.status == 1
     blocks = flt.get_new_entries()
     assert len(blocks) >= 1
 
 
-def test_event_log_filter(cronos):
-    w3: Web3 = cronos.w3
+def test_event_log_filter(iopn):
+    w3: Web3 = iopn.w3
     mycontract = deploy_contract(w3, CONTRACTS["Greeter"])
     assert "Hello" == mycontract.caller.greet()
     current_height = hex(w3.eth.get_block_number())

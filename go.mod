@@ -1,4 +1,11 @@
-module github.com/crypto-org-chain/cronos/v2
+module github.com/devalvamseezeeve/iopn-distrubution/v2
+
+require (
+	github.com/devalvamseezeeve/iopn-distrubution/memiavl v1.0.0 // indirect
+	github.com/devalvamseezeeve/iopn-distrubution/store v1.0.0
+	github.com/devalvamseezeeve/iopn-distrubution/versiondb v1.0.0
+
+)
 
 go 1.22
 
@@ -20,8 +27,6 @@ require (
 	github.com/cosmos/gogoproto v1.4.10
 	github.com/cosmos/ibc-go/modules/apps/callbacks v0.1.1-0.20230831194909-17cf1260a9cd
 	github.com/cosmos/ibc-go/v7 v7.3.2
-	github.com/crypto-org-chain/cronos/store v0.0.4
-	github.com/crypto-org-chain/cronos/versiondb v0.0.0-00010101000000-000000000000
 	github.com/ethereum/go-ethereum v1.10.26
 	github.com/evmos/ethermint v0.0.0-00010101000000-000000000000
 	github.com/golang/protobuf v1.5.4
@@ -84,12 +89,12 @@ require (
 	github.com/cosmos/ledger-cosmos-go v0.12.4 // indirect
 	github.com/cosmos/rosetta-sdk-go v0.10.0 // indirect
 	github.com/creachadair/taskgroup v0.4.2 // indirect
-	github.com/crypto-org-chain/cronos/memiavl v0.0.4 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/deckarep/golang-set/v2 v2.1.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.1.0 // indirect
 	github.com/desertbit/timer v0.0.0-20180107155436-c41aec40b27f // indirect
+	github.com/devalvamseezeeve/iopn-distrubution v1.0.2 // indirect
 	github.com/dgraph-io/badger/v2 v2.2007.4 // indirect
 	github.com/dgraph-io/ristretto v0.1.1 // indirect
 	github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 // indirect
@@ -231,7 +236,7 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	nhooyr.io/websocket v1.8.6 // indirect
+	nhooyr.io/websocket v1.8.17 // indirect
 	pgregory.net/rapid v1.1.0 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
@@ -242,9 +247,9 @@ replace (
 	github.com/cometbft/cometbft-db => github.com/crypto-org-chain/cometbft-db v0.0.0-20231011055109-57922ac52a63
 	// release/v0.47.x
 	github.com/cosmos/cosmos-sdk => github.com/crypto-org-chain/cosmos-sdk v0.46.0-beta2.0.20241008100047-e671aed24d19
-	github.com/crypto-org-chain/cronos/memiavl => ./memiavl
-	github.com/crypto-org-chain/cronos/store => ./store
-	github.com/crypto-org-chain/cronos/versiondb => ./versiondb
+	github.com/devalvamseezeeve/iopn-distrubution/memiavl => ./memiavl
+	github.com/devalvamseezeeve/iopn-distrubution/store => ./store
+	github.com/devalvamseezeeve/iopn-distrubution/versiondb => ./versiondb
 	// dgrijalva/jwt-go is deprecated and doesn't receive security updates.
 	// TODO: remove it: https://github.com/cosmos/cosmos-sdk/issues/13134
 	github.com/dgrijalva/jwt-go => github.com/golang-jwt/jwt/v4 v4.4.2
@@ -258,4 +263,5 @@ replace (
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
 	// stick with compatible version or x/exp in v0.47.x line
 	golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
+	 nhooyr.io/websocket v1.8.6 => nhooyr.io/websocket v1.8.17
 )

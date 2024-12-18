@@ -13,7 +13,7 @@ import (
 	"github.com/evmos/ethermint/x/evm/statedb"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 // DefaultGasCap defines the gas limit used to run internal evm call
@@ -120,7 +120,7 @@ func (k Keeper) ConvertCoinFromNativeToCRC21(ctx sdk.Context, sender common.Addr
 			return err
 		}
 		// unlock crc tokens
-		_, err = k.CallModuleCRC21(ctx, contract, "transfer_from_cronos_module", sender, coin.Amount.BigInt())
+		_, err = k.CallModuleCRC21(ctx, contract, "transfer_from_iopn_module", sender, coin.Amount.BigInt())
 		if err != nil {
 			return err
 		}
@@ -131,7 +131,7 @@ func (k Keeper) ConvertCoinFromNativeToCRC21(ctx sdk.Context, sender common.Addr
 			return err
 		}
 		// mint crc tokens
-		_, err = k.CallModuleCRC21(ctx, contract, "mint_by_cronos_module", sender, coin.Amount.BigInt())
+		_, err = k.CallModuleCRC21(ctx, contract, "mint_by_iopn_module", sender, coin.Amount.BigInt())
 		if err != nil {
 			return err
 		}
@@ -151,7 +151,7 @@ func (k Keeper) ConvertCoinFromCRC21ToNative(ctx sdk.Context, contract common.Ad
 	coins := sdk.NewCoins(sdk.NewCoin(denom, amount))
 
 	if isSource {
-		_, err := k.CallModuleCRC21(ctx, contract, "transfer_by_cronos_module", receiver, amount.BigInt())
+		_, err := k.CallModuleCRC21(ctx, contract, "transfer_by_iopn_module", receiver, amount.BigInt())
 		if err != nil {
 			return err
 		}
@@ -172,7 +172,7 @@ func (k Keeper) ConvertCoinFromCRC21ToNative(ctx sdk.Context, contract common.Ad
 			return err
 		}
 
-		_, err = k.CallModuleCRC21(ctx, contract, "burn_by_cronos_module", receiver, amount.BigInt())
+		_, err = k.CallModuleCRC21(ctx, contract, "burn_by_iopn_module", receiver, amount.BigInt())
 		if err != nil {
 			return err
 		}

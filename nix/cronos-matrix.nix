@@ -24,7 +24,7 @@ let
           --owner=0 --group=0 --mode=u+rw,uga+r --hard-dereference . \
           | gzip -9 > $out
       '';
-  bundle-win-exe = drv: callPackage ./bundle-win-exe.nix { cronosd = drv; };
+  bundle-win-exe = drv: callPackage ./bundle-win-exe.nix { iopnd = drv; };
   matrix = lib.cartesianProductOfSets {
     network = [
       "mainnet"
@@ -42,21 +42,21 @@ builtins.listToAttrs (
     { network, pkgtype }:
     {
       name = builtins.concatStringsSep "-" (
-        [ "cronosd" ]
+        [ "iopnd" ]
         ++ lib.optional (network != "mainnet") network
         ++ lib.optional (pkgtype != "nix") pkgtype
       );
       value =
         let
-          cronosd = callPackage ../. { inherit rev network; };
-          bundle = if stdenv.hostPlatform.isWindows then bundle-win-exe cronosd else bundle-exe cronosd;
+          iopnd = callPackage ../. { inherit rev network; };
+          bundle = if stdenv.hostPlatform.isWindows then bundle-win-exe iopnd else bundle-exe iopnd;
         in
         if pkgtype == "bundle" then
           bundle
         else if pkgtype == "tarball" then
           make-tarball bundle
         else
-          cronosd;
+          iopnd;
     }
   ) matrix
 )

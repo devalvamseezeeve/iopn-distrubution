@@ -40,11 +40,11 @@ import (
 	srvflags "github.com/evmos/ethermint/server/flags"
 	ethermint "github.com/evmos/ethermint/types"
 
-	memiavlcfg "github.com/crypto-org-chain/cronos/store/config"
-	"github.com/crypto-org-chain/cronos/v2/app"
-	"github.com/crypto-org-chain/cronos/v2/cmd/cronosd/opendb"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos"
-	e2eecli "github.com/crypto-org-chain/cronos/v2/x/e2ee/client/cli"
+	memiavlcfg "github.com/devalvamseezeeve/iopn-distrubution/store/config"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/app"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/cmd/iopnd/opendb"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn"
+	e2eecli "github.com/devalvamseezeeve/iopn-distrubution/v2/x/e2ee/client/cli"
 	// this line is used by starport scaffolding # stargate/root/import
 )
 
@@ -167,7 +167,7 @@ func initRootCmd(rootCmd *cobra.Command, encodingConfig ethermint.EncodingConfig
 
 func addModuleInitFlags(startCmd *cobra.Command) {
 	crisis.AddModuleInitFlags(startCmd)
-	cronos.AddModuleInitFlags(startCmd)
+	iopn.AddModuleInitFlags(startCmd)
 	// this line is used by starport scaffolding # stargate/root/initFlags
 }
 

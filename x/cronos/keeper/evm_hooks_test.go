@@ -4,18 +4,18 @@ import (
 	"fmt"
 	"math/big"
 
-	handlers "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/evmhandlers"
+	handlers "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper/evmhandlers"
 
 	gravitytypes "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/types"
 
-	"github.com/crypto-org-chain/cronos/v2/app"
-	keepertest "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/mock"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/app"
+	keepertest "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper/mock"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	cronosmodulekeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
+	iopnmodulekeeper "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
@@ -197,7 +197,7 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 			func() {
 				suite.SetupTest()
 				// Create Cronos Keeper with mock transfer keeper
-				cronosKeeper := *cronosmodulekeeper.NewKeeper(
+				iopnKeeper := *iopnmodulekeeper.NewKeeper(
 					app.MakeEncodingConfig().Codec,
 					suite.app.GetKey(types.StoreKey),
 					suite.app.GetKey(types.MemStoreKey),
@@ -208,7 +208,7 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 					suite.app.AccountKeeper,
 					authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 				)
-				suite.app.CronosKeeper = cronosKeeper
+				suite.app.CronosKeeper = iopnKeeper
 
 				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, denom, contract)
 				coin := sdk.NewCoin(denom, sdk.NewInt(100))

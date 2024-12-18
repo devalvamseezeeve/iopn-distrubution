@@ -3,7 +3,7 @@ pragma solidity ^0.6.8;
 import "ds-token/token.sol";
 
 contract ModuleCRC20 is DSToken  {
-    // sha256('cronos-evm')[:20]
+    // sha256('iopn-evm')[:20]
     address constant module_address = 0x89A7EF2F08B1c018D5Cc88836249b84Dd5392905;
     string denom;
 
@@ -28,12 +28,12 @@ contract ModuleCRC20 is DSToken  {
         return denom;
     }
 
-    function mint_by_cronos_module(address addr, uint amount) public {
+    function mint_by_iopn_module(address addr, uint amount) public {
         require(msg.sender == module_address);
         mint(addr, amount);
     }
 
-    function burn_by_cronos_module(address addr, uint amount) public {
+    function burn_by_iopn_module(address addr, uint amount) public {
         require(msg.sender == module_address);
         unsafe_burn(addr, amount);
     }

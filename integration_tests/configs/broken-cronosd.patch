@@ -7,7 +7,7 @@ index 75523891..dbe74030 100644
  // EndBlocker application updates every end block
  func (app *App) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci.ResponseEndBlock {
 +	if ctx.BlockHeight()%10 == 0 {
-+		store := ctx.KVStore(app.keys["cronos"])
++		store := ctx.KVStore(app.keys["iopn"])
 +		store.Set([]byte("hello"), []byte("world"))
 +	}
  	rsp := app.mm.EndBlock(ctx, req)

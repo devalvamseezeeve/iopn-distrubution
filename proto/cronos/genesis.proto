@@ -1,14 +1,14 @@
 syntax = "proto3";
-package cronos;
+package iopn;
 
 import "gogoproto/gogo.proto";
-import "cronos/cronos.proto";
+import "iopn/iopn.proto";
 
 // this line is used by starport scaffolding # genesis/proto/import
 
-option go_package = "github.com/crypto-org-chain/cronos/v2/x/cronos/types";
+option go_package = "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types";
 
-// GenesisState defines the cronos module's genesis state.
+// GenesisState defines the iopn module's genesis state.
 message GenesisState {
   // params defines all the paramaters of the module.
   Params                params             = 1 [(gogoproto.nullable) = false];

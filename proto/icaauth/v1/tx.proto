@@ -6,7 +6,7 @@ import "gogoproto/gogo.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/any.proto";
 
-option go_package = "github.com/crypto-org-chain/cronos/v2/x/icaauth/types";
+option go_package = "github.com/devalvamseezeeve/iopn-distrubution/v2/x/icaauth/types";
 
 // Msg defines the Msg service.
 service Msg {

@@ -20,8 +20,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	memiavlstore "github.com/crypto-org-chain/cronos/store"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	memiavlstore "github.com/devalvamseezeeve/iopn-distrubution/store"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/evmos/ethermint/crypto/ethsecp256k1"
@@ -116,7 +116,7 @@ func benchmarkERC20Transfer(b *testing.B, db dbm.DB) {
 
 	// mint to sender
 	amount := int64(100000000)
-	_, err = app.CronosKeeper.CallModuleCRC21(ctx, contractAddr, "mint_by_cronos_module", address, big.NewInt(amount))
+	_, err = app.CronosKeeper.CallModuleCRC21(ctx, contractAddr, "mint_by_iopn_module", address, big.NewInt(amount))
 	require.NoError(b, err)
 
 	// check balance

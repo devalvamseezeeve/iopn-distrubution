@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 	"github.com/ethereum/go-ethereum/common"
 	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
@@ -112,7 +112,7 @@ func (k Keeper) ReplayBlock(goCtx context.Context, req *types.ReplayBlockRequest
 	}, nil
 }
 
-// Params returns parameters of cronos module
+// Params returns parameters of iopn module
 func (k Keeper) Params(goCtx context.Context, req *types.QueryParamsRequest) (*types.QueryParamsResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "empty request")

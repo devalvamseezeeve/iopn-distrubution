@@ -8,8 +8,8 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	cronoskeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	iopnkeeper "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 var _ types.EvmLogHandler = SendToIbcHandler{}
@@ -48,13 +48,13 @@ func init() {
 // SendToIbcHandler handles `__CronosSendToIbc` log
 type SendToIbcHandler struct {
 	bankKeeper   types.BankKeeper
-	cronosKeeper cronoskeeper.Keeper
+	iopnKeeper iopnkeeper.Keeper
 }
 
-func NewSendToIbcHandler(bankKeeper types.BankKeeper, cronosKeeper cronoskeeper.Keeper) *SendToIbcHandler {
+func NewSendToIbcHandler(bankKeeper types.BankKeeper, iopnKeeper iopnkeeper.Keeper) *SendToIbcHandler {
 	return &SendToIbcHandler{
 		bankKeeper:   bankKeeper,
-		cronosKeeper: cronosKeeper,
+		iopnKeeper: iopnKeeper,
 	}
 }
 
@@ -72,7 +72,7 @@ func (h SendToIbcHandler) Handle(
 	unpacked, err := SendToIbcEvent.Inputs.Unpack(data)
 	if err != nil {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
+		h.iopnKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
 		return nil
 	}
 	sender := unpacked[0].(common.Address)
@@ -89,13 +89,13 @@ func (h SendToIbcHandler) handle(
 	amountInt *big.Int,
 	id *big.Int,
 ) error {
-	denom, found := h.cronosKeeper.GetDenomByContract(ctx, contract)
+	denom, found := h.iopnKeeper.GetDenomByContract(ctx, contract)
 	if !found {
 		return fmt.Errorf("contract %s is not connected to native token", contract)
 	}
 
 	if !types.IsValidIBCDenom(denom) && !types.IsValidCronosDenom(denom) {
-		return fmt.Errorf("the native token associated with the contract %s is neither an ibc voucher or a cronos token", contract)
+		return fmt.Errorf("the native token associated with the contract %s is neither an ibc voucher or a iopn token", contract)
 	}
 
 	contractAddr := sdk.AccAddress(contract.Bytes())
@@ -125,7 +125,7 @@ func (h SendToIbcHandler) handle(
 		channelId = "channel-" + id.String()
 	}
 	// Initiate IBC transfer from sender account
-	if err = h.cronosKeeper.IbcTransferCoins(ctx, sender.String(), recipient, coins, channelId); err != nil {
+	if err = h.iopnKeeper.IbcTransferCoins(ctx, sender.String(), recipient, coins, channelId); err != nil {
 		return err
 	}
 	return nil

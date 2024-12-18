@@ -2,46 +2,46 @@ from pathlib import Path
 
 import pytest
 
-from .network import setup_custom_cronos
+from .network import setup_custom_iopn
 from .utils import ADDRS, KEYS, send_transaction, w3_wait_for_block, wait_for_new_blocks
 
 pytestmark = pytest.mark.gas
 
 
 @pytest.fixture(scope="module")
-def custom_cronos_eq(tmp_path_factory):
+def custom_iopn_eq(tmp_path_factory):
     path = tmp_path_factory.mktemp("min-gas-price-eq")
-    yield from setup_custom_cronos(
+    yield from setup_custom_iopn(
         path, 26500, Path(__file__).parent / "configs/min_gas_price_eq.jsonnet"
     )
 
 
 @pytest.fixture(scope="module")
-def custom_cronos(tmp_path_factory):
+def custom_iopn(tmp_path_factory):
     path = tmp_path_factory.mktemp("min-gas-price")
-    yield from setup_custom_cronos(
+    yield from setup_custom_iopn(
         path, 26530, Path(__file__).parent / "configs/min_gas_price.jsonnet"
     )
 
 
 @pytest.fixture(scope="module")
-def custom_cronos_lte(tmp_path_factory):
+def custom_iopn_lte(tmp_path_factory):
     path = tmp_path_factory.mktemp("min-gas-price-lte")
-    yield from setup_custom_cronos(
+    yield from setup_custom_iopn(
         path, 26560, Path(__file__).parent / "configs/min_gas_price_lte.jsonnet"
     )
 
 
 @pytest.fixture(
     scope="module",
-    params=["custom_cronos_eq", "custom_cronos", "custom_cronos_lte"],
+    params=["custom_iopn_eq", "custom_iopn", "custom_iopn_lte"],
 )
-def custom_cluster(request, custom_cronos_eq, custom_cronos_lte, custom_cronos):
-    if request.param == "custom_cronos_eq":
-        return custom_cronos_eq
-    elif request.param == "custom_cronos_lte":
-        return custom_cronos_lte
-    return custom_cronos
+def custom_cluster(request, custom_iopn_eq, custom_iopn_lte, custom_iopn):
+    if request.param == "custom_iopn_eq":
+        return custom_iopn_eq
+    elif request.param == "custom_iopn_lte":
+        return custom_iopn_lte
+    return custom_iopn
 
 
 def adjust_base_fee(parent_fee, gas_limit, gas_used, params):

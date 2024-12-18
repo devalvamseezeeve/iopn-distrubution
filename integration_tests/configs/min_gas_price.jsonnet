@@ -1,7 +1,7 @@
 local config = import 'default.jsonnet';
 
 config {
-  'cronos_777-1'+: {
+  'iopn_777-1'+: {
     validators: [validator {
       gas_prices: '10000000000000basetcro',
     } for validator in super.validators],

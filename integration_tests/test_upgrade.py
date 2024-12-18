@@ -11,7 +11,7 @@ from pystarport import ports
 from pystarport.cluster import SUPERVISOR_CONFIG_FILE
 
 from .cosmoscli import DEFAULT_GAS_PRICE
-from .network import Cronos, setup_custom_cronos
+from .network import Cronos, setup_custom_iopn
 from .utils import (
     ADDRS,
     CONTRACTS,
@@ -32,8 +32,8 @@ pytestmark = pytest.mark.upgrade
 
 
 @pytest.fixture(scope="module")
-def custom_cronos(tmp_path_factory):
-    yield from setup_cronos_test(tmp_path_factory)
+def custom_iopn(tmp_path_factory):
+    yield from setup_iopn_test(tmp_path_factory)
 
 
 def init_cosmovisor(home):
@@ -50,7 +50,7 @@ def post_init(path, base_port, config):
     """
     prepare cosmovisor for each node
     """
-    chain_id = "cronos_777-1"
+    chain_id = "iopn_777-1"
     data = path / chain_id
     cfg = json.loads((data / "config.json").read_text())
     for i, _ in enumerate(cfg["validators"]):
@@ -63,7 +63,7 @@ def post_init(path, base_port, config):
         lambda i, _: {
             "command": f"cosmovisor run start --home %(here)s/node{i}",
             "environment": (
-                "DAEMON_NAME=cronosd,"
+                "DAEMON_NAME=iopnd,"
                 "DAEMON_SHUTDOWN_GRACE=1m,"
                 "UNSAFE_SKIP_BACKUP=true,"
                 f"DAEMON_HOME=%(here)s/node{i}"
@@ -72,7 +72,7 @@ def post_init(path, base_port, config):
     )
 
 
-def setup_cronos_test(tmp_path_factory):
+def setup_iopn_test(tmp_path_factory):
     path = tmp_path_factory.mktemp("upgrade")
     port = 26200
     nix_name = "upgrade-test-package"
@@ -94,14 +94,14 @@ def setup_cronos_test(tmp_path_factory):
         d.chmod(mod)
 
     # init with genesis binary
-    with contextmanager(setup_custom_cronos)(
+    with contextmanager(setup_custom_iopn)(
         path,
         port,
         configdir / f"configs/{cfg_name}.jsonnet",
         post_init=post_init,
-        chain_binary=str(upgrades / "genesis/bin/cronosd"),
-    ) as cronos:
-        yield cronos
+        chain_binary=str(upgrades / "genesis/bin/iopnd"),
+    ) as iopn:
+        yield iopn
 
 
 def exec(c, tmp_path_factory):
@@ -159,7 +159,7 @@ def exec(c, tmp_path_factory):
         json.dump(json.loads(cli.export()), fp)
         fp.flush()
 
-    c.supervisorctl("start", "cronos_777-1-node0", "cronos_777-1-node1")
+    c.supervisorctl("start", "iopn_777-1-node0", "iopn_777-1-node1")
     wait_for_port(ports.evmrpc_port(c.base_port(0)))
     wait_for_new_blocks(cli, 1)
 
@@ -189,7 +189,7 @@ def exec(c, tmp_path_factory):
 
         # update cli chain binary
         c.chain_binary = (
-            Path(c.chain_binary).parent.parent.parent / f"{plan_name}/bin/cronosd"
+            Path(c.chain_binary).parent.parent.parent / f"{plan_name}/bin/iopnd"
         )
         # block should pass the target height
         wait_for_block(c.cosmos_cli(), target + 2, timeout=480)
@@ -333,7 +333,7 @@ def exec(c, tmp_path_factory):
         genesis["genesis_time"] = config.get("genesis-time")
         file = c.cosmos_cli(i).data_dir / "config/genesis.json"
         file.write_text(json.dumps(genesis))
-    c.supervisorctl("start", "cronos_777-1-node0", "cronos_777-1-node1")
+    c.supervisorctl("start", "iopn_777-1-node0", "iopn_777-1-node1")
     wait_for_new_blocks(c.cosmos_cli(), 1)
 
     assert e0 == cli.query_params("evm", height=target3 - 1)["params"]
@@ -346,5 +346,5 @@ def exec(c, tmp_path_factory):
     assert_eth_call()
 
 
-def test_cosmovisor_upgrade(custom_cronos: Cronos, tmp_path_factory):
-    exec(custom_cronos, tmp_path_factory)
+def test_cosmovisor_upgrade(custom_iopn: Cronos, tmp_path_factory):
+    exec(custom_iopn, tmp_path_factory)

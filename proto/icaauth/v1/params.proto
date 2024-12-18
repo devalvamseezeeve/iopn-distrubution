@@ -4,7 +4,7 @@ package icaauth.v1;
 import "google/protobuf/duration.proto";
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/crypto-org-chain/cronos/v2/x/icaauth/types";
+option go_package = "github.com/devalvamseezeeve/iopn-distrubution/v2/x/icaauth/types";
 
 // Params defines the parameters for the module.
 message Params {

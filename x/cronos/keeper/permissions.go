@@ -2,7 +2,7 @@ package keeper
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 // A permission is represented by a bit within uint64 (64bits)
@@ -27,7 +27,7 @@ func (k Keeper) GetPermissions(ctx sdk.Context, address sdk.AccAddress) uint64 {
 	return sdk.BigEndianToUint64(permissionsBytes)
 }
 
-// HasPermission check if an account has a specific permission. by default cronos admin has all permissions
+// HasPermission check if an account has a specific permission. by default iopn admin has all permissions
 func (k Keeper) HasPermission(ctx sdk.Context, accounts []sdk.AccAddress, permissionsToCheck uint64) bool {
 	// case when no permission is needed
 	if permissionsToCheck == 0 {

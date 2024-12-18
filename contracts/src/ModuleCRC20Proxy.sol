@@ -4,7 +4,7 @@ import "ds-math/math.sol";
 import "./ModuleCRC20.sol";
 
 contract ModuleCRC20Proxy is DSMath {
-    // sha256('cronos-evm')[:20]
+    // sha256('iopn-evm')[:20]
     address constant module_address = 0x89A7EF2F08B1c018D5Cc88836249b84Dd5392905;
     ModuleCRC20 crc20Contract;
     bool isSource;
@@ -36,24 +36,24 @@ contract ModuleCRC20Proxy is DSMath {
 
 
     /**
-        Internal functions to be called by cronos module.
+        Internal functions to be called by iopn module.
     **/
-    function mint_by_cronos_module(address addr, uint amount) public {
+    function mint_by_iopn_module(address addr, uint amount) public {
         require(msg.sender == module_address);
         crc20Contract.mint(addr, amount);
     }
 
-    function burn_by_cronos_module(address addr, uint amount) public {
+    function burn_by_iopn_module(address addr, uint amount) public {
         require(msg.sender == module_address);
         crc20_burn(addr, amount);
     }
 
-    function transfer_by_cronos_module(address addr, uint amount) public {
+    function transfer_by_iopn_module(address addr, uint amount) public {
         require(msg.sender == module_address);
         crc20Contract.move(addr, module_address, amount);
     }
 
-    function transfer_from_cronos_module(address addr, uint amount) public {
+    function transfer_from_iopn_module(address addr, uint amount) public {
         require(msg.sender == module_address);
         crc20Contract.move(address(this), addr, amount);
     }

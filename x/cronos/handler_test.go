@@ -1,4 +1,4 @@
-package cronos_test
+package iopn_test
 
 import (
 	"errors"
@@ -10,9 +10,9 @@ import (
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/crypto-org-chain/cronos/v2/app"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/app"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 	"github.com/evmos/ethermint/crypto/ethsecp256k1"
 	"github.com/stretchr/testify/suite"
 )
@@ -37,7 +37,7 @@ func (suite *CronosTestSuite) SetupTest() {
 	suite.address = sdk.AccAddress(privKey.PubKey().Address())
 	suite.app = app.Setup(suite.T(), suite.address.String(), true)
 	suite.ctx = suite.app.BaseApp.NewContext(checkTx, tmproto.Header{Height: 1, ChainID: app.TestAppChainID, Time: time.Now().UTC()})
-	suite.handler = cronos.NewHandler(suite.app.CronosKeeper)
+	suite.handler = iopn.NewHandler(suite.app.CronosKeeper)
 }
 
 func (suite *CronosTestSuite) TestInvalidMsg() {
@@ -46,7 +46,7 @@ func (suite *CronosTestSuite) TestInvalidMsg() {
 	suite.Nil(res)
 
 	_, _, log := errorsmod.ABCIInfo(err, false)
-	suite.Require().True(strings.Contains(log, "unrecognized cronos message type"))
+	suite.Require().True(strings.Contains(log, "unrecognized iopn message type"))
 }
 
 func (suite *CronosTestSuite) TestMsgConvertVouchers() {
@@ -78,7 +78,7 @@ func (suite *CronosTestSuite) TestMsgConvertVouchers() {
 
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
-			handler := cronos.NewHandler(suite.app.CronosKeeper)
+			handler := iopn.NewHandler(suite.app.CronosKeeper)
 			_, err := handler(suite.ctx, tc.msg)
 			if tc.expectedError != nil {
 				suite.Require().EqualError(err, tc.expectedError.Error())
@@ -118,12 +118,12 @@ func (suite *CronosTestSuite) TestMsgTransferTokens() {
 			"Correct address with non supported coin denom",
 			types.NewMsgTransferTokens(suite.address.String(), "to", sdk.NewCoins(sdk.NewCoin("fake", sdk.NewInt(1)))),
 			func() {},
-			errors.New("the coin fake is neither an ibc voucher or a cronos token"),
+			errors.New("the coin fake is neither an ibc voucher or a iopn token"),
 		},
 	}
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
-			handler := cronos.NewHandler(suite.app.CronosKeeper)
+			handler := iopn.NewHandler(suite.app.CronosKeeper)
 			_, err := handler(suite.ctx, tc.msg)
 			if tc.expectedError != nil {
 				suite.Require().EqualError(err, tc.expectedError.Error())
@@ -141,7 +141,7 @@ func (suite *CronosTestSuite) TestUpdateTokenMapping() {
 	contract := "0x57f96e6B86CdeFdB3d412547816a82E3E0EbF9D2"
 
 	msg := types.NewMsgUpdateTokenMapping(suite.address.String(), denom, contract, "", 0)
-	handler := cronos.NewHandler(suite.app.CronosKeeper)
+	handler := iopn.NewHandler(suite.app.CronosKeeper)
 	_, err := handler(suite.ctx, msg)
 	suite.Require().NoError(err)
 

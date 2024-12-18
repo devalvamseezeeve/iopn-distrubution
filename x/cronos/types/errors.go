@@ -11,7 +11,7 @@ const (
 	codeErrIbcCroDenomInvalid
 )
 
-// x/cronos module sentinel errors
+// x/iopn module sentinel errors
 var (
 	ErrIbcCroDenomEmpty   = errors.Register(ModuleName, codeErrIbcCroDenomEmpty, "ibc cro denom is not set")
 	ErrIbcCroDenomInvalid = errors.Register(ModuleName, codeErrIbcCroDenomInvalid, "ibc cro denom is invalid")

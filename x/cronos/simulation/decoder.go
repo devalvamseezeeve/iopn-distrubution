@@ -5,12 +5,12 @@ import (
 	"fmt"
 
 	"github.com/cosmos/cosmos-sdk/types/kv"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 	"github.com/ethereum/go-ethereum/common"
 )
 
 // NewDecodeStore returns a decoder function closure that unmarshals the KVPair's
-// value to the corresponding cronos type.
+// value to the corresponding iopn type.
 func NewDecodeStore() func(kvA, kvB kv.Pair) string {
 	return func(kvA, kvB kv.Pair) string {
 		switch {

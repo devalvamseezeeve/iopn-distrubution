@@ -24,8 +24,8 @@ import (
 	icagenesistypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/genesis/types"
 	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
 	ibcfeetypes "github.com/cosmos/ibc-go/v7/modules/apps/29-fee/types"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
-	icaauthtypes "github.com/crypto-org-chain/cronos/v2/x/icaauth/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
+	icaauthtypes "github.com/devalvamseezeeve/iopn-distrubution/v2/x/icaauth/types"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	gravitytypes "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/types"
@@ -56,7 +56,7 @@ func GetTxCmd() *cobra.Command {
 func CmdConvertTokens() *cobra.Command {
 	cmd := &cobra.Command{
 		Use: "convert-vouchers [address] [amount]",
-		Short: "Convert ibc vouchers to cronos tokens, Note, the'--from' flag is" +
+		Short: "Convert ibc vouchers to iopn tokens, Note, the'--from' flag is" +
 			" ignored as it is implied from [address].`",
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -90,7 +90,7 @@ func CmdConvertTokens() *cobra.Command {
 func CmdSendToCryptoOrg() *cobra.Command {
 	cmd := &cobra.Command{
 		Use: "transfer-tokens [from] [to] [amount]",
-		Short: "Transfer cronos tokens to the origin chain through IBC , Note, the'--from' flag is" +
+		Short: "Transfer iopn tokens to the origin chain through IBC , Note, the'--from' flag is" +
 			" ignored as it is implied from [from].`",
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -293,7 +293,7 @@ func CmdTurnBridge() *cobra.Command {
 	return cmd
 }
 
-// CmdUpdatePermissions returns a CLI command handler for updating cronos permissions
+// CmdUpdatePermissions returns a CLI command handler for updating iopn permissions
 func CmdUpdatePermissions() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update-permissions [address] [permissions]",
@@ -322,7 +322,7 @@ func CmdUpdatePermissions() *cobra.Command {
 	return cmd
 }
 
-// CmdStoreBlockList returns a CLI command handler for updating cronos permissions
+// CmdStoreBlockList returns a CLI command handler for updating iopn permissions
 func CmdStoreBlockList() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "store-block-list [encrypted-block-list-file]",
@@ -437,7 +437,7 @@ func MigrateGenesisCmd() *cobra.Command {
 		Long: fmt.Sprintf(`Migrate the source genesis into the target version and print to STDOUT.
 
 Example:
-$ %s migrate v1.0 /path/to/genesis.json --chain-id=cronos_777-1 --genesis-time=2019-04-22T17:00:00Z
+$ %s migrate v1.0 /path/to/genesis.json --chain-id=iopn_777-1 --genesis-time=2019-04-22T17:00:00Z
 `, version.AppName),
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {

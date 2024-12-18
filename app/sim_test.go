@@ -40,7 +40,7 @@ import (
 	ibcfeetypes "github.com/cosmos/ibc-go/v7/modules/apps/29-fee/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	ibcexported "github.com/cosmos/ibc-go/v7/modules/core/exported"
-	cronosmoduletypes "github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	iopnmoduletypes "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 // Get flags every time the simulator is run
@@ -241,7 +241,7 @@ func TestAppImportExport(t *testing.T) {
 		{app.keys[evidencetypes.StoreKey], newApp.keys[evidencetypes.StoreKey], [][]byte{}},
 		{app.keys[capabilitytypes.StoreKey], newApp.keys[capabilitytypes.StoreKey], [][]byte{}},
 		{app.keys[evmtypes.StoreKey], newApp.keys[evmtypes.StoreKey], [][]byte{}},
-		{app.keys[cronosmoduletypes.StoreKey], newApp.keys[cronosmoduletypes.StoreKey], [][]byte{}},
+		{app.keys[iopnmoduletypes.StoreKey], newApp.keys[iopnmoduletypes.StoreKey], [][]byte{}},
 		{app.keys[ibcexported.StoreKey], newApp.keys[ibcexported.StoreKey], [][]byte{}},
 		{app.keys[ibctransfertypes.StoreKey], newApp.keys[ibctransfertypes.StoreKey], [][]byte{}},
 		{app.keys[ibcfeetypes.StoreKey], newApp.keys[ibcfeetypes.StoreKey], [][]byte{}},

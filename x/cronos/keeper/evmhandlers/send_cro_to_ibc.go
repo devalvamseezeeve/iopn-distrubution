@@ -7,8 +7,8 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	cronoskeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	iopnkeeper "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 var _ types.EvmLogHandler = SendCroToIbcHandler{}
@@ -47,13 +47,13 @@ func init() {
 // SendCroToIbcHandler handles `__CronosSendCroToIbc` log
 type SendCroToIbcHandler struct {
 	bankKeeper   types.BankKeeper
-	cronosKeeper cronoskeeper.Keeper
+	iopnKeeper iopnkeeper.Keeper
 }
 
-func NewSendCroToIbcHandler(bankKeeper types.BankKeeper, cronosKeeper cronoskeeper.Keeper) *SendCroToIbcHandler {
+func NewSendCroToIbcHandler(bankKeeper types.BankKeeper, iopnKeeper iopnkeeper.Keeper) *SendCroToIbcHandler {
 	return &SendCroToIbcHandler{
 		bankKeeper:   bankKeeper,
-		cronosKeeper: cronosKeeper,
+		iopnKeeper: iopnKeeper,
 	}
 }
 
@@ -71,7 +71,7 @@ func (h SendCroToIbcHandler) Handle(
 	unpacked, err := SendCroToIbcEvent.Inputs.Unpack(data)
 	if err != nil {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
+		h.iopnKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
 		return nil
 	}
 
@@ -79,14 +79,14 @@ func (h SendCroToIbcHandler) Handle(
 	sender := sdk.AccAddress(unpacked[0].(common.Address).Bytes())
 	recipient := unpacked[1].(string)
 	amount := sdk.NewIntFromBigInt(unpacked[2].(*big.Int))
-	evmDenom := h.cronosKeeper.GetEvmParams(ctx).EvmDenom
+	evmDenom := h.iopnKeeper.GetEvmParams(ctx).EvmDenom
 	coins := sdk.NewCoins(sdk.NewCoin(evmDenom, amount))
 	// First, transfer IBC coin to user so that he will be the refunded address if transfer fails
 	if err = h.bankKeeper.SendCoins(ctx, contractAddr, sender, coins); err != nil {
 		return err
 	}
 	// Initiate IBC transfer from sender account
-	if err = h.cronosKeeper.IbcTransferCoins(ctx, sender.String(), recipient, coins, ""); err != nil {
+	if err = h.iopnKeeper.IbcTransferCoins(ctx, sender.String(), recipient, coins, ""); err != nil {
 		return err
 	}
 	return nil

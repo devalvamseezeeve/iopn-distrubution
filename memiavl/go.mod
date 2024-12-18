@@ -1,4 +1,4 @@
-module github.com/crypto-org-chain/cronos/memiavl
+module github.com/devalvamseezeeve/iopn-distrubution/memiavl
 
 go 1.22
 

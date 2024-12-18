@@ -5,7 +5,7 @@ import (
 	ethermint "github.com/evmos/ethermint/types"
 )
 
-// MakeEncodingConfig creates the EncodingConfig for cronos chain
+// MakeEncodingConfig creates the EncodingConfig for iopn chain
 func MakeEncodingConfig() ethermint.EncodingConfig {
 	return evmenc.MakeConfig(ModuleBasics)
 }

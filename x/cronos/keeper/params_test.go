@@ -5,10 +5,10 @@ import (
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	"github.com/crypto-org-chain/cronos/v2/app"
-	cronosmodulekeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	keepertest "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/mock"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/app"
+	iopnmodulekeeper "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	keepertest "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper/mock"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 func (suite *KeeperTestSuite) TestGetSourceChannelID() {
@@ -38,7 +38,7 @@ func (suite *KeeperTestSuite) TestGetSourceChannelID() {
 		suite.Run(tc.name, func() {
 			suite.SetupTest() // reset
 			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			iopnKeeper := *iopnmodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -49,7 +49,7 @@ func (suite *KeeperTestSuite) TestGetSourceChannelID() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			suite.app.CronosKeeper = cronosKeeper
+			suite.app.CronosKeeper = iopnKeeper
 
 			channelID, err := suite.app.CronosKeeper.GetSourceChannelID(suite.ctx, tc.ibcDenom)
 			if tc.expectedError != nil {

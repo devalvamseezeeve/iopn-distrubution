@@ -8,7 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/snapshots/types"
 	protoio "github.com/cosmos/gogoproto/io"
 
-	"github.com/crypto-org-chain/cronos/memiavl"
+	"github.com/devalvamseezeeve/iopn-distrubution/memiavl"
 )
 
 // Implements interface Snapshotter

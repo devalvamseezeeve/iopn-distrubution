@@ -12,13 +12,13 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
-	cronosevents "github.com/crypto-org-chain/cronos/v2/x/cronos/events"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/events/bindings/cosmos/precompile/ica"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/events/bindings/cosmos/precompile/icacallback"
-	cronoseventstypes "github.com/crypto-org-chain/cronos/v2/x/cronos/events/types"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	iopnevents "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/events"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/events/bindings/cosmos/precompile/ica"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/events/bindings/cosmos/precompile/icacallback"
+	iopneventstypes "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/events/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 
-	icaauthtypes "github.com/crypto-org-chain/cronos/v2/x/icaauth/types"
+	icaauthtypes "github.com/devalvamseezeeve/iopn-distrubution/v2/x/icaauth/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
@@ -73,17 +73,17 @@ type IcaContract struct {
 	ctx           sdk.Context
 	cdc           codec.Codec
 	icaauthKeeper types.Icaauthkeeper
-	cronosKeeper  types.CronosKeeper
+	iopnKeeper  types.CronosKeeper
 	kvGasConfig   storetypes.GasConfig
 }
 
-func NewIcaContract(ctx sdk.Context, icaauthKeeper types.Icaauthkeeper, cronosKeeper types.CronosKeeper, cdc codec.Codec, kvGasConfig storetypes.GasConfig) vm.PrecompiledContract {
+func NewIcaContract(ctx sdk.Context, icaauthKeeper types.Icaauthkeeper, iopnKeeper types.CronosKeeper, cdc codec.Codec, kvGasConfig storetypes.GasConfig) vm.PrecompiledContract {
 	return &IcaContract{
 		BaseContract:  NewBaseContract(icaContractAddress),
 		ctx:           ctx,
 		cdc:           cdc,
 		icaauthKeeper: icaauthKeeper,
-		cronosKeeper:  cronosKeeper,
+		iopnKeeper:  iopnKeeper,
 		kvGasConfig:   kvGasConfig,
 	}
 }
@@ -100,7 +100,7 @@ func (ic *IcaContract) RequiredGas(input []byte) uint64 {
 	copy(methodID[:], input[:4])
 	requiredGas, ok := icaGasRequiredByMethod[methodID]
 	if icaMethodNamesByID[methodID] == SubmitMsgsMethodName {
-		requiredGas += ic.cronosKeeper.GetParams(ic.ctx).MaxCallbackGas
+		requiredGas += ic.iopnKeeper.GetParams(ic.ctx).MaxCallbackGas
 	}
 	if ok {
 		return requiredGas + baseCost
@@ -119,7 +119,7 @@ func (ic *IcaContract) Run(evm *vm.EVM, contract *vm.Contract, readonly bool) ([
 	precompileAddr := ic.Address()
 	caller := contract.CallerAddress
 	owner := sdk.AccAddress(caller.Bytes()).String()
-	converter := cronosevents.IcaConvertEvent
+	converter := iopnevents.IcaConvertEvent
 	var execErr error
 	switch method.Name {
 	case RegisterAccountMethodName:
@@ -196,9 +196,9 @@ func (ic *IcaContract) Run(evm *vm.EVM, contract *vm.Contract, readonly bool) ([
 				seq = response.Sequence
 				ctx.EventManager().EmitEvents(sdk.Events{
 					sdk.NewEvent(
-						cronoseventstypes.EventTypeSubmitMsgsResult,
+						iopneventstypes.EventTypeSubmitMsgsResult,
 						sdk.NewAttribute(channeltypes.AttributeKeySrcChannel, activeChannelID),
-						sdk.NewAttribute(cronoseventstypes.AttributeKeySeq, fmt.Sprintf("%d", response.Sequence)),
+						sdk.NewAttribute(iopneventstypes.AttributeKeySeq, fmt.Sprintf("%d", response.Sequence)),
 					),
 				})
 			}

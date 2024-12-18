@@ -35,7 +35,7 @@ The legacy state migration process is done in two main steps:
 ### Extract Change Sets
 
 ```bash
-$ cronosd changeset dump data --home /chain/.cronosd
+$ iopnd changeset dump data --home /chain/.iopnd
 ```
 
 `dump` command will extract the change sets from the IAVL tree, and store each store in separate directories, it use the store list registered in current version of `App` by default, you can customize that with `--stores` parameter. The change set files are segmented into different block chunks and compressed with zlib level 6 by default, the chunk size defaults to 1m blocks, the result `data` directly looks like this:
@@ -58,7 +58,7 @@ For rocksdb backend, `dump` command opens the db in readonly mode, it can run on
 #### Verify Change Sets
 
 ```bash
-$ cronosd changeset verify data
+$ iopnd changeset verify data
 35b85a775ff51cbcc48537247eb786f98fc6a178531d48560126e00f545251be
 {"version":"189","storeInfos":[{"name":"acc","commitId":{"version":"189" ...
 ```
@@ -68,8 +68,8 @@ $ cronosd changeset verify data
 `verify` command takes several minutes and several gigabytes of ram to run, if ram usage is a problem, it can also run incrementally, you can export the snapshot for a middle version, then verify the remaining versions start from that snapshot:
 
 ```bash
-$ cronosd changeset verify data --save-snapshot snapshot --target-version 3000000
-$ cronosd changeset verify data --load-snapshot snapshot
+$ iopnd changeset verify data --save-snapshot snapshot --target-version 3000000
+$ iopnd changeset verify data --load-snapshot snapshot
 ```
 
 The format of change set files are documented [here](memiavl/README.md#change-set-file).
@@ -79,8 +79,8 @@ The format of change set files are documented [here](memiavl/README.md#change-se
 To maximize the speed of initial data ingestion speed into rocksdb, we take advantage of the sst file writer feature to write out sst files first, then ingest them into final db, the sst files for each store can be written out in parallel. We also developed an external sorting algorithm to sort the data before writing the sst files, so the sst files don't have overlaps and can be ingested into the bottom-most level in final db.
 
 ```bash
-$ cronosd changeset build-versiondb-sst ./data ./sst
-$ cronosd changeset ingest-versiondb-sst /home/.cronosd/data/versiondb sst/*.sst --move-files --maximum-version 189
+$ iopnd changeset build-versiondb-sst ./data ./sst
+$ iopnd changeset ingest-versiondb-sst /home/.iopnd/data/versiondb sst/*.sst --move-files --maximum-version 189
 ```
 
 User can control the peak ram usage by controlling the `--concurrency` and `--sorter-chunk-size`.
@@ -93,9 +93,9 @@ When migrating an existing archive node to versiondb, it's recommended to rebuil
 
 ```bash
 $ # create memiavl snapshot
-$ cronosd changeset verify data --save-snapshot snapshot
+$ iopnd changeset verify data --save-snapshot snapshot
 $ # restore application.db
-$ cronosd changeset restore-app-db snapshot application.db
+$ iopnd changeset restore-app-db snapshot application.db
 ```
 
 Then replace the whole `application.db` in the node with the newly generated one.

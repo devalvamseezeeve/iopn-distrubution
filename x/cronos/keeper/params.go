@@ -6,11 +6,11 @@ import (
 	"cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	transferTypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 	evmTypes "github.com/evmos/ethermint/x/evm/types"
 )
 
-// GetParams returns the total set of cronos parameters.
+// GetParams returns the total set of iopn parameters.
 func (k Keeper) GetParams(ctx sdk.Context) (params types.Params) {
 	store := ctx.KVStore(k.storeKey)
 	bz := store.Get(types.ParamsKey)
@@ -21,7 +21,7 @@ func (k Keeper) GetParams(ctx sdk.Context) (params types.Params) {
 	return params
 }
 
-// SetParams sets the total set of cronos parameters.
+// SetParams sets the total set of iopn parameters.
 func (k Keeper) SetParams(ctx sdk.Context, params types.Params) error {
 	if err := params.Validate(); err != nil {
 		return err

@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from .network import setup_cronos, setup_custom_cronos, setup_geth
+from .network import setup_iopn, setup_custom_iopn, setup_geth
 
 dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir + "/protobuf")
@@ -59,16 +59,16 @@ def suspend_capture(pytestconfig):
 
 
 @pytest.fixture(scope="session", params=[True])
-def cronos(request, tmp_path_factory):
+def iopn(request, tmp_path_factory):
     enable_indexer = request.param
     if enable_indexer:
         path = tmp_path_factory.mktemp("indexer")
-        yield from setup_custom_cronos(
+        yield from setup_custom_iopn(
             path, 27000, Path(__file__).parent / "configs/enable-indexer.jsonnet"
         )
     else:
-        path = tmp_path_factory.mktemp("cronos")
-        yield from setup_cronos(path, 26650)
+        path = tmp_path_factory.mktemp("iopn")
+        yield from setup_iopn(path, 26650)
 
 
 @pytest.fixture(scope="session")
@@ -77,19 +77,19 @@ def geth(tmp_path_factory):
     yield from setup_geth(path, 8545)
 
 
-@pytest.fixture(scope="session", params=["cronos", "geth", "cronos-ws"])
-def cluster(request, cronos, geth):
+@pytest.fixture(scope="session", params=["iopn", "geth", "iopn-ws"])
+def cluster(request, iopn, geth):
     """
-    run on both cronos and geth
+    run on both iopn and geth
     """
     provider = request.param
-    if provider == "cronos":
-        yield cronos
+    if provider == "iopn":
+        yield iopn
     elif provider == "geth":
         yield geth
-    elif provider == "cronos-ws":
-        cronos_ws = cronos.copy()
-        cronos_ws.use_websocket()
-        yield cronos_ws
+    elif provider == "iopn-ws":
+        iopn_ws = iopn.copy()
+        iopn_ws.use_websocket()
+        yield iopn_ws
     else:
         raise NotImplementedError

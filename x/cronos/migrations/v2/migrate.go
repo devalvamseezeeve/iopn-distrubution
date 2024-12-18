@@ -3,13 +3,13 @@ package v2
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/exported"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/exported"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
-// Migrate migrates the x/cronos module state from the consensus version 1 to
+// Migrate migrates the x/iopn module state from the consensus version 1 to
 // version 2. Specifically, it takes the parameters that are currently stored
-// and managed by the x/params modules and stores them directly into the x/cronos
+// and managed by the x/params modules and stores them directly into the x/iopn
 // module state.
 func Migrate(ctx sdk.Context, store sdk.KVStore, legacySubspace exported.Subspace, cdc codec.BinaryCodec) error {
 	var currParams types.Params

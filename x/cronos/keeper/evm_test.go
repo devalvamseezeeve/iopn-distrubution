@@ -3,7 +3,7 @@ package keeper_test
 import (
 	"math/big"
 
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
@@ -84,7 +84,7 @@ func (suite *KeeperTestSuite) TestSourceTokenConversion() {
 	suite.Require().NoError(err)
 
 	// Register the token
-	denom := "cronos" + contractAddress.Hex()
+	denom := "iopn" + contractAddress.Hex()
 	msgUpdateTokenMapping := types.MsgUpdateTokenMapping{
 		Sender:   cosmosAddress.String(),
 		Denom:    denom,
@@ -97,7 +97,7 @@ func (suite *KeeperTestSuite) TestSourceTokenConversion() {
 
 	// Mint some CRC21 token
 	amount := big.NewInt(100)
-	_, err = suite.app.CronosKeeper.CallModuleCRC21(suite.ctx, contractAddress, "mint_by_cronos_module", address, amount)
+	_, err = suite.app.CronosKeeper.CallModuleCRC21(suite.ctx, contractAddress, "mint_by_iopn_module", address, amount)
 	suite.Require().NoError(err)
 
 	// Convert CRC21 to native

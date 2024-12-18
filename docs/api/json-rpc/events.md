@@ -42,7 +42,7 @@ list of `event` categories
 [here](https://godoc.org/github.com/tendermint/tendermint/types#pkg-constants).
 
 The `type` and `attribute` value of the `query` allow you to filter the specific `event` you are
-looking for. For example, a `MsgEthereumTx` transaction triggers an `event` of type `cronosdocs/basics/accounts.md` and
+looking for. For example, a `MsgEthereumTx` transaction triggers an `event` of type `iopndocs/basics/accounts.md` and
 has `sender` and `recipient` as `attributes`. Subscribing to this `event` would be done like so:
 
 ```json
@@ -90,7 +90,7 @@ To start a connection with the Tendermint websocket you need to define the addre
 flag when starting the node (default `tcp://127.0.0.1:26657`):
 
 ```bash
-cronosd start --rpc.laddr="tcp://127.0.0.1:26657"
+iopnd start --rpc.laddr="tcp://127.0.0.1:26657"
 ```
 
 Then, start a websocket subscription with [ws](https://github.com/hashrocket/ws)
@@ -115,7 +115,7 @@ You can start a connection with the Ethereum websocket using the `--json-rpc.ws-
 the node (default `"127.0.0.1:8546"`):
 
 ```bash
-cronosd start  --json-rpc.address"127.0.0.1:8545" --json-rpc.ws-address="127.0.0.1:8546" --evm.rpc.api="eth,web3,net,txpool,debug" --json-rpc.enable
+iopnd start  --json-rpc.address"127.0.0.1:8545" --json-rpc.ws-address="127.0.0.1:8546" --evm.rpc.api="eth,web3,net,txpool,debug" --json-rpc.enable
 ```
 
 Then, start a websocket subscription with [`ws`](https://github.com/hashrocket/ws)

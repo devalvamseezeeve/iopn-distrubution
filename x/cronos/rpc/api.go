@@ -10,7 +10,7 @@ import (
 	coretypes "github.com/cometbft/cometbft/rpc/core/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/server"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
@@ -25,8 +25,8 @@ import (
 )
 
 const (
-	// CronosNamespace is the extension RPC namespace of cronos module.
-	CronosNamespace = "cronos"
+	// CronosNamespace is the extension RPC namespace of iopn module.
+	CronosNamespace = "iopn"
 
 	apiVersion = "1.0"
 
@@ -52,7 +52,7 @@ func CreateCronosRPCAPIs(ctx *server.Context, clientCtx client.Context, _ *strea
 	}
 }
 
-// CronosAPI is the extension jsonrpc apis prefixed with cronos_.
+// CronosAPI is the extension jsonrpc apis prefixed with iopn_.
 type CronosAPI struct {
 	ctx               context.Context
 	clientCtx         client.Context
@@ -60,10 +60,10 @@ type CronosAPI struct {
 	chainIDEpoch      *big.Int
 	logger            log.Logger
 	backend           backend.Backend
-	cronosQueryClient types.QueryClient
+	iopnQueryClient types.QueryClient
 }
 
-// NewCronosAPI creates an instance of the cronos web3 extension apis.
+// NewCronosAPI creates an instance of the iopn web3 extension apis.
 func NewCronosAPI(
 	logger log.Logger,
 	clientCtx client.Context,
@@ -80,7 +80,7 @@ func NewCronosAPI(
 		chainIDEpoch:      eip155ChainID,
 		logger:            logger.With("client", "json-rpc"),
 		backend:           backend,
-		cronosQueryClient: types.NewQueryClient(clientCtx),
+		iopnQueryClient: types.NewQueryClient(clientCtx),
 	}
 }
 
@@ -114,7 +114,7 @@ func (api *CronosAPI) getBlockDetail(blockNrOrHash rpctypes.BlockNumberOrHash) (
 
 // GetTransactionReceiptsByBlock returns all the transaction receipts included in the block.
 func (api *CronosAPI) GetTransactionReceiptsByBlock(blockNrOrHash rpctypes.BlockNumberOrHash) ([]map[string]interface{}, error) {
-	api.logger.Debug("cronos_getTransactionReceiptsByBlock", "blockNrOrHash", blockNrOrHash)
+	api.logger.Debug("iopn_getTransactionReceiptsByBlock", "blockNrOrHash", blockNrOrHash)
 	resBlock, blockNumber, blockHash, blockRes, baseFee, err := api.getBlockDetail(blockNrOrHash)
 	if err != nil {
 		return nil, err
@@ -237,7 +237,7 @@ func (api *CronosAPI) GetTransactionReceiptsByBlock(blockNrOrHash rpctypes.Block
 // ReplayBlock return tx receipts by replay all the eth transactions,
 // if postUpgrade is true, the tx that exceeded block gas limit is treated as reverted, otherwise as committed.
 func (api *CronosAPI) ReplayBlock(blockNrOrHash rpctypes.BlockNumberOrHash, postUpgrade bool) ([]map[string]interface{}, error) {
-	api.logger.Debug("cronos_replayBlock", "blockNrOrHash", blockNrOrHash)
+	api.logger.Debug("iopn_replayBlock", "blockNrOrHash", blockNrOrHash)
 	resBlock, blockNumber, blockHash, blockRes, baseFee, err := api.getBlockDetail(blockNrOrHash)
 	if err != nil {
 		return nil, err
@@ -291,7 +291,7 @@ func (api *CronosAPI) ReplayBlock(blockNrOrHash rpctypes.BlockNumberOrHash, post
 		// 0 is a special value in `ContextWithHeight`
 		contextHeight = 1
 	}
-	rsp, err := api.cronosQueryClient.ReplayBlock(rpctypes.ContextWithHeight(contextHeight), req)
+	rsp, err := api.iopnQueryClient.ReplayBlock(rpctypes.ContextWithHeight(contextHeight), req)
 	if err != nil {
 		return nil, err
 	}

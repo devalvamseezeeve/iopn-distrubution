@@ -38,14 +38,14 @@ def ibc(request, tmp_path_factory):
 def test_ica(ibc, tmp_path):
     connid = "connection-0"
     cli_host = ibc.chainmain.cosmos_cli()
-    cli_controller = ibc.cronos.cosmos_cli()
+    cli_controller = ibc.iopn.cosmos_cli()
     ica_address, channel_id = register_acc(cli_controller, connid)
     balance = funds_ica(cli_host, ica_address)
     to = cli_host.address("signer2")
     amount = 1000
     denom = "basecro"
     jsonfile = CONTRACTS["TestICA"]
-    tcontract = deploy_contract(ibc.cronos.w3, jsonfile)
+    tcontract = deploy_contract(ibc.iopn.w3, jsonfile)
     timeout_in_ns = 6000000000
     seq = 1
     msg_num = 10

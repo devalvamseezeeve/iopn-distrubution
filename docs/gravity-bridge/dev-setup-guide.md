@@ -5,12 +5,12 @@
 ### Binaries
 
 - `geth`, the go-ethereum binary.
-- `cronosd`, the cronos node binary.
-- `gorc`, the gravity bridge orchestrator cli, built from the [crypto-org fork](https://github.com/crypto-org-chain/gravity-bridge/tree/v2.0.0-cronos/orchestrator/gorc).
+- `iopnd`, the iopn node binary.
+- `gorc`, the gravity bridge orchestrator cli, built from the [crypto-org fork](https://github.com/crypto-org-chain/gravity-bridge/tree/v2.0.0-iopn/orchestrator/gorc).
 - `pystarport`, a tool to run local cosmos devnet.
-- `start-geth`/`start-cronos`, convenient scripts to start the local devnets.
+- `start-geth`/`start-iopn`, convenient scripts to start the local devnets.
 
-Clone cronos repo locally and run `nix-shell integration_tests/shell.nix` in it, you'll get a virtual shell with the
+Clone iopn repo locally and run `nix-shell integration_tests/shell.nix` in it, you'll get a virtual shell with the
 above essential binaries setup in `PATH`.
 
 ### Ethereum Testnet
@@ -23,8 +23,8 @@ flower region sausage mercy arrive release`.
 
 ### Cronos Testnet
 
-You can either use a public cronos testnet (that have embed the gravity-bridge module), or run `start-cronos
-/tmp/test-cronos` to get a local Cronos testnet.
+You can either use a public iopn testnet (that have embed the gravity-bridge module), or run `start-iopn
+/tmp/test-iopn` to get a local Cronos testnet.
 
 You should own some funds in this testnet, for the local testnet, you'll get the funds with the same private key as
 above.
@@ -32,7 +32,7 @@ above.
 ## Generate Orchestrator Keys
 
 
-You need to prepare two accounts for the orchestrator, one for ethereum and one for cronos. You should transfer some funds to these accounts, so the orchestrator can cover the gas fees of message relaying later.
+You need to prepare two accounts for the orchestrator, one for ethereum and one for iopn. You should transfer some funds to these accounts, so the orchestrator can cover the gas fees of message relaying later.
 
 ### Creating the config:
 
@@ -105,13 +105,13 @@ Note that `eth_account` python package needs to be installed.
 ## Sign Validator Address
 
 To register the orchestrator with the validator, you need to sign a protobuf encoded message using the orchestrator's
-ethereum key, and send it to a cronos validator to register it.
+ethereum key, and send it to a iopn validator to register it.
 
 The protobuf message is like this:
 
 ```protobuf
 message DelegateKeysSignMsg {
-  // The valoper prefixed cronos validator address
+  // The valoper prefixed iopn validator address
   string validator_address = 1;
   // Current nonce of the validator account
   uint64 nonce = 2;
@@ -132,11 +132,11 @@ return eth_utils.to_hex(signed.signature)
 
 ## Register Orchestrator With Cronos Validator
 
-At last, send the orchestrator's ethereum address, cronos address, and the signature we just signed above to a Cronos
-validator, the validator should send a `set-delegate-keys` transaction to cronos network to register the binding:
+At last, send the orchestrator's ethereum address, iopn address, and the signature we just signed above to a Cronos
+validator, the validator should send a `set-delegate-keys` transaction to iopn network to register the binding:
 
 ```shell
-$ cronosd tx gravity set-delegate-keys $val_address $orchestrator_cronos_address $orchestrator_eth_address $signature
+$ iopnd tx gravity set-delegate-keys $val_address $orchestrator_iopn_address $orchestrator_eth_address $signature
 ```
 
 ## Deploy Gravity Contract On Ethereum
@@ -146,10 +146,10 @@ orchestrator. And before deploy gravity contract, we need to prepare the [parame
 constructor](https://github.com/PeggyJV/gravity-bridge/blob/cfd55296dfb981dd7a18cefa2da9e21410fa0403/solidity/contracts/Gravity.sol#L561)
 first:
 
-- `gravity_id`. Run command `cronosd q gravity params | jq ".params.gravity_id"`
+- `gravity_id`. Run command `iopnd q gravity params | jq ".params.gravity_id"`
 - `threshold`, constant `2834678415`, which is just `int(2 ** 32 * 0.66)`.
 - `eth_addresses` and `powers`:
-  - Query signer set by running command: `cronosd q gravity latest-signer-set-tx | jq ".signer_set.signers"`
+  - Query signer set by running command: `iopnd q gravity latest-signer-set-tx | jq ".signer_set.signers"`
   - Sum up the `power` field to get `powers`
   - Collect the `ethereum_address` field into a list to get `eth_addresses`
 
@@ -165,4 +165,4 @@ releases](https://github.com/PeggyJV/gravity-bridge/releases).
 		--ethereum-key="orch_eth"
 ```
 
-After all the orchestrator processes run, the gravity bridge between ethereum and cronos is setup succesfully.
+After all the orchestrator processes run, the gravity bridge between ethereum and iopn is setup succesfully.

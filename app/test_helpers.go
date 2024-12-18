@@ -36,13 +36,13 @@ import (
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	cronostypes "github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	iopntypes "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 const (
 	SimAppChainID  = "simulation_777-1"
 	SimBlockMaxGas = 815000000
-	TestAppChainID = "cronos_777-1"
+	TestAppChainID = "iopn_777-1"
 )
 
 // DefaultConsensusParams defines the default Tendermint consensus params used in
@@ -76,7 +76,7 @@ func setup(withGenesis, skipGravity bool, invCheckPeriod uint) (*App, GenesisSta
 }
 
 // Setup initializes a new App. A Nop logger is set in App.
-func Setup(t *testing.T, cronosAdmin string, skipGravity bool) *App {
+func Setup(t *testing.T, iopnAdmin string, skipGravity bool) *App {
 	t.Helper()
 
 	privVal := mock.NewPV()
@@ -94,24 +94,24 @@ func Setup(t *testing.T, cronosAdmin string, skipGravity bool) *App {
 		Address: acc.GetAddress().String(),
 		Coins:   sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(100000000000000))),
 	}
-	return SetupWithGenesisValSet(t, cronosAdmin, skipGravity, valSet, []authtypes.GenesisAccount{acc}, balance)
+	return SetupWithGenesisValSet(t, iopnAdmin, skipGravity, valSet, []authtypes.GenesisAccount{acc}, balance)
 }
 
 // SetupWithGenesisValSet initializes a new App with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
 // of one consensus engine unit (10^6) in the default token of the simapp from first genesis
 // account. A Nop logger is set in App.
-func SetupWithGenesisValSet(t *testing.T, cronosAdmin string, skipGravity bool, valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) *App {
+func SetupWithGenesisValSet(t *testing.T, iopnAdmin string, skipGravity bool, valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) *App {
 	t.Helper()
 
 	app, genesisState := setup(true, skipGravity, 5)
 	genesisState = genesisStateWithValSet(t, app, genesisState, valSet, genAccs, balances...)
 
-	cronosGen := cronostypes.DefaultGenesis()
-	cronosGen.Params.CronosAdmin = cronosAdmin
+	iopnGen := iopntypes.DefaultGenesis()
+	iopnGen.Params.CronosAdmin = iopnAdmin
 	// enable auto deployment in test genesis
-	cronosGen.Params.EnableAutoDeployment = true
-	genesisState["cronos"] = app.cdc.MustMarshalJSON(cronosGen)
+	iopnGen.Params.EnableAutoDeployment = true
+	genesisState["iopn"] = app.cdc.MustMarshalJSON(iopnGen)
 
 	// set genesis accounts
 	authGenesis := authtypes.NewGenesisState(authtypes.DefaultParams(), genAccs)

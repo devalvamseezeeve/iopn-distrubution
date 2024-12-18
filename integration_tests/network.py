@@ -14,13 +14,13 @@ from .utils import supervisorctl, wait_for_port
 
 
 class Cronos:
-    def __init__(self, base_dir, chain_binary="cronosd"):
+    def __init__(self, base_dir, chain_binary="iopnd"):
         self._w3 = None
         self.base_dir = base_dir
         self.config = json.loads((base_dir / "config.json").read_text())
         self.enable_auto_deployment = json.loads(
             (base_dir / "genesis.json").read_text()
-        )["app_state"]["cronos"]["params"]["enable_auto_deployment"]
+        )["app_state"]["iopn"]["params"]["enable_auto_deployment"]
         self._use_websockets = False
         self.chain_binary = chain_binary
 
@@ -94,13 +94,13 @@ class Geth:
         self.w3 = w3
 
 
-def setup_cronos(path, base_port, enable_auto_deployment=True):
+def setup_iopn(path, base_port, enable_auto_deployment=True):
     cfg = Path(__file__).parent / (
         "configs/default.jsonnet"
         if enable_auto_deployment
         else "configs/disable_auto_deployment.jsonnet"
     )
-    yield from setup_custom_cronos(path, base_port, cfg)
+    yield from setup_custom_iopn(path, base_port, cfg)
 
 
 def setup_geth(path, base_port):
@@ -139,18 +139,18 @@ def setup_geth(path, base_port):
 
 
 class GravityBridge:
-    cronos: Cronos
+    iopn: Cronos
     geth: Geth
     # gravity contract deployed on geth
     contract: web3.contract.Contract
 
-    def __init__(self, cronos, geth, contract):
-        self.cronos = cronos
+    def __init__(self, iopn, geth, contract):
+        self.iopn = iopn
         self.geth = geth
         self.contract = contract
 
 
-def setup_custom_cronos(
+def setup_custom_iopn(
     path,
     base_port,
     config,
@@ -186,7 +186,7 @@ def setup_custom_cronos(
         if wait_port:
             wait_for_port(ports.evmrpc_port(base_port))
             wait_for_port(ports.evmrpc_ws_port(base_port))
-        yield Cronos(path / "cronos_777-1", chain_binary=chain_binary or "cronosd")
+        yield Cronos(path / "iopn_777-1", chain_binary=chain_binary or "iopnd")
     finally:
         os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
         # proc.terminate()

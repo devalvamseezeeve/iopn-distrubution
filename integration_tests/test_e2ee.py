@@ -9,8 +9,8 @@ from .network import Cronos
 from .utils import ADDRS, bech32_to_eth, wait_for_new_blocks, wait_for_port
 
 
-def test_register(cronos: Cronos):
-    cli = cronos.cosmos_cli()
+def test_register(iopn: Cronos):
+    cli = iopn.cosmos_cli()
     pubkey0 = cli.e2ee_keygen(keyring_name="key0")
     with pytest.raises(AssertionError) as exc:
         cli.register_e2ee_key(pubkey0 + "malformed", _from="validator")
@@ -18,9 +18,9 @@ def test_register(cronos: Cronos):
     assert not cli.query_e2ee_key(cli.address("validator"))
 
 
-def gen_validator_identity(cronos: Cronos):
-    for i in range(len(cronos.config["validators"])):
-        cli = cronos.cosmos_cli(i)
+def gen_validator_identity(iopn: Cronos):
+    for i in range(len(iopn.config["validators"])):
+        cli = iopn.cosmos_cli(i)
         if cli.query_e2ee_key(cli.address("validator")):
             return
         pubkey = cli.e2ee_keygen()
@@ -28,16 +28,16 @@ def gen_validator_identity(cronos: Cronos):
         cli.register_e2ee_key(pubkey, _from="validator")
         assert cli.query_e2ee_key(cli.address("validator")) == pubkey
 
-        cronos.supervisorctl("restart", f"cronos_777-1-node{i}")
+        iopn.supervisorctl("restart", f"iopn_777-1-node{i}")
 
-    wait_for_new_blocks(cronos.cosmos_cli(), 1)
+    wait_for_new_blocks(iopn.cosmos_cli(), 1)
 
 
-def test_encrypt_decrypt(cronos):
-    gen_validator_identity(cronos)
+def test_encrypt_decrypt(iopn):
+    gen_validator_identity(iopn)
 
-    cli0 = cronos.cosmos_cli()
-    cli1 = cronos.cosmos_cli(1)
+    cli0 = iopn.cosmos_cli()
+    cli1 = iopn.cosmos_cli(1)
 
     # query in batch
     assert (
@@ -76,9 +76,9 @@ def encrypt_to_validators(cli, content):
     assert rsp["code"] == 0, rsp["raw_log"]
 
 
-def test_block_list(cronos):
-    gen_validator_identity(cronos)
-    cli = cronos.cosmos_cli()
+def test_block_list(iopn):
+    gen_validator_identity(iopn)
+    cli = iopn.cosmos_cli()
     user = cli.address("signer2")
     # set blocklist
     encrypt_to_validators(cli, {"addresses": [user]})
@@ -107,9 +107,9 @@ def test_block_list(cronos):
     assert nonce + 1 == int(cli.query_account(user)["base_account"]["sequence"])
 
 
-def test_block_list_evm(cronos):
-    gen_validator_identity(cronos)
-    cli = cronos.cosmos_cli()
+def test_block_list_evm(iopn):
+    gen_validator_identity(iopn)
+    cli = iopn.cosmos_cli()
     user = cli.address("signer2")
     # set blocklist
     encrypt_to_validators(cli, {"addresses": [user]})
@@ -118,9 +118,9 @@ def test_block_list_evm(cronos):
         "to": ADDRS["community"],
         "value": 1,
     }
-    base_port = cronos.base_port(0)
+    base_port = iopn.base_port(0)
     wait_for_port(ports.evmrpc_ws_port(base_port))
-    w3 = cronos.w3
+    w3 = iopn.w3
     flt = w3.eth.filter("pending")
     assert flt.get_new_entries() == []
 
@@ -138,8 +138,8 @@ def test_block_list_evm(cronos):
     assert w3.eth.get_filter_changes(flt.filter_id) == []
 
 
-def test_invalid_block_list(cronos):
-    cli = cronos.cosmos_cli()
+def test_invalid_block_list(iopn):
+    cli = iopn.cosmos_cli()
     cipherfile = cli.data_dir / "ciphertext"
     cipherfile.write_text("{}")
     with pytest.raises(AssertionError) as exc:

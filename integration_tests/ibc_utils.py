@@ -9,7 +9,7 @@ from typing import NamedTuple
 import requests
 from pystarport import cluster, ports
 
-from .network import Chainmain, Cronos, Hermes, setup_custom_cronos
+from .network import Chainmain, Cronos, Hermes, setup_custom_iopn
 from .utils import (
     ADDRS,
     CONTRACTS,
@@ -32,7 +32,7 @@ class Status(IntEnum):
 
 
 class IBCNetwork(NamedTuple):
-    cronos: Cronos
+    iopn: Cronos
     chainmain: Chainmain
     hermes: Hermes | None
     incentivized: bool
@@ -53,7 +53,7 @@ def call_hermes_cmd(
                 "create",
                 "connection",
                 "--a-chain",
-                "cronos_777-1",
+                "iopn_777-1",
                 "--b-chain",
                 "chainmain-1",
             ]
@@ -71,7 +71,7 @@ def call_hermes_cmd(
                 "--b-port",
                 "transfer",
                 "--a-chain",
-                "cronos_777-1",
+                "iopn_777-1",
                 "--b-chain",
                 "chainmain-1",
                 "--new-client-connection",
@@ -94,8 +94,8 @@ def call_rly_cmd(path, connection_only, version, hostchain="chainmain-1"):
         "pth",
         "new",
         hostchain,
-        "cronos_777-1",
-        "chainmain-cronos",
+        "iopn_777-1",
+        "chainmain-iopn",
         "--home",
         str(path),
     ]
@@ -105,7 +105,7 @@ def call_rly_cmd(path, connection_only, version, hostchain="chainmain-1"):
             "rly",
             "tx",
             "connect",
-            "chainmain-cronos",
+            "chainmain-iopn",
             "--home",
             str(path),
         ]
@@ -114,7 +114,7 @@ def call_rly_cmd(path, connection_only, version, hostchain="chainmain-1"):
             "rly",
             "tx",
             "connect",
-            "chainmain-cronos",
+            "chainmain-iopn",
             "--src-port",
             "transfer",
             "--dst-port",
@@ -145,14 +145,14 @@ def prepare_network(
     is_hermes = relayer == cluster.Relayer.HERMES.value
     hermes = None
     file = f"configs/{file}.jsonnet"
-    with contextmanager(setup_custom_cronos)(
+    with contextmanager(setup_custom_iopn)(
         tmp_path,
         26700,
         Path(__file__).parent / file,
         relayer=relayer,
-    ) as cronos:
+    ) as iopn:
         if grantee:
-            cli = cronos.cosmos_cli()
+            cli = iopn.cosmos_cli()
             granter_addr = cli.address("signer1")
             grantee_addr = cli.address(grantee)
             max_gas = 1000000
@@ -164,13 +164,13 @@ def prepare_network(
             assert grant_detail["granter"] == granter_addr
             assert grant_detail["grantee"] == grantee_addr
 
-        chainmain = Chainmain(cronos.base_dir.parent / "chainmain-1")
+        chainmain = Chainmain(iopn.base_dir.parent / "chainmain-1")
         # wait for grpc ready
         wait_for_port(ports.grpc_port(chainmain.base_port(0)))  # chainmain grpc
-        wait_for_port(ports.grpc_port(cronos.base_port(0)))  # cronos grpc
+        wait_for_port(ports.grpc_port(iopn.base_port(0)))  # iopn grpc
 
         version = {"fee_version": "ics29-1", "app_version": "ics20-1"}
-        path = cronos.base_dir.parent / "relayer"
+        path = iopn.base_dir.parent / "relayer"
         if is_hermes:
             hermes = Hermes(path.with_suffix(".toml"))
             call_hermes_cmd(
@@ -184,7 +184,7 @@ def prepare_network(
 
         if incentivized:
             # register fee payee
-            src_chain = cronos.cosmos_cli()
+            src_chain = iopn.cosmos_cli()
             dst_chain = chainmain.cosmos_cli()
             rsp = dst_chain.register_counterparty_payee(
                 "transfer",
@@ -198,12 +198,12 @@ def prepare_network(
 
         port = None
         if is_relay:
-            cronos.supervisorctl("start", "relayer-demo")
+            iopn.supervisorctl("start", "relayer-demo")
             if is_hermes:
                 port = hermes.port
             else:
                 port = 5183
-        yield IBCNetwork(cronos, chainmain, hermes, incentivized)
+        yield IBCNetwork(iopn, chainmain, hermes, incentivized)
         if port:
             wait_for_port(port)
 
@@ -218,9 +218,9 @@ def assert_ready(ibc):
 
 def hermes_transfer(ibc):
     assert_ready(ibc)
-    # chainmain-1 -> cronos_777-1
+    # chainmain-1 -> iopn_777-1
     my_ibc0 = "chainmain-1"
-    my_ibc1 = "cronos_777-1"
+    my_ibc1 = "iopn_777-1"
     my_channel = "channel-0"
     dst_addr = eth_to_bech32(ADDRS["signer2"])
     src_amount = 10
@@ -238,19 +238,19 @@ def hermes_transfer(ibc):
 
 
 def rly_transfer(ibc):
-    # chainmain-1 -> cronos_777-1
+    # chainmain-1 -> iopn_777-1
     my_ibc0 = "chainmain-1"
-    my_ibc1 = "cronos_777-1"
+    my_ibc1 = "iopn_777-1"
     channel = "channel-0"
     dst_addr = eth_to_bech32(ADDRS["signer2"])
     src_amount = 10
     src_denom = "basecro"
-    path = ibc.cronos.base_dir.parent / "relayer"
+    path = ibc.iopn.base_dir.parent / "relayer"
     # srcchainid dstchainid amount dst_addr srchannelid
     cmd = (
         f"rly tx transfer {my_ibc0} {my_ibc1} {src_amount}{src_denom} "
         f"{dst_addr} {channel} "
-        f"--path chainmain-cronos "
+        f"--path chainmain-iopn "
         f"--home {str(path)}"
     )
     subprocess.run(cmd, check=True, shell=True)
@@ -290,19 +290,19 @@ def ibc_transfer_with_hermes(ibc):
     dst_amount = src_amount * RATIO  # the decimal places difference
     dst_denom = "basetcro"
     dst_addr = eth_to_bech32(ADDRS["signer2"])
-    old_dst_balance = get_balance(ibc.cronos, dst_addr, dst_denom)
+    old_dst_balance = get_balance(ibc.iopn, dst_addr, dst_denom)
 
     new_dst_balance = 0
 
     def check_balance_change():
         nonlocal new_dst_balance
-        new_dst_balance = get_balance(ibc.cronos, dst_addr, dst_denom)
+        new_dst_balance = get_balance(ibc.iopn, dst_addr, dst_denom)
         return new_dst_balance != old_dst_balance
 
     wait_for_fn("balance change", check_balance_change)
     assert old_dst_balance + dst_amount == new_dst_balance
     # assert that the relayer transactions do enables the dynamic fee extension option.
-    cli = ibc.cronos.cosmos_cli()
+    cli = ibc.iopn.cosmos_cli()
     criteria = "message.action=/ibc.core.channel.v1.MsgChannelOpenInit"
     tx = cli.tx_search(criteria)["txs"][0]
     events = parse_events_rpc(tx["events"])
@@ -332,7 +332,7 @@ def get_balances(chain, addr):
 
 
 def ibc_multi_transfer(ibc):
-    chains = [ibc.cronos.cosmos_cli(), ibc.chainmain.cosmos_cli()]
+    chains = [ibc.iopn.cosmos_cli(), ibc.chainmain.cosmos_cli()]
     users = [f"user{i}" for i in range(1, 21)]
     addrs0 = [chains[0].address(user) for user in users]
     addrs1 = [chains[1].address(user) for user in users]
@@ -379,7 +379,7 @@ def ibc_multi_transfer(ibc):
     for i, _ in enumerate(users):
         wait_for_fn("assert balance", lambda: assert_trace_balance(addrs1[i]))
 
-    # chainmain-1 -> cronos_777-1
+    # chainmain-1 -> iopn_777-1
     amt = amount // 2
 
     def assert_balance(addr):
@@ -409,7 +409,7 @@ def ibc_multi_transfer(ibc):
 
 
 def ibc_incentivized_transfer(ibc):
-    chains = [ibc.cronos.cosmos_cli(), ibc.chainmain.cosmos_cli()]
+    chains = [ibc.iopn.cosmos_cli(), ibc.chainmain.cosmos_cli()]
     receiver = chains[1].address("signer2")
     sender = chains[0].address("signer2")
     relayer = chains[0].address("signer1")
@@ -433,7 +433,7 @@ def ibc_incentivized_transfer(ibc):
         fees="0basecro",
     )
     assert rsp["code"] == 0, rsp["raw_log"]
-    src_chain = ibc.cronos.cosmos_cli()
+    src_chain = ibc.iopn.cosmos_cli()
     rsp = src_chain.event_query_tx_for(rsp["txhash"])
     evt = parse_events(rsp["logs"])["send_packet"]
     print("packet event", evt)
@@ -464,7 +464,7 @@ def ibc_incentivized_transfer(ibc):
     wait_for_fn("wait for relayer to receive the fee", check_fee)
 
     # timeout fee is refunded
-    actual = get_balances(ibc.cronos, sender)
+    actual = get_balances(ibc.iopn, sender)
     assert actual == [
         {"denom": base_denom, "amount": f"{old_amt_sender_base - amount}"},
         {"denom": fee_denom, "amount": f"{old_amt_sender_fee - 20}"},
@@ -512,10 +512,10 @@ def ibc_denom(channel, denom):
     return f"ibc/{h}"
 
 
-def cronos_transfer_source_tokens(ibc):
+def iopn_transfer_source_tokens(ibc):
     # deploy crc21 contract
-    w3 = ibc.cronos.w3
-    contract, denom = setup_token_mapping(ibc.cronos, "TestERC21Source", "DOG")
+    w3 = ibc.iopn.w3
+    contract, denom = setup_token_mapping(ibc.iopn, "TestERC21Source", "DOG")
     # send token to crypto.org
     print("send to crypto.org")
     chainmain_receiver = ibc.chainmain.cosmos_cli().address("signer2")
@@ -557,40 +557,40 @@ def cronos_transfer_source_tokens(ibc):
     txreceipt = send_transaction(w3, tx)
     assert txreceipt.status == 0, "should fail"
 
-    # send back the token to cronos
+    # send back the token to iopn
     # check receiver balance
-    cronos_balance_before_send = contract.caller.balanceOf(ADDRS["signer2"])
-    assert cronos_balance_before_send == 0
+    iopn_balance_before_send = contract.caller.balanceOf(ADDRS["signer2"])
+    assert iopn_balance_before_send == 0
 
     # send back token through ibc
     print("Send back token through ibc")
     chainmain_cli = ibc.chainmain.cosmos_cli()
-    cronos_receiver = eth_to_bech32(ADDRS["signer2"])
+    iopn_receiver = eth_to_bech32(ADDRS["signer2"])
 
     coin = "1000" + dest_denom
     fees = "100000000basecro"
     rsp = chainmain_cli.ibc_transfer(
-        chainmain_receiver, cronos_receiver, coin, "channel-0", 1, fees=fees
+        chainmain_receiver, iopn_receiver, coin, "channel-0", 1, fees=fees
     )
     assert rsp["code"] == 0, rsp["raw_log"]
 
     # check contract balance
-    cronos_balance_after_send = 0
+    iopn_balance_after_send = 0
 
     def check_contract_balance_change():
-        nonlocal cronos_balance_after_send
-        cronos_balance_after_send = contract.caller.balanceOf(ADDRS["signer2"])
-        return cronos_balance_after_send != cronos_balance_before_send
+        nonlocal iopn_balance_after_send
+        iopn_balance_after_send = contract.caller.balanceOf(ADDRS["signer2"])
+        return iopn_balance_after_send != iopn_balance_before_send
 
     wait_for_fn("check contract balance change", check_contract_balance_change)
-    assert cronos_balance_after_send == amount
+    assert iopn_balance_after_send == amount
     return amount, contract.address
 
 
-def cronos_transfer_source_tokens_with_proxy(ibc):
-    w3 = ibc.cronos.w3
+def iopn_transfer_source_tokens_with_proxy(ibc):
+    w3 = ibc.iopn.w3
     symbol = "TEST"
-    contract, denom = setup_token_mapping(ibc.cronos, "TestCRC20", symbol)
+    contract, denom = setup_token_mapping(ibc.iopn, "TestCRC20", symbol)
 
     # deploy crc20 proxy contract
     proxycrc20 = deploy_contract(
@@ -603,16 +603,16 @@ def cronos_transfer_source_tokens_with_proxy(ibc):
     assert proxycrc20.caller.is_source()
     assert proxycrc20.caller.crc20() == contract.address
 
-    cronos_cli = ibc.cronos.cosmos_cli()
+    iopn_cli = ibc.iopn.cosmos_cli()
     # change token mapping
-    rsp = cronos_cli.update_token_mapping(
+    rsp = iopn_cli.update_token_mapping(
         denom, proxycrc20.address, symbol, 6, from_="validator"
     )
     assert rsp["code"] == 0, rsp["raw_log"]
-    wait_for_new_blocks(cronos_cli, 1)
+    wait_for_new_blocks(iopn_cli, 1)
 
     print("check the contract mapping exists now")
-    rsp = cronos_cli.query_denom_by_contract(proxycrc20.address)
+    rsp = iopn_cli.query_denom_by_contract(proxycrc20.address)
     assert rsp["denom"] == denom
 
     # send token to crypto.org
@@ -659,33 +659,33 @@ def cronos_transfer_source_tokens_with_proxy(ibc):
     wait_for_fn("check balance change", check_chainmain_balance_change)
     assert chainmain_receiver_new_balance == amount
 
-    # send back the token to cronos
+    # send back the token to iopn
     # check receiver balance
-    cronos_balance_before_send = contract.caller.balanceOf(ADDRS["signer2"])
-    assert cronos_balance_before_send == 0
+    iopn_balance_before_send = contract.caller.balanceOf(ADDRS["signer2"])
+    assert iopn_balance_before_send == 0
 
     # send back token through ibc
     print("Send back token through ibc")
     chainmain_cli = ibc.chainmain.cosmos_cli()
-    cronos_receiver = eth_to_bech32(ADDRS["signer2"])
+    iopn_receiver = eth_to_bech32(ADDRS["signer2"])
 
     coin = f"{amount}{dest_denom}"
     fees = "100000000basecro"
     rsp = chainmain_cli.ibc_transfer(
-        chainmain_receiver, cronos_receiver, coin, "channel-0", 1, fees=fees
+        chainmain_receiver, iopn_receiver, coin, "channel-0", 1, fees=fees
     )
     assert rsp["code"] == 0, rsp["raw_log"]
 
     # check contract balance
-    cronos_balance_after_send = 0
+    iopn_balance_after_send = 0
 
     def check_contract_balance_change():
-        nonlocal cronos_balance_after_send
-        cronos_balance_after_send = contract.caller.balanceOf(ADDRS["signer2"])
-        return cronos_balance_after_send != cronos_balance_before_send
+        nonlocal iopn_balance_after_send
+        iopn_balance_after_send = contract.caller.balanceOf(ADDRS["signer2"])
+        return iopn_balance_after_send != iopn_balance_before_send
 
     wait_for_fn("check contract balance change", check_contract_balance_change)
-    assert cronos_balance_after_send == amount
+    assert iopn_balance_after_send == amount
     return amount, contract.address
 
 

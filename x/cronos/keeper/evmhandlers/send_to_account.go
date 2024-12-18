@@ -8,8 +8,8 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	cronoskeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	iopnkeeper "github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 var _ types.EvmLogHandler = SendToAccountHandler{}
@@ -43,13 +43,13 @@ func init() {
 // SendToAccountHandler handles `__CronosSendToAccount` log
 type SendToAccountHandler struct {
 	bankKeeper   types.BankKeeper
-	cronosKeeper cronoskeeper.Keeper
+	iopnKeeper iopnkeeper.Keeper
 }
 
-func NewSendToAccountHandler(bankKeeper types.BankKeeper, cronosKeeper cronoskeeper.Keeper) *SendToAccountHandler {
+func NewSendToAccountHandler(bankKeeper types.BankKeeper, iopnKeeper iopnkeeper.Keeper) *SendToAccountHandler {
 	return &SendToAccountHandler{
 		bankKeeper:   bankKeeper,
-		cronosKeeper: cronosKeeper,
+		iopnKeeper: iopnKeeper,
 	}
 }
 
@@ -67,11 +67,11 @@ func (h SendToAccountHandler) Handle(
 	unpacked, err := SendToAccountEvent.Inputs.Unpack(data)
 	if err != nil {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
+		h.iopnKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
 		return nil
 	}
 
-	denom, found := h.cronosKeeper.GetDenomByContract(ctx, contract)
+	denom, found := h.iopnKeeper.GetDenomByContract(ctx, contract)
 	if !found {
 		return fmt.Errorf("contract %s is not connected to native token", contract)
 	}

@@ -128,7 +128,7 @@
           "type": "uint256"
         }
       ],
-      "name": "burn_by_cronos_module",
+      "name": "burn_by_iopn_module",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -185,7 +185,7 @@
           "type": "uint256"
         }
       ],
-      "name": "mint_by_cronos_module",
+      "name": "mint_by_iopn_module",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -264,7 +264,7 @@
           "type": "uint256"
         }
       ],
-      "name": "transfer_by_cronos_module",
+      "name": "transfer_by_iopn_module",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -282,7 +282,7 @@
           "type": "uint256"
         }
       ],
-      "name": "transfer_from_cronos_module",
+      "name": "transfer_from_iopn_module",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

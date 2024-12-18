@@ -1,7 +1,7 @@
 {
   dotenv: '../../scripts/.env',
-  'cronos_777-1': {
-    cmd: 'cronosd',
+  'iopn_777-1': {
+    cmd: 'iopnd',
     'start-flags': '--trace',
     config: {
       db_backend: 'rocksdb',
@@ -10,7 +10,7 @@
       },
     },
     'app-config': {
-      chain_id: 'cronos_777-1',
+      chain_id: 'iopn_777-1',
       'app-db-backend': 'pebbledb',
       'minimum-gas-prices': '0basetcro',
       'index-events': ['ethereum_tx.ethereumTxHash'],
@@ -18,7 +18,7 @@
       'json-rpc': {
         address: '127.0.0.1:{EVMRPC_PORT}',
         'ws-address': '127.0.0.1:{EVMRPC_PORT_WS}',
-        api: 'eth,net,web3,debug,cronos',
+        api: 'eth,net,web3,debug,iopn',
         'feehistory-cap': 100,
         'block-range-cap': 10000,
         'logs-cap': 10000,
@@ -75,9 +75,9 @@
             evm_denom: 'basetcro',
           },
         },
-        cronos: {
+        iopn: {
           params: {
-            cronos_admin: '${CRONOS_ADMIN}',
+            iopn_admin: '${CRONOS_ADMIN}',
             enable_auto_deployment: true,
             ibc_cro_denom: '${IBC_CRO_DENOM}',
           },

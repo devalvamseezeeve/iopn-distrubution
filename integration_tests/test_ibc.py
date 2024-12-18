@@ -3,8 +3,8 @@ import pytest
 from .ibc_utils import (
     RATIO,
     assert_ready,
-    cronos_transfer_source_tokens,
-    cronos_transfer_source_tokens_with_proxy,
+    iopn_transfer_source_tokens,
+    iopn_transfer_source_tokens_with_proxy,
     get_balance,
     ibc_incentivized_transfer,
     ibc_transfer_with_hermes,
@@ -38,22 +38,22 @@ def test_ibc_incentivized_transfer(ibc):
     ibc_incentivized_transfer(ibc)
 
 
-def test_cronos_transfer_tokens(ibc):
+def test_iopn_transfer_tokens(ibc):
     """
-    test sending basetcro from cronos to crypto-org-chain using cli transfer_tokens.
+    test sending basetcro from iopn to crypto-org-chain using cli transfer_tokens.
     depends on `test_ibc` to send the original coins.
     """
     assert_ready(ibc)
     dst_addr = ibc.chainmain.cosmos_cli().address("signer2")
     dst_amount = 2
     dst_denom = "basecro"
-    cli = ibc.cronos.cosmos_cli()
+    cli = ibc.iopn.cosmos_cli()
     src_amount = dst_amount * RATIO  # the decimal places difference
     src_addr = cli.address("signer2")
     src_denom = "basetcro"
 
-    # case 1: use cronos cli
-    old_src_balance = get_balance(ibc.cronos, src_addr, src_denom)
+    # case 1: use iopn cli
+    old_src_balance = get_balance(ibc.iopn, src_addr, src_denom)
     old_dst_balance = get_balance(ibc.chainmain, dst_addr, dst_denom)
     rsp = cli.transfer_tokens(
         src_addr,
@@ -70,25 +70,25 @@ def test_cronos_transfer_tokens(ibc):
 
     wait_for_fn("balance change", check_balance_change)
     assert old_dst_balance + dst_amount == new_dst_balance
-    new_src_balance = get_balance(ibc.cronos, src_addr, src_denom)
+    new_src_balance = get_balance(ibc.iopn, src_addr, src_denom)
     assert old_src_balance - src_amount == new_src_balance
 
 
-def test_cronos_transfer_tokens_acknowledgement_error(ibc):
+def test_iopn_transfer_tokens_acknowledgement_error(ibc):
     """
-    test sending basetcro from cronos to crypto-org-chain using cli transfer_tokens
+    test sending basetcro from iopn to crypto-org-chain using cli transfer_tokens
     with invalid receiver for acknowledgement error.
     depends on `test_ibc` to send the original coins.
     """
     assert_ready(ibc)
     dst_addr = "invalid_address"
     dst_amount = 2
-    cli = ibc.cronos.cosmos_cli()
+    cli = ibc.iopn.cosmos_cli()
     src_amount = dst_amount * RATIO  # the decimal places difference
     src_addr = cli.address("signer2")
     src_denom = "basetcro"
 
-    old_src_balance = get_balance(ibc.cronos, src_addr, src_denom)
+    old_src_balance = get_balance(ibc.iopn, src_addr, src_denom)
     rsp = cli.transfer_tokens(
         src_addr,
         dst_addr,
@@ -99,16 +99,16 @@ def test_cronos_transfer_tokens_acknowledgement_error(ibc):
 
     def check_balance_change():
         nonlocal new_src_balance
-        new_src_balance = get_balance(ibc.cronos, src_addr, src_denom)
+        new_src_balance = get_balance(ibc.iopn, src_addr, src_denom)
         return old_src_balance == new_src_balance
 
     wait_for_fn("balance no change", check_balance_change)
-    new_src_balance = get_balance(ibc.cronos, src_addr, src_denom)
+    new_src_balance = get_balance(ibc.iopn, src_addr, src_denom)
 
 
 def test_cro_bridge_contract(ibc):
     """
-    test sending basetcro from cronos to crypto-org-chain using CroBridge contract.
+    test sending basetcro from iopn to crypto-org-chain using CroBridge contract.
     depends on `test_ibc` to send the original coins.
     """
     dst_addr = ibc.chainmain.cosmos_cli().address("signer2")
@@ -118,7 +118,7 @@ def test_cro_bridge_contract(ibc):
     old_dst_balance = get_balance(ibc.chainmain, dst_addr, dst_denom)
 
     # case 2: use CroBridge contract
-    w3 = ibc.cronos.w3
+    w3 = ibc.iopn.w3
     contract = deploy_contract(w3, CONTRACTS["CroBridge"])
     tx = contract.functions.send_cro_to_crypto_org(dst_addr).build_transaction(
         {
@@ -140,17 +140,17 @@ def test_cro_bridge_contract(ibc):
     assert old_dst_balance + dst_amount == new_dst_balance
 
 
-def test_cronos_transfer_source_tokens(ibc):
+def test_iopn_transfer_source_tokens(ibc):
     """
-    test sending crc20 tokens originated from cronos to crypto-org-chain
-    """
-    assert_ready(ibc)
-    cronos_transfer_source_tokens(ibc)
-
-
-def test_cronos_transfer_source_tokens_with_proxy(ibc):
-    """
-    test sending crc20 tokens originated from cronos to crypto-org-chain
+    test sending crc20 tokens originated from iopn to crypto-org-chain
     """
     assert_ready(ibc)
-    cronos_transfer_source_tokens_with_proxy(ibc)
+    iopn_transfer_source_tokens(ibc)
+
+
+def test_iopn_transfer_source_tokens_with_proxy(ibc):
+    """
+    test sending crc20 tokens originated from iopn to crypto-org-chain
+    """
+    assert_ready(ibc)
+    iopn_transfer_source_tokens_with_proxy(ibc)

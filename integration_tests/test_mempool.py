@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 from web3 import Web3
 
-from .network import setup_custom_cronos
+from .network import setup_custom_iopn
 from .utils import (
     ADDRS,
     CONTRACTS,
@@ -18,20 +18,20 @@ pytestmark = pytest.mark.slow
 
 
 @pytest.fixture(scope="module")
-def cronos_mempool(tmp_path_factory):
-    path = tmp_path_factory.mktemp("cronos-mempool")
-    yield from setup_custom_cronos(
+def iopn_mempool(tmp_path_factory):
+    path = tmp_path_factory.mktemp("iopn-mempool")
+    yield from setup_custom_iopn(
         path, 26300, Path(__file__).parent / "configs/long_timeout_commit.jsonnet"
     )
 
 
 @pytest.mark.flaky(max_runs=5)
-def test_mempool(cronos_mempool):
-    w3: Web3 = cronos_mempool.w3
+def test_mempool(iopn_mempool):
+    w3: Web3 = iopn_mempool.w3
     filter = w3.eth.filter("pending")
     assert filter.get_new_entries() == []
 
-    cli = cronos_mempool.cosmos_cli(0)
+    cli = iopn_mempool.cosmos_cli(0)
     # test contract
     wait_for_new_blocks(cli, 1, sleep=0.1)
     block_num_2 = w3.eth.get_block_number()
@@ -75,8 +75,8 @@ def test_mempool(cronos_mempool):
     assert len(all_pending) == 0
 
 
-def test_blocked_address(cronos_mempool):
-    cli = cronos_mempool.cosmos_cli(0)
+def test_blocked_address(iopn_mempool):
+    cli = iopn_mempool.cosmos_cli(0)
     rsp = cli.transfer("signer1", cli.address("validator"), "1basecro")
     assert rsp["code"] != 0
     assert "signer is blocked" in rsp["raw_log"]

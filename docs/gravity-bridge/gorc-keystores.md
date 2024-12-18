@@ -6,7 +6,7 @@ This guide shows how to configure the different keystores with gorc.
 
 ### Prerequisites
 
- - `gorc`, the gravity bridge orchestrator cli, build instructions can be found [here](gorc-build.md). Alternatively, you can download Linux x86_64 binary from [here](https://github.com/crypto-org-chain/gravity-bridge/releases/tag/v2.0.0-cronos-alpha0).
+ - `gorc`, the gravity bridge orchestrator cli, build instructions can be found [here](gorc-build.md). Alternatively, you can download Linux x86_64 binary from [here](https://github.com/crypto-org-chain/gravity-bridge/releases/tag/v2.0.0-iopn-alpha0).
  - Above binaries setup in `PATH`.
 
 
@@ -70,7 +70,7 @@ You will need to replace the following variables above:
 
 - `$region`: region where you want to store the keys at
 - `$account-id`: AWS account id
-- `$keys-prefix`: prefix for the keys created (e.g. cronos-testnet3-orch*). Then you'd be able to create keys `cronos-testnet3-orch1` and `cronos-testnet3-orch2`
+- `$keys-prefix`: prefix for the keys created (e.g. iopn-testnet3-orch*). Then you'd be able to create keys `iopn-testnet3-orch1` and `iopn-testnet3-orch2`
 
 
 ####  Creating the config:

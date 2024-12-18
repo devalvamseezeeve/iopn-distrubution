@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/crypto-org-chain/cronos/v2/x/icaauth/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/icaauth/types"
 )
 
 type msgServer struct {

@@ -5,7 +5,7 @@ set -eo pipefail
 mkdir -p ./tmp-swagger-gen
 
 cd proto
-echo "Generate cronos swagger files"
+echo "Generate iopn swagger files"
 proto_dirs=$(find ./ -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
 for dir in $proto_dirs; do
   # generate swagger files (filter query files)

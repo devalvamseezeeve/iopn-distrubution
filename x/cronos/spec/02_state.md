@@ -4,7 +4,7 @@ order: 2
 
 # State
 
-The `x/cronos` module keeps the following objects in state:
+The `x/iopn` module keeps the following objects in state:
 
 |                         | Key                                    | Value                      |
 | ----------------------- | -------------------------------------- | -------------------------- |

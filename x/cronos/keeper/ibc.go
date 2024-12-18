@@ -14,7 +14,7 @@ import (
 	ibctransfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	ibcclienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 )
 
 func (k Keeper) ConvertVouchersToEvmCoins(ctx sdk.Context, from string, coins sdk.Coins) error {
@@ -130,7 +130,7 @@ func (k Keeper) IbcTransferCoins(ctx sdk.Context, from, destination string, coin
 
 		default:
 			if !types.IsValidIBCDenom(c.Denom) && !types.IsValidCronosDenom(c.Denom) {
-				return fmt.Errorf("the coin %s is neither an ibc voucher or a cronos token", c.Denom)
+				return fmt.Errorf("the coin %s is neither an ibc voucher or a iopn token", c.Denom)
 			}
 			_, found := k.GetContractByDenom(ctx, c.Denom)
 			if !found {

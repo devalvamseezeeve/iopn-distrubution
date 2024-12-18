@@ -5,7 +5,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/crypto-org-chain/cronos/v2/x/icaauth/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/icaauth/types"
 	"github.com/spf13/cobra"
 )
 

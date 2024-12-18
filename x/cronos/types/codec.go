@@ -11,7 +11,7 @@ import (
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	// this line is used by starport scaffolding # 2
-	cdc.RegisterConcrete(&TokenMappingChangeProposal{}, "cronos/TokenMappingChangeProposal", nil)
+	cdc.RegisterConcrete(&TokenMappingChangeProposal{}, "iopn/TokenMappingChangeProposal", nil)
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {

@@ -1,11 +1,11 @@
-package cronos
+package iopn
 
 import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/keeper"
+	"github.com/devalvamseezeeve/iopn-distrubution/v2/x/iopn/types"
 	"github.com/ethereum/go-ethereum/common"
 )
 
@@ -13,7 +13,7 @@ import (
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
 	if err := k.SetParams(ctx, genState.Params); err != nil {
-		panic(fmt.Sprintf("Invalid cronos module params: %v\n", genState.Params))
+		panic(fmt.Sprintf("Invalid iopn module params: %v\n", genState.Params))
 	}
 
 	for _, m := range genState.ExternalContracts {

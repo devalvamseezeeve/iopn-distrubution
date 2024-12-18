@@ -44,19 +44,19 @@
         };
       in
       rec {
-        packages = pkgs.cronos-matrix // {
+        packages = pkgs.iopn-matrix // {
           inherit (pkgs) rocksdb testground-image;
         };
         apps = {
-          cronosd = mkApp packages.cronosd;
-          cronosd-testnet = mkApp packages.cronosd-testnet;
+          iopnd = mkApp packages.iopnd;
+          iopnd-testnet = mkApp packages.iopnd-testnet;
           stateless-testcase = {
             type = "app";
             program = "${pkgs.benchmark-testcase}/bin/stateless-testcase";
           };
         };
-        defaultPackage = packages.cronosd;
-        defaultApp = apps.cronosd;
+        defaultPackage = packages.iopnd;
+        defaultApp = apps.iopnd;
         devShells = rec {
           default = pkgs.mkShell {
             buildInputs = [
@@ -85,7 +85,7 @@
         (final: super: {
           go = super.go_1_22;
           test-env = final.callPackage ./nix/testenv.nix { };
-          cronos-matrix = final.callPackage ./nix/cronos-matrix.nix {
+          iopn-matrix = final.callPackage ./nix/iopn-matrix.nix {
             inherit rev;
             bundle-exe = final.pkgsBuildBuild.callPackage nix-bundle-exe { };
           };
