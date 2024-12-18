@@ -1,4 +1,4 @@
-module github.com/crypto-org-chain/cronos/store
+module github.com/devalvamseezeeve/iopn-distrubution/store
 
 go 1.22
 
@@ -12,7 +12,7 @@ require (
 	github.com/cosmos/cosmos-sdk v0.47.3
 	github.com/cosmos/gogoproto v1.4.10
 	github.com/cosmos/iavl v0.21.0-alpha.1.0.20230904092046-df3db2d96583
-	github.com/crypto-org-chain/cronos/memiavl v0.0.4
+	github.com/devalvamseezeeve/iopn-distrubution/memiavl v0.0.4
 	github.com/spf13/cast v1.5.0
 	github.com/stretchr/testify v1.9.0
 )
@@ -128,4 +128,4 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-replace github.com/crypto-org-chain/cronos/memiavl => ../memiavl
+replace github.com/devalvamseezeeve/iopn-distrubution/memiavl => ../memiavl
